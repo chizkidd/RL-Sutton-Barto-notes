@@ -57,8 +57,8 @@ RL-Sutton-Barto-notes/
 │   ├── ch02-multi-armed-bandits.qmd
 │   ├── ch03-finite-mdps.qmd
 │   └── ...
-└── figures/             # SVG backup diagrams
-    ├── fig71_nstep_td.svg
+└── figures/             # figure diagrams
+    ├── ch06-6-4-sarsa.png
     └── ...
 ```
 

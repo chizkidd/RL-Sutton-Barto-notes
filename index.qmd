@@ -5,7 +5,7 @@ number-sections: false
 
 These are personal study notes from *Reinforcement Learning: An Introduction* by Richard S. Sutton and Andrew G. Barto (2nd Edition, MIT Press, 2018).
 
-The notes cover the core ideas, equations, and algorithms from each chapter, transcribed and formatted for review. Mathematical notation follows the textbook closely. Backup diagrams are reproduced as SVG figures.
+The notes cover the core ideas, equations, and algorithms from each chapter, transcribed and formatted for review. Mathematical notation follows the textbook closely. Backup diagrams are shown as figures.
 
 ## Coverage
 
