@@ -6,8 +6,10 @@ number-sections: true
 ## The Agent-Environment Interface {#sec-ch03-3-1}
 
 **Agent-Environment loop:**
+::: {#fig-31}
+![he agent-environment interaction in an MDP](../figures/ch03-3-1.png){width=80% fig-align="center"} 
 
-![Figure 3.1: The agent-environment interaction in an MDP](../figures/ch03-3-1.png){width=80% fig-align="center"} 
+:::
 
 **Trajectory** $\mathcal{T}$: $S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, R_3, \ldots$
 
