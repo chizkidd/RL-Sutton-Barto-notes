@@ -188,7 +188,7 @@ $$= (1-\varepsilon) \max_a \sum_{s',r} p(s',r|s,a)\left[r + \gamma V_\pi(s')\rig
 
 $$\pi(a|s) > 0 \implies b(a|s) > 0$$
 
-This is called the **assumption of coverage**.
+- This is called the **assumption of coverage**.
 
 - It follows from coverage that:
   - $b$ must be stochastic in states where it is not identical to $\pi$
@@ -218,17 +218,17 @@ The state transition probability functions cancel out in the numerator & denomin
 $$\mathbb{E}\left[\rho_{t:T-1}\, G_t \mid S_t = s\right] = V_\pi(s)$$
 
 - MC algorithm that averages returns from a batch of observed episodes following policy $b$ to estimate $V_\pi(s)$:
-  - $\mathcal{J}(s) \equiv$ set of all time steps in which state $s$ is visited
+  - $\mathcal{T}(s) \equiv$ set of all time steps in which state $s$ is visited
   - $T(t) \equiv$ 1st time of termination following time $t$
   - $G_t \equiv$ return after $t$ up through $T(t)$
-  - $\{G_t\}_{t \in \mathcal{J}(s)} \equiv$ returns that pertain to state $s$
-  - $\{\rho_{t:T-1}\}_{t \in \mathcal{J}(s)} \equiv$ corresponding importance-sampling ratios
+  - $\{G_t\}_{t \in \mathcal{T}(s)} \equiv$ returns that pertain to state $s$
+  - $\{\rho_{t:T-1}\}_{t \in \mathcal{T}(s)} \equiv$ corresponding importance-sampling ratios
 
 **Ordinary importance sampling** (unbiased):
-$$V(s) \doteq \frac{\sum_{t \in \mathcal{J}(s)} \rho_{t:T(t)-1}\, G_t}{|\mathcal{J}(s)|}$$
+$$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}\, G_t}{|\mathcal{T}(s)|}$$
 
 **Weighted importance sampling** (biased):
-$$V(s) \doteq \frac{\sum_{t \in \mathcal{J}(s)} \rho_{t:T(t)-1}\, G_t}{\sum_{t \in \mathcal{J}(s)} \rho_{t:T(t)-1}}$$
+$$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}\, G_t}{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}}$$
 
 
 ---
@@ -296,11 +296,11 @@ $$= (1-\gamma)\sum_{h=t+1}^{T-1} \gamma^{h-t-1}\, \bar{G}_{t:h} + \gamma^{T-t-1}
 
 **Ordinary importance-sampling estimator:**
 
-$$V(s) \doteq \frac{\sum_{t \in \mathcal{J}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1}\, \bar{G}_{t:h} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\, \bar{G}_{t:T(t)}\right]}{|\mathcal{J}(s)|}$$
+$$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1}\, \bar{G}_{t:h} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\, \bar{G}_{t:T(t)}\right]}{|\mathcal{T}(s)|}$$
 
 **Weighted importance-sampling estimator:**
 
-$$V(s) \doteq \frac{\sum_{t \in \mathcal{J}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1}\, \bar{G}_{t:h} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\, \bar{G}_{t:T(t)}\right]}{\sum_{t \in \mathcal{J}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\right]}$$
+$$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1}\, \bar{G}_{t:h} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\, \bar{G}_{t:T(t)}\right]}{\sum_{t \in \mathcal{T}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\right]}$$
 
 - Both estimators are called **"discounting-aware"** importance sampling estimators.
 
@@ -330,7 +330,7 @@ $$\tilde{G}_t = \rho_{t:t}\, R_{t+1} + \gamma\, \rho_{t:t+1}\, R_{t+2} + \gamma^
 
 Ordinary importance-sampling estimator using $\tilde{G}_t$ (lower variance expectation):
 
-$$V(s) \doteq \frac{\sum_{t \in \mathcal{J}(s)} \tilde{G}_t}{|\mathcal{J}(s)|}$$
+$$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \tilde{G}_t}{|\mathcal{T}(s)|}$$
 
 ---
 
