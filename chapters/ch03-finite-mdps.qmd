@@ -6,6 +6,7 @@ number-sections: true
 ## The Agent-Environment Interface {#sec-ch03-3-1}
 
 **Agent-Environment loop:**
+
 ::: {#fig-31}
 ![](../figures/ch03-3-1.png){width=80% fig-align="center"} 
 
