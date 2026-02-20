@@ -260,7 +260,7 @@ Computational complexity: $O(1)$.
 
 $$\text{error} = \sqrt{\frac{b-1}{bt}}$$
 
-For large $b$: $\text{error} \approx \sqrt{\frac{1}{t}}$, $\therefore \lim_{t \to \infty} \sqrt{\frac{1}{t}} \to 0$.
+  - For large $b$: $\text{error} \approx \sqrt{\frac{1}{t}}$, $\therefore \lim_{t \to \infty} \sqrt{\frac{1}{t}} \to 0$.
 
 $$b=1,\ \text{error} = 0 \text{ for } t \geq 1$$
 
@@ -295,17 +295,19 @@ $$b=100,\ \text{error} \approx \frac{1}{\sqrt{t}} \implies \text{error}(t=1) \ap
 
 ### Formal Comparison
 
-**Uniform distribution:**
-- Cycle systematically through all $|S| \times |A|$ state-action pairs.
-- Each pair receives equal computational resources.
-- Complete coverage regardless of policy.
-- Starting state distribution $\approx$ uniform or some fixed distribution $\mu(S_t)$.
+- **Uniform distribution:** 
 
-**On-policy trajectory sampling:**
-- Sample states $S_t \sim d^\pi$ where $d^\pi$ is the on-policy state distribution under policy $\pi$.
-- Select actions $a_t \sim \pi(\cdot | S_t)$.
-- Generate trajectories $\{S_0, a_0, S_1, a_1, \ldots\}$ following current policy.
-- Update only visited state-action pairs.
+  - Cycle systematically through all $|S| \times |A|$ state-action pairs.
+  - Each pair receives equal computational resources.
+  - Complete coverage regardless of policy.
+  - Starting state distribution $\approx$ uniform or some fixed distribution $\mu(S_t)$.
+
+- **On-policy trajectory sampling:**
+
+  - Sample states $S_t \sim d^\pi$ where $d^\pi$ is the on-policy state distribution under policy $\pi$.
+  - Select actions $a_t \sim \pi(\cdot | S_t)$.
+  - Generate trajectories $\{S_0, a_0, S_1, a_1, \ldots\}$ following current policy.
+  - Update only visited state-action pairs.
 
 - **Advantages of trajectory sampling:**
   - **Computational focusing**: for large state spaces where $|S| \gg$ states reachable under $\pi$, trajectory sampling concentrates updates on the reachable subset.
@@ -330,7 +332,9 @@ $$b=100,\ \text{error} \approx \frac{1}{\sqrt{t}} \implies \text{error}(t=1) \ap
 ## Real-Time Dynamic Programming (RTDP) {#sec-ch08-8-7}
 
 - RTDP is an on-policy trajectory-sampling version of the value-iteration algorithm of dynamic programming (DP).
-- RTDP is an asynchronous DP algorithm; async DP algorithms are not organized in terms of systematic sweeps of the state set — instead they update state values in any order whatsoever, using whatever values of other states happen to be available.
+- RTDP is an asynchronous DP algorithm; 
+  - async DP algorithms are not organized in terms of systematic sweeps of the state set, instead
+  - they update state values in any order whatsoever, using whatever values of other states happen to be available.
 
 - RTDP is basically the combination of 3 ideas:
   - **On-policy trajectory sampling** $\Rightarrow$ follow the current greedy policy.
@@ -450,8 +454,8 @@ Heuristic search
 
 ### Computational Complexity (quite expensive due to many full episodes)
 
-- Per decision $\Rightarrow 
-  - |A(s)|$ = number of actions to evaluate, 
+- Per decision $\Rightarrow:
+  - $|A(s)|$ = number of actions to evaluate, 
   - $n$ = rollouts per action, 
   - $L$ = average episode length.
 
@@ -626,14 +630,6 @@ $$\Rightarrow \text{total: } O\!\left(n \cdot (d + L)\right) \text{ for } n \tex
 
 Unified view of RL depicting a slice through the space of RL methods
 :::
-
-> **Unified View of RL** depicting a slice through the space of RL methods:
-> - Vertical axis: depth of update (from shallow/one-step TD at top to deep/MC at bottom).
-> - Horizontal axis: width of update (from sample backups on the left to full/expected backups on the right).
-> - Top-left: TD / Temporal Difference Learning (one-step sample).
-> - Top-right: Dynamic Programming (one-step expected/full).
-> - Bottom-left: Monte Carlo (deep sample).
-> - Bottom-right: Exhaustive Search (deep full/expected).
 
 **Two axes for the update diagram:**
 
