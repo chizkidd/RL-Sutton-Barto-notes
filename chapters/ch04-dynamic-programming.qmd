@@ -3,7 +3,7 @@ title: "Dynamic Programming"
 number-sections: true
 ---
 
-**Dynamivc Programming (DP)**: A collection of algorithms that can be used to compute optimal policies given a perfect model of the environment as an MDP.
+**Dynamic Programming (DP)**: A collection of algorithms that can be used to compute optimal policies given a perfect model of the environment as an MDP.
 
 **Assumptions:**
 
@@ -13,7 +13,7 @@ number-sections: true
 
 $$p(s', r | s, a) = \mathbb{P}\left[R_{t+1} = r,\, S_{t+1} = s' \mid S_t, A_t\right]$$
 
-**Key idea:**<
+**Key idea:**
 
 - Use value functions to organize & structure the search for good policies
 - Show how DP can be used to compute the value functions

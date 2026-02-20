@@ -28,10 +28,12 @@ $$V(S_t) \leftarrow V(S_t) + \alpha\underbrace{\left[R_{t+1} + \gamma V(S_{t+1})
 where $R_{t+1} + \gamma V(S_{t+1})$ is called the **TD target**.
 
 ::: {#fig-61}
-![](../figures/ch06-1-TD0.png){width=80% fig-align="center"} 
+![](../figures/ch06-1-td0.png){fig-align="center"} 
 
 Backup diagram for TD(0)
 :::
+
+> **TD(0) backup diagram**: one-step lookahead from state $s$ through action to next state $s'$.
 
 ### Tabular TD(0) for Estimating $V_\pi$ (Pseudocode)
 
@@ -50,8 +52,6 @@ Loop for each episode:
     Until S is terminal
 ```
 
-> **TD(0) backup diagram**: one-step lookahead from state $s$ through action to next state $s'$.
-
 - TD(0) bases its update in part on an existing estimate (bootstrapping):
 
 $$V_\pi(s) = \mathbb{E}_\pi\left[R_{t+1} + \gamma V_\pi(S_{t+1}) \mid S_t = s\right]$$
@@ -61,7 +61,7 @@ $$V_\pi(s) = \mathbb{E}_\pi\left[R_{t+1} + \gamma V_\pi(S_{t+1}) \mid S_t = s\ri
 
 ### TD Error & its Relationship to MC Error
 
-The TD error at each time is the error in the estimate made at that time. If the array $V$ does not change during the episode (like in MC methods), then:
+The TD error at each time is the error in the estimate **made at that time** because the TD error depends on the next state and next reward. If the array $V$ does not change during the episode (like in MC methods), then:
 
 $$\text{MC error} = \sum_t \text{TD error}$$
 
@@ -97,10 +97,11 @@ $$= \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k$$
 
 - TD methods are model-free, unlike DP methods.
 - TD methods can learn **before** knowing the final outcome & **without** the final outcome, unlike MC:
-  - (a) TD can learn online, incrementally, while MC must wait until the episode ends when the return is known.
-  - (b) TD can learn from incomplete sequences/episodes while MC only learns from complete sequences. TD works in continuing (non-terminating) environments while MC only works for episodic/terminating environments.
+  - **before:** TD can learn online, incrementally, while MC must wait until the episode ends when the return is known.
+  - **without:** TD can learn from incomplete sequences/episodes while MC only learns from complete sequences. 
+  - TD works in continuing (non-terminating) environments while MC only works for episodic/terminating environments.
 - TD(0) converges to $V_\pi(s)$ for a fixed policy $\pi$, but not always for general function approximation.
-- TD methods are usually more efficient than MC methods (constant $\alpha$) on stochastic tasks — they converge faster.
+- TD methods are usually **more efficient** than MC methods (constant $\alpha$) on stochastic tasks; they converge faster.
 - TD methods have **low variance**, while MC methods have **high variance**.
 
 ---
@@ -109,32 +110,53 @@ $$= \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k$$
 
 - For a finite number of episodes, we can run our methods repeatedly with the same data (finite episodes) until convergence as we continually update the value function by the sum of each of the increments at the end of each batch.
 - This is called **batch updating** because updates are made only after processing each complete batch of training data / finite number of episodes.
-- Under batch updating, TD(0) & constant-$\alpha$ MC methods converge deterministically to a single answer independent of $\alpha$, as long as $\alpha$ is chosen to be sufficiently small.
-- In general, batch MC methods always find the estimates that **minimize mean square error** on the training set, whereas batch TD(0) always finds the estimates that would be exactly correct for the **maximum-likelihood estimate** model of the Markov process.
+- Under batch updating, **TD(0) & constant-$\alpha$ MC methods** converge deterministically to a single answer independent of $\alpha$, as long as $\alpha$ is chosen to be sufficiently small.
+- In general, batch MC methods always find the estimates that **minimize mean square error** on the training set, whereas batch TD(0) always finds the estimates that would be exactly correct for the **maximum-likelihood model of the Markov process.**
   - Given this model, we can compute the estimate of the value function that would be exactly correct if the model were exactly correct.
   - This is called the **certainty-equivalence estimate** because it is equivalent to assuming that the estimate of the underlying process was known with certainty rather than being approximated.
-  - In general, batch TD(0) converges to the certainty-equivalence estimate.
+  - In general, **batch TD(0) converges to the certainty-equivalence estimate.**
 
 ---
 
 ## Sarsa: On-policy TD Control {#sec-ch06-6-4}
 
 - Using TD prediction methods for control, we'll follow Generalized Policy Iteration (GPI), only this time using TD methods for the policy evaluation part (predicting the value function).
-- For on-policy control, we learn an action-value function $q_\pi(s,a)$ for our current policy $\pi$, for all states $s$ and actions $a$.
+- For on-policy control, we learn an action-value function $q_\pi(s,a)$ for our current policy $\pi$, for all states $s$ and actions $a$. Recall that an episode consists of an alternating sequence of states and state–action pairs: 
 
-Episode: $\ldots \to (S_t) \xrightarrow{A_t} (S_{t+1}) \xrightarrow{A_{t+1}} (S_{t+2}) \xrightarrow{A_{t+2}} \ldots$
+::: {#fig-62}
+![](../figures/ch06-6-4-episode.png){fig-align="center"} 
+
+An episode
+:::
 
 $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\Big[\underbrace{R_{t+1} + \gamma Q(S_{t+1}, A_{t+1})}_{\text{TD target}} - Q(S_t, A_t)\Big]$$
 
-- This update rule uses a quintuple of events $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. Hence, the name **SARSA**.
+- This update rule uses a quintuple of events $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. Hence, the name **SARSA**. The backup diagram is shown below:
+
+::: {#fig-63}
+![](../figures/ch06-6-4-sarsa.png){fig-align="center"} 
+
+Backup diagram for SARSA
+:::
+
 - As in all on-policy methods, we continually estimate $q_\pi$ for the behavior policy $\pi$ & simultaneously update the policy $\pi$ greedily w.r.t. $q_\pi$.
 - The convergence properties of the SARSA algorithm depend on the nature of the policy's dependence on $Q$. For example, one could use $\varepsilon$-greedy / $\varepsilon$-soft policies.
 
-**Goal**: Use TD in the control loop — apply TD to $Q(s,a)$, use $\varepsilon$-greedy policy improvement, update with every time-step.
+**Goal**: - Use TD in the control loop 
+
+- apply TD to $Q(s,a)$, 
+- use $\varepsilon$-greedy policy improvement, 
+- update with every time-step.
+
+::: {#fig-64}
+![](../figures/ch06-6-4-policy-iteration.png){fig-align="center"} 
+
+SARSA control
+:::
 
 Every time step:
-- Policy Evaluation: SARSA, $Q \approx q_\pi$
-- Policy Improvement: $\varepsilon$-greedy
+- **Policy Evaluation:** SARSA, $Q \approx q_\pi$
+- **Policy Improvement:** $\varepsilon$-greedy
 
 > **Sarsa backup diagram**: from state-action pair $(S, A)$ through reward $R$ to next state $S'$ and next action $A'$.
 
@@ -161,12 +183,18 @@ Loop for each episode:
 
 $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\Big[\underbrace{R_{t+1} + \gamma \max_{a'} Q(S_{t+1}, a')}_{\text{Q-learning target}} - Q(S_t, A_t)\Big]$$
 
-- Here, the learned action-value function $Q$ directly approximates $q_*$, the optimal value function, independent of the policy being followed (off-policy). $V_*$ can be learned with a **1-step lookahead**.
-- Q-learning is off-policy so it updates the value function greedily directly while updating/exploring the other actions with the $\varepsilon$-greedy policy.
+- Here, the learned action-value function $Q$ directly approximates $q_*$, the optimal value function, independent of the policy being followed (off-policy). $V_*$ can be learned with a **1-step lookahead.**
+- Q-learning is off-policy so it updates the value function **greedily** directly while updating/exploring the other actions with the **$\varepsilon$-greedy** policy.
   - This simplifies the analysis of the algorithm & enables early convergence proofs.
-  - Under the GLIE assumption (all state-action pairs continue to be updated) and following the stochastic approximation theory variant on the sequence of $\alpha$, $Q$ has been shown to converge with probability 1 to $q_*$:
+  - Under the **GLIE** assumption (all state-action pairs continue to be updated) and following a **stochastic approximation theory** variant on the sequence of $\alpha$, $Q$ has been shown to converge with probability 1 to $q_*$:
 
 $$Q(s,a) \longrightarrow q_*(s,a)$$
+
+::: {#fig-65}
+![](../figures/ch06-6-5-q-learning.png){fig-align="center"} 
+
+Backup diagram for Q-Learning
+:::
 
 > **Q-learning backup diagram**: from state-action $(S, A)$ through reward $R$ to next state $S'$, with a max over all next actions $A'$.
 
@@ -185,17 +213,19 @@ $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\Big[\underbrace{R_{t+1} + \gamma Q
 ### Off-policy Control with Q-learning
 
 - We improve both policies (target & behavior):
-  - Improve target policy $\pi$ greedily w.r.t. $Q(s,a)$: $\pi(S_{t+1}) = \arg\max_{a'} Q(S_{t+1}, a')$
+  - Improve target policy $\pi$ greedily w.r.t. $Q(s,a)$: 
+  $$\pi(S_{t+1}) = \arg\max_{a'} Q(S_{t+1}, a')$$
   - Improve behavior policy $\mu$ $\varepsilon$-greedily w.r.t. $Q(s,a)$
 
-The Q-learning target then simplifies:
+- The Q-learning target then simplifies:
 
 $$R_{t+1} + \gamma Q(S_{t+1}, A') = R_{t+1} + \gamma Q\!\left(S_{t+1}, \arg\max_{a'} Q(S_{t+1}, a')\right) = R_{t+1} + \gamma \max_{a'} Q(S_{t+1}, a')$$
 
-### Q-learning (Off-policy TD Control) Pseudocode — for estimating $\pi \approx \pi_*$
+### Q-learning (Off-policy TD Control) Pseudocode for estimating $\pi \approx \pi_*$
 
 ```
 (α ∈ (0,1], small ε > 0)
+
 Initialize Q(s,a) for all s ∈ S⁺, a ∈ A(s), arbitrarily except that Q(terminal,·) = 0
 
 Loop for each episode:
@@ -212,13 +242,13 @@ Loop for each episode:
 
 ## Expected Sarsa {#sec-ch06-6-6}
 
-- Instead of updating $Q(S,A)$ with the value maximising action at $S_{t+1}$, $\max_a Q(S_{t+1}, a)$ as used in Q-learning, or the greedy $\varepsilon$-greedy exploratory action as in SARSA, we can use the **expected value** of $Q$ at $S_{t+1}$, taking into account how likely each action is under the current policy. The update rule is:
+- Instead of updating $Q(S,A)$ with the value maximising action at $S_{t+1}$, $\max_a Q(S_{t+1}, a)$ as used in Q-learning, or the $\varepsilon$-greedy exploratory action as in SARSA, we can use the **expected value** of $Q$ at $S_{t+1}$, taking into account how likely each action is under the current policy. The update rule is:
 
 $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\, \mathbb{E}_\pi\left[Q(S_{t+1}, A_{t+1}) \mid S_{t+1}\right] - Q(S_t, A_t)\right]$$
 
 $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma \sum_a \pi(a|S_{t+1})\, Q(S_{t+1}, a) - Q(S_t, A_t)\right]$$
 
-- Given the next state $S_{t+1}$, this algorithm moves **deterministically** in the same direction as SARSA moves in expectation, hence the name **Expected SARSA**.
+- Given the next state $S_{t+1}$, this algorithm moves **deterministically** in the same direction as SARSA moves in **expectation,** hence the name **Expected SARSA**.
 - Expected SARSA eliminates the variance due to the random selection of $A_{t+1}$.
 - Given the same amount of experience, Expected SARSA generally performs better than SARSA.
 - Expected SARSA is an on-policy learning method, but if we change our target policy such that $\pi$ is the greedy policy while our behavior is more exploratory, then it becomes an off-policy algorithm.
@@ -231,7 +261,7 @@ $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma \sum_a \pi(a
 
 - All the control algorithms discussed so far utilize **maximization operations** in target policy constructions ($\varepsilon$-greedy or greedy action selection).
 - This implicitly **favors positive numbers** (significant positive bias).
-- If the true values of state-action pairs $q(s,a)$ of a single state $s$ with multiple actions $a$ are all zero, i.e. $q(s,a) = 0\ \forall s, a$, but whose estimated values $Q(s,A)$ are uncertain and thus distributed some above & some below zero, then the maximum of the true values is zero, but the maximum of the estimates is positive — a positive bias.
+- If the true values of state-action pairs $q(s,a)$ of a single state $s$ with multiple actions $a$ are all zero, i.e. $q(s,a) = 0\ \forall s, a$, but whose estimated values $Q(s,A)$ are uncertain and thus distributed some above & some below zero, then the maximum of the true values is zero, but the maximum of the estimates is positive; hence a positive bias.
 - This is called the **maximization bias**:
 
 $$q(s,a) = 0\ \forall s,a \implies \max_{s,a} q(s,a) = 0$$
@@ -243,14 +273,15 @@ $$Q(s,A) \begin{cases} \geq 0 \\ < 0 \end{cases} \implies \max_{s,a} Q(s,a) > 0$
   - Then use the other, $Q_2$, to estimate its value: $Q_2(A^*) = Q_2(\arg\max_a Q_1(a))$
 - This idea is called **Double Learning**.
   - It doubles the memory requirements, but does not increase the amount of computation per step.
-  - The Q-value estimate is unbiased in the sense that $\mathbb{E}\left[Q_2(A^*)\right] = q(A^*)$.
+- The Q-value estimate is unbiased in the sense that $\mathbb{E}\left[Q_2(A^*)\right] = q(A^*)$.
 
-### Double Learning for Q-learning $\Rightarrow$ Double Q-learning
+- Double Learning for Q-learning $\Rightarrow$ Double Q-learning
 
-**Double Q-learning Pseudocode** — for estimating $Q_1 \approx Q_2 \approx q_*$
+**Double Q-learning Pseudocode** for estimating $Q_1 \approx Q_2 \approx q_*$
 
 ```
 (α ∈ (0,1], small ε > 0)
+
 Initialize Q_1(s,a) & Q_2(s,a) for all s ∈ S⁺, a ∈ A(s) s.t. Q(T,·) = 0
 
 Loop for each episode:
@@ -281,18 +312,18 @@ $$Q_1(S_t, A_t) \leftarrow Q_1(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\, Q_2\!\
 - Afterstates are useful when we have partial knowledge (initial part) of the environment's dynamics but not full dynamics.
 - It is also useful where many different actions may lead to the same state afterward.
 - Afterstate methods are aptly described in terms of GPI, with a policy and afterstate value function interacting in essentially the same way.
-  - Still have to decide on/off policy for exploration / persistent exploration need management.
+  - Still have to decide between on or off policy for managing the need for persistent exploration.
 
 ---
 
 ## Summary {#sec-ch06-6-9}
 
-- TD methods learn from incomplete episodes and are alternatives to MC methods for solving the prediction part of the RL problem.
+- **TD methods** learn from incomplete episodes and are alternatives to MC methods for solving the prediction part of the RL problem.
 - They use GPI to solve the control part of the RL problem.
 - When issues arise with maintaining sufficient exploration in prediction, TD control methods deal with this issue via an on-policy or off-policy approach:
   - **Sarsa** (on-policy)
   - **Q-learning** (off-policy)
   - **Expected Sarsa** (off-policy)
 
-  $\Rightarrow$ PROS: great simplicity — single equations that can be easily implemented
+  $\Rightarrow$ PROs: great simplicity, single equations that can be easily implemented
 - The TD methods used here in this chapter should be rightly called **one-step, tabular, model-free** TD methods.
