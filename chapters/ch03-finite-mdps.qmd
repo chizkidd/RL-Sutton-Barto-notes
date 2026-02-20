@@ -115,7 +115,7 @@ $$= \sum_a \pi(a|s) \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_\pi(s')\right
 
 This is the **Bellman Equation for $V_\pi$**.
 
-::: {#fig-35}
+::: {#fig-32}
 ![](../figures/ch03-3-5-v-pi.png){width=80% fig-align="center"} 
 
 Backup Diagram for $v_\pi$
@@ -159,13 +159,13 @@ $$q_*(s,a) = \mathbb{E}\left[R_{t+1} + \gamma \max_{a'} q_*(S_{t+1}, a') \mid S_
 
 $$= \sum_{s', r} p(s', r | s, a)\left[r + \gamma \max_{a'} q_*(s', a')\right]$$
 
-::: {#fig-36}
+::: {#fig-33}
 ![](../figures/ch03-3-6-v-q-optimal.png){width=80% fig-align="center"} 
 
 Backup Diagrams for $v_*$ and $q_*$
 :::
 
-> **Backup diagrams for $v_*$ and $q_*$**: the max node appears at the state level for $v_*$ and at the action level for $q_*$.
+> **Backup diagrams for $v_*$ and $q_*$**: the max node appears at the state level for $v_*$ and at the successor state level for $q_*$.
 
 ---
 

@@ -161,8 +161,11 @@ $$= \max_a \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_k(s')\right] \quad \fo
 - GPI entails letting policy evaluation and policy improvement interact, independent of the granularity & other details of the two processes.
 - Both processes in GPI can be viewed as both competing & cooperating. They compete in the sense that they pull in opposing directions.
 
-![Figure 4.1: Generalized Policy Iteration](../figures/ch04-4-6.png){width=80% fig-align="center"} 
+::: {#fig-41}
+![](../figures/ch04-4-6-GPI.png){width=80% fig-align="center"} 
 
+Generalized Policy Iteration
+:::
 ---
 
 ## Efficiency of Dynamic Programming {#sec-ch04-4-7}

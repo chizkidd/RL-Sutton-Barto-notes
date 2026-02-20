@@ -5,10 +5,9 @@ number-sections: true
 
 > **Model-free**
 
-- Monte Carlo methods are used when we do **not** have knowledge of the transition probabilities (model of the environment) and then we must learn directly from experience.
+- Monte Carlo methods are used when we do **not** have knowledge of the transition probabilities (model of the environment) and then we must learn directly from experience **(model-free).**
 - Learning from **actual** experience is striking because it requires no prior knowledge of the environment's dynamics, yet can still attain optimal behavior.
 - **Experience**: sample sequences of states, actions, and rewards from actual/simulated interaction with an environment.
-
 - Monte Carlo methods are only applied to **episodic** tasks.
 - MC methods estimate the value function of an **unknown** MDP by **learning** the value function from samples instead of computing from knowledge of the MDP.
 - We use Generalized Policy Iteration (**GPI**), developed in Ch. 4, to handle the nonstationarity.
@@ -24,15 +23,15 @@ number-sections: true
 - MC learns from **complete** episodes: **no bootstrapping**
 - MC is **model-free**: no knowledge of MDP transitions/rewards
 
-**Goal**: Learn $V_\pi$ from episodes of experience under policy $\pi$
+- **Goal**: Learn $V_\pi$ from episodes of experience under policy $\pi$
 
 $$S_1, A_1, R_2, \ldots, S_K \sim \pi$$
 
-- Value function (expected return):
+  - Value function (expected return):
 
 $$V_\pi(s) = \mathbb{E}\left[G_t \mid S_t = s\right]$$
 
-- Return (total discounted reward):
+  - Return (total discounted reward):
 
 $$G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots + \gamma^{T-1} R_T$$
 
@@ -68,9 +67,8 @@ $$V(S_t) \leftarrow V(S_t) + \alpha\left[G_t - V(S_t)\right]$$
 - **Fix**: For policy evaluation to work for action values, we must assure **continual exploration** of the state space.
   - We can do this by specifying that the episodes **start in a state-action pair**, and that every pair has a nonzero probability of being selected as the start. This guarantees that all state-action pairs will be visited an infinite number of times in the limit of an infinite number of episodes.
   - This is called the assumption of **exploring starts**.
-
-- Exploring starts fails when learning directly from actual interaction with an environment.
-- A common alternative approach is to consider only policies that are stochastic with a nonzero probability of selecting all actions in each state.
+  - Exploring starts fails when learning directly from actual interaction with an environment.
+  - A common alternative approach is to consider only policies that are **stochastic with a nonzero probability of selecting all actions in each state.**
 
 ---
 
@@ -78,18 +76,22 @@ $$V(S_t) \leftarrow V(S_t) + \alpha\left[G_t - V(S_t)\right]$$
 
 - Monte Carlo estimation can be used in control to approximate optimal policies via generalized policy iteration (GPI).
 
+**GPI diagram:**
+
+- **Policy evaluation**: MC policy eval, $Q = q_\pi$
+- **Policy improvement**: $\varepsilon$-greedy policy improvement
+
+::: {#fig-51}
+![](../figures/ch05-5-3-Q-GPI.png){width=80% fig-align="center"} 
+
+Generalized Policy Iteration
+:::
+
+- In GPI, one maintains both an approximate policy and an approximate value function.
+
 $$\pi_0 \xrightarrow{E} q_{\pi_0} \xrightarrow{I} \pi_1 \xrightarrow{E} q_{\pi_1} \xrightarrow{I} \pi_2 \xrightarrow{E} \ldots \xrightarrow{I} \pi_* \xrightarrow{E} q_{\pi_*}$$
 
 where $\xrightarrow{E}$ denotes a complete policy evaluation & $\xrightarrow{I}$ denotes a complete policy improvement.
-
-**GPI diagram:**
-
-- **Policy evaluation**: MC policy eval, $Q \to q_\pi$
-- **Policy improvement**: $\varepsilon$-greedy policy improvement
-
-$$\pi \xrightarrow{\text{improvement}} \pi \to \text{greedy}(Q) \xrightarrow{\text{evaluation}} Q \to q_\pi$$
-
-- In GPI, one maintains both an approximate policy and an approximate value function.
 
 ### Policy Improvement
 
@@ -117,7 +119,7 @@ $$q_{\pi_k}(s, \pi_{k+1}(s)) = q_{\pi_k}\!\left(s, \arg\max_a q_{\pi_k}(s,a)\rig
 
   - **On-policy**: Evaluate/improve the policy that is used to make the decisions
     - Learn about policy $\pi$ from experience sampled from $\pi$
-    - Uses **$\varepsilon$-greedy** policy; generally **soft** policy: $\pi(a|s) > 0\ \forall s \in S,\ a \in A(s)$ (assign nonzero probability to each possible action)
+    - Uses **$\varepsilon$-greedy** policy; generally **soft** policy (assign nonzero probability to each possible action): $$\pi(a|s) > 0\ \quad \forall s \in S,\ a \in A(s)$$ 
 
   - **Off-policy**: Evaluate/improve a policy different from that used to generate the data
     - Learn about policy $\pi$ from experience sampled from $\mu$
@@ -128,7 +130,7 @@ $$\pi(a|s) = \begin{cases} 1 - \varepsilon + \dfrac{\varepsilon}{|A(s)|} & \text
 
 ---
 
-## $\varepsilon$-greedy Policy Improvement
+### $\varepsilon$-greedy Policy Improvement
 
 - For any $\varepsilon$-soft policy $\pi$, any $\varepsilon$-greedy policy w.r.t. $q_\pi$ is guaranteed to be better than or equal to $\pi$.
 - For any $\varepsilon$-soft policy $\pi$, any $\varepsilon$-greedy policy $\pi'$ w.r.t. $q_\pi$ is an improvement: $V_{\pi'}(s) \geq V_\pi(s)$
@@ -160,7 +162,7 @@ $$V_\pi(s) = (1-\varepsilon) \max_a q_\pi(s,a) + \frac{\varepsilon}{|A(s)|} \sum
 
 $$= (1-\varepsilon) \max_a \sum_{s',r} p(s',r|s,a)\left[r + \gamma V_\pi(s')\right] + \frac{\varepsilon}{|A(s)|} \sum_a \sum_{s',r} p(s',r|s,a)\left[r + \gamma V_\pi(s')\right]$$
 
-Because $\tilde{V}_*$ is the unique solution, it must be that $V_\pi = \tilde{V}_*$.
+- Because $\tilde{V}_*$ is the unique solution, it must be that $V_\pi = \tilde{V}_*$.
 
 ---
 
@@ -177,12 +179,12 @@ Because $\tilde{V}_*$ is the unique solution, it must be that $V_\pi = \tilde{V}
   - A **target policy** (for control; becomes the optimal policy)
 
 - Off-policy learning methods are more powerful and general than on-policy methods.
-- Let's consider the prediction problem, in which both target & behavior policies are fixed.
+- Let's consider the prediction problem, in which both target & behavior policies are fixed and given.
   - **Goal**: Estimate $V_\pi$ or $q_\pi$, but all we have are episodes following another policy $b$, where $b \neq \pi$
     - $\pi \equiv$ target policy
-    - $b \equiv$ behavior policy — both policies are considered fixed & given
+    - $b \equiv$ behavior policy 
 
-- In order to use episodes from $b$ to estimate values for $\pi$, we require that every action taken under $\pi$ is also taken, at least occasionally, under $b$:
+- In order to use episodes from $b$ to estimate values for $\pi$, we require that every action taken under $\pi$ is also taken, at least occasionally, under $b$, i.e.,:
 
 $$\pi(a|s) > 0 \implies b(a|s) > 0$$
 
@@ -222,13 +224,12 @@ $$\mathbb{E}\left[\rho_{t:T-1}\, G_t \mid S_t = s\right] = V_\pi(s)$$
   - $\{G_t\}_{t \in \mathcal{J}(s)} \equiv$ returns that pertain to state $s$
   - $\{\rho_{t:T-1}\}_{t \in \mathcal{J}(s)} \equiv$ corresponding importance-sampling ratios
 
+**Ordinary importance sampling** (unbiased):
 $$V(s) \doteq \frac{\sum_{t \in \mathcal{J}(s)} \rho_{t:T(t)-1}\, G_t}{|\mathcal{J}(s)|}$$
 
-**Ordinary importance sampling** (unbiased)
-
+**Weighted importance sampling** (biased):
 $$V(s) \doteq \frac{\sum_{t \in \mathcal{J}(s)} \rho_{t:T(t)-1}\, G_t}{\sum_{t \in \mathcal{J}(s)} \rho_{t:T(t)-1}}$$
 
-**Weighted importance sampling** (biased)
 
 ---
 
@@ -265,7 +266,7 @@ where $C_0 \doteq 0$ and $V_1 \to$ arbitrary.
 - Off-policy Monte Carlo control method based on GPI and weighted importance sampling for estimating $\pi_*$ & $q_*$:
   - The target policy $\pi \approx \pi_*$ is the greedy policy w.r.t. $Q$, which is an estimate of $q_\pi$
   - The behavior policy $b$ can be anything, but in order to assure convergence of $\pi$ to $\pi_*$, an infinite number of returns must be obtained for each state-action pair.
-  - This can be assured by choosing $b$ to be an $\varepsilon$-soft policy.
+      - This can be assured by choosing $b$ to be an $\varepsilon$-soft policy.
 
 ---
 
@@ -273,14 +274,14 @@ where $C_0 \doteq 0$ and $V_1 \to$ arbitrary.
 
 - So far our off-policy methods consider returns as unitary wholes, without taking into account the returns' internal structures as sums of discounted rewards.
 
-- Let's think of discounting as determining a probability of termination, or equivalently a degree of partial termination $\gamma \in (0,1]$; $T \equiv$ time of termination of the episode.
+- Let's think of discounting as determining a probability of termination, or equivalently a degree of partial termination $\gamma \in (0,1]$; $$T \equiv\text{time of termination of the episode}$$ 
 
 - The **flat partial** returns:
 
 $$\bar{G}_{t:h} \doteq R_{t+1} + R_{t+2} + \ldots + R_h, \quad 0 \leq t \leq h \leq T$$
 
-  - where "flat" $\equiv$ absence of discounting
-  - where "partial" $\equiv$ these returns do not extend all the way to termination, but instead stop at $h$, called the **horizon**
+    - where "flat" $\equiv$ absence of discounting
+    - where "partial" $\equiv$ these returns do not extend all the way to termination, but instead stop at $h$, called the **horizon**
 
 - The conventional full return $G_t$ can be viewed as a sum of flat partial returns:
 
@@ -322,7 +323,7 @@ $$\mathbb{E}\left[\rho_{t:T-1}\, R_{t+1}\right] = \mathbb{E}\left[\rho_{t:t}\, R
 
 $$\mathbb{E}\left[\rho_{t:T-1}\, R_{t+k}\right] = \mathbb{E}\left[\rho_{t:t+k-1}\, R_{t+k}\right]$$
 
-$$\mathbb{E}\left[\rho_{t:T-1}\, G_t\right] = \mathbb{E}\left[\tilde{G}_t\right] \implies \textbf{per-decision importance sampling}$$
+$$\mathbb{E}\left[\rho_{t:T-1}\, G_t\right] = \mathbb{E}\left[\tilde{G}_t\right] $$
 
 where:
 
@@ -336,25 +337,25 @@ $$V(s) \doteq \frac{\sum_{t \in \mathcal{J}(s)} \tilde{G}_t}{|\mathcal{J}(s)|}$$
 
 ## Summary {#sec-ch05-5-10}
 
-- Monte Carlo (MC) methods covered so far learn value functions and optimal policies from experience in the form of sample episodes, which lead to at least 3 kinds of advantages over DP methods for MC methods:
-  - Learn optimal behavior directly from interaction with the environment (model-free)
-  - Can be used with simulation or sample models
-  - Are easier and more efficient to focus on a small subset of the states
-  - Are less harmed by violations of the Markov property (no bootstrapping)
+- **Monte Carlo (MC) methods** covered so far learn value functions and optimal policies from experience in the form of **sample episodes,** which lead to at least 3 kinds of advantages over DP methods for MC methods:
+  - Learn optimal behavior **directly** from interaction with the environment (**model-free**)
+  - Can be used with simulation or **sample models**
+  - Are easier and more efficient to **focus** on a small subset of the states
+  - Are less harmed by violations of the Markov property (**no bootstrapping**)
 
 - In Chapter 4, we followed GPI overall schema in designing MC control methods.
   - MC methods provide an alternative policy evaluation process, using average of many returns that start in each state as a good approximator for that state value's expected return.
-  - MC methods **intermix** policy evaluation and policy improvement steps on an episode-by-episode basis, and can be incrementally implemented on an episode-by-episode basis.
+  - MC methods **intermix** policy evaluation and policy improvement steps on an episode-by-episode basis, and can be **incrementally implemented** on an episode-by-episode basis.
 
-- Maintaining sufficient exploration is an issue in MC control methods.
+- Maintaining **sufficient exploration** is an issue in MC control methods.
   - One fix is by assuming that episodes begin with state-action pairs randomly selected to cover all possibilities. These are called **exploring starts**.
 
-- On-policy methods utilize one policy for both action and target selection.
-- Off-policy methods use a different behavior policy from the deterministic target policy.
-- Off-policy prediction refers to learning the value function of a target policy from data generated by a different behavior policy.
-  - These learning methods are based on some form of importance sampling, i.e., on weighting returns by the ratio of the probabilities of taking the observed actions under the 2 different policies, thereby transforming their expectations from the behavior policy to the target policy.
-    - **Ordinary** importance sampling uses a simple average of the weighted returns (unbiased estimates)
-    - **Weighted** importance sampling uses a weighted average (biased estimates)
+- **On-policy** methods utilize one policy for both action and target selection.
+- **Off-policy** methods use a different behavior policy from the deterministic target policy.
+- **Off-policy prediction** refers to learning the value function of a target policy from data generated by a **different** behavior policy.
+  - These learning methods are based on some form of **importance sampling,** i.e., on weighting returns by the ratio of the probabilities of taking the observed actions under the 2 different policies, thereby transforming their expectations from the **behavior policy** to the **target policy.**
+    - **Ordinary importance sampling** uses a simple average of the weighted returns (unbiased estimates)
+    - **Weighted importance sampling** uses a weighted average (biased estimates)
 
 - The MC methods in this chapter differ from the DP methods in Chapter 4 in 2 key ways:
   - They operate on sample experience, and thus can be used for direct learning without a model.
