@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="340" viewBox="0 0 520 340">
+<text x="55" y="32" text-anchor="middle" font-size="10" font-family="serif" font-weight="bold">TD(0)</text>
+<text x="55" y="45" text-anchor="middle" font-size="10" font-family="serif" font-weight="bold">1-step</text>
+<circle cx="55" cy="50" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="55" y1="60" x2="55" y2="63" stroke="black" stroke-width="1.5"/>
+<circle cx="55" cy="69" r="6" fill="black"/>
+<line x1="55" y1="75" x2="55" y2="78" stroke="black" stroke-width="1.5"/>
+<circle cx="55" cy="88" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<text x="140" y="32" text-anchor="middle" font-size="10" font-family="serif" font-weight="bold">2-step</text>
+<circle cx="140" cy="50" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="140" y1="60" x2="140" y2="63" stroke="black" stroke-width="1.5"/>
+<circle cx="140" cy="69" r="6" fill="black"/>
+<line x1="140" y1="75" x2="140" y2="78" stroke="black" stroke-width="1.5"/>
+<circle cx="140" cy="88" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="140" y1="98" x2="140" y2="101" stroke="black" stroke-width="1.5"/>
+<circle cx="140" cy="107" r="6" fill="black"/>
+<line x1="140" y1="113" x2="140" y2="116" stroke="black" stroke-width="1.5"/>
+<circle cx="140" cy="126" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<text x="225" y="32" text-anchor="middle" font-size="10" font-family="serif" font-weight="bold">3-step</text>
+<circle cx="225" cy="50" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="225" y1="60" x2="225" y2="63" stroke="black" stroke-width="1.5"/>
+<circle cx="225" cy="69" r="6" fill="black"/>
+<line x1="225" y1="75" x2="225" y2="78" stroke="black" stroke-width="1.5"/>
+<circle cx="225" cy="88" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="225" y1="98" x2="225" y2="101" stroke="black" stroke-width="1.5"/>
+<circle cx="225" cy="107" r="6" fill="black"/>
+<line x1="225" y1="113" x2="225" y2="116" stroke="black" stroke-width="1.5"/>
+<circle cx="225" cy="126" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="225" y1="136" x2="225" y2="139" stroke="black" stroke-width="1.5"/>
+<circle cx="225" cy="145" r="6" fill="black"/>
+<line x1="225" y1="151" x2="225" y2="154" stroke="black" stroke-width="1.5"/>
+<circle cx="225" cy="164" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<text x="330" y="32" text-anchor="middle" font-size="10" font-family="serif" font-weight="bold">n-step</text>
+<circle cx="330" cy="50" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="330" y1="60" x2="330" y2="63" stroke="black" stroke-width="1.5"/>
+<circle cx="330" cy="69" r="6" fill="black"/>
+<line x1="330" y1="75" x2="330" y2="78" stroke="black" stroke-width="1.5"/>
+<circle cx="330" cy="88" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="330" y1="98" x2="330" y2="101" stroke="black" stroke-width="1.5"/>
+<circle cx="330" cy="107" r="6" fill="black"/>
+<line x1="330" y1="113" x2="330" y2="116" stroke="black" stroke-width="1.5"/>
+<circle cx="330" cy="126" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="330" y1="136" x2="330" y2="139" stroke="black" stroke-width="1.5"/>
+<circle cx="330" cy="145" r="6" fill="black"/>
+<line x1="330" y1="151" x2="330" y2="154" stroke="black" stroke-width="1.5"/>
+<circle cx="330" cy="164" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<circle cx="330" cy="176" r="2" fill="black"/>
+<circle cx="330" cy="184" r="2" fill="black"/>
+<circle cx="330" cy="192" r="2" fill="black"/>
+<circle cx="330" cy="208" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<text x="440" y="32" text-anchor="middle" font-size="10" font-family="serif" font-weight="bold">MC</text>
+<text x="440" y="45" text-anchor="middle" font-size="10" font-family="serif" font-weight="bold">∞-step</text>
+<circle cx="440" cy="50" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="440" y1="60" x2="440" y2="63" stroke="black" stroke-width="1.5"/>
+<circle cx="440" cy="69" r="6" fill="black"/>
+<line x1="440" y1="75" x2="440" y2="78" stroke="black" stroke-width="1.5"/>
+<circle cx="440" cy="88" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="440" y1="98" x2="440" y2="101" stroke="black" stroke-width="1.5"/>
+<circle cx="440" cy="107" r="6" fill="black"/>
+<line x1="440" y1="113" x2="440" y2="116" stroke="black" stroke-width="1.5"/>
+<circle cx="440" cy="126" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="440" y1="136" x2="440" y2="139" stroke="black" stroke-width="1.5"/>
+<circle cx="440" cy="145" r="6" fill="black"/>
+<line x1="440" y1="151" x2="440" y2="154" stroke="black" stroke-width="1.5"/>
+<circle cx="440" cy="164" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="440" y1="174" x2="440" y2="177" stroke="black" stroke-width="1.5"/>
+<circle cx="440" cy="183" r="6" fill="black"/>
+<line x1="440" y1="189" x2="440" y2="192" stroke="black" stroke-width="1.5"/>
+<circle cx="440" cy="202" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="440" y1="212" x2="440" y2="215" stroke="black" stroke-width="1.5"/>
+<circle cx="440" cy="221" r="6" fill="black"/>
+<line x1="440" y1="227" x2="440" y2="230" stroke="black" stroke-width="1.5"/>
+<circle cx="440" cy="240" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="440" y1="250" x2="440" y2="264" stroke="black" stroke-width="1.5"/>
+<rect x="431" y="264" width="18" height="18" fill="white" stroke="black" stroke-width="1.5" stroke-dasharray="3,2"/>
+<text x="260" y="332" text-anchor="middle" font-size="10" font-family="serif" font-weight="normal">Figure 7.1 — n-step TD Backup Diagrams</text>
+</svg>

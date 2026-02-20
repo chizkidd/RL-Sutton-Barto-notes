@@ -1,0 +1,53 @@
+---
+title: "Preface"
+---
+
+# Reinforcement Learning: Notes on Sutton & Barto
+
+These are personal study notes from *Reinforcement Learning: An Introduction* by Richard S. Sutton and Andrew G. Barto (2nd Edition, MIT Press, 2018).
+
+The notes cover the core ideas, equations, and algorithms from each chapter, transcribed and formatted for review. Mathematical notation follows the textbook closely. Backup diagrams are reproduced as SVG figures.
+
+## Coverage
+
+| Chapter | Topic | Status |
+|---|---|---|
+| 2 | Multi-Armed Bandits | ✓ |
+| 3 | Finite Markov Decision Processes | ✓ |
+| 4 | Dynamic Programming | ✓ |
+| 5 | Monte Carlo Methods | ✓ |
+| 6 | Temporal-Difference Learning | ✓ |
+| 7 | $n$-step Bootstrapping | ✓ |
+| 8 | Planning & Learning with Tabular Methods | ✓ |
+| 9 | On-policy Prediction with Approximation | coming soon |
+
+## How to Read These Notes
+
+These notes are meant to accompany the textbook, not replace it. They are most useful for:
+
+- Quick review of key equations and algorithms before exams or projects.
+- Checking notation and definitions across chapters.
+- Following the logical progression of ideas from bandits through full RL.
+
+## Key Notation
+
+| Symbol | Meaning |
+|---|---|
+| $s, s'$ | State, next state |
+| $a$ | Action |
+| $r, R$ | Reward |
+| $\pi$ | Policy |
+| $V_\pi(s)$ | State-value function under $\pi$ |
+| $q_\pi(s,a)$ | Action-value function under $\pi$ |
+| $V_*, q_*$ | Optimal value functions |
+| $\alpha$ | Step size (learning rate) |
+| $\gamma$ | Discount factor |
+| $\varepsilon$ | Exploration parameter |
+| $\delta_t$ | TD error at time $t$ |
+| $G_t$ | Return at time $t$ |
+| $T$ | Terminal time step |
+
+## Reference
+
+Sutton, R. S., & Barto, A. G. (2018). *Reinforcement Learning: An Introduction* (2nd ed.). MIT Press.  
+Available at: [http://incompleteideas.net/book/the-book-2nd.html](http://incompleteideas.net/book/the-book-2nd.html)

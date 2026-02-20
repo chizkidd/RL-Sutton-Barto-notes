@@ -1,0 +1,107 @@
+/*-- scss:defaults --*/
+$primary: #2c5f8a;
+$link-color: #2c5f8a;
+$code-bg: #f6f8fa;
+$code-color: #24292e;
+
+/*-- scss:rules --*/
+
+/* ── Typography ─────────────────────────────────────────── */
+.book-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $primary;
+}
+
+h1, h2, h3, h4 {
+  font-family: Georgia, serif;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+h2 {
+  border-bottom: 2px solid #e0e6ed;
+  padding-bottom: 0.3em;
+  margin-top: 2em;
+}
+
+h3 {
+  color: #2c5f8a;
+  margin-top: 1.6em;
+}
+
+/* ── Math ────────────────────────────────────────────────── */
+.math.display {
+  overflow-x: auto;
+  padding: 0.5em 0;
+}
+
+/* ── Code blocks ─────────────────────────────────────────── */
+pre {
+  border-left: 3px solid $primary;
+  border-radius: 4px;
+  font-size: 0.88em;
+}
+
+/* ── Callout blocks ──────────────────────────────────────── */
+.callout {
+  border-radius: 6px;
+  margin: 1.5em 0;
+}
+
+.callout-note {
+  border-left-color: #2c5f8a;
+}
+
+.callout-tip {
+  border-left-color: #2a9d8f;
+}
+
+.callout-important {
+  border-left-color: #e76f51;
+}
+
+.callout-warning {
+  border-left-color: #e9c46a;
+}
+
+/* ── Tables ──────────────────────────────────────────────── */
+table {
+  font-size: 0.92em;
+}
+
+thead {
+  background-color: #f0f4f8;
+}
+
+/* ── SVG figures ─────────────────────────────────────────── */
+img[src$=".svg"] {
+  max-width: 100%;
+  margin: 1.5em auto;
+  display: block;
+}
+
+/* ── Sidebar nav ─────────────────────────────────────────── */
+.sidebar nav[role=doc-toc] ul > li > a {
+  font-size: 0.9em;
+}
+
+/* ── Dark mode overrides ─────────────────────────────────── */
+[data-bs-theme=dark] h1,
+[data-bs-theme=dark] h2,
+[data-bs-theme=dark] h3,
+[data-bs-theme=dark] h4 {
+  color: #c9d8e8;
+}
+
+[data-bs-theme=dark] h2 {
+  border-bottom-color: #3a4a5a;
+}
+
+[data-bs-theme=dark] h3 {
+  color: #7eb8d4;
+}
+
+[data-bs-theme=dark] pre {
+  border-left-color: #7eb8d4;
+}

@@ -1,0 +1,224 @@
+---
+title: "Chapter 3: Finite Markov Decision Processes"
+number-sections: true
+---
+
+## 3.1 The Agent-Environment Interface {#sec-ch03-3-1}
+
+**Agent-Environment loop:**
+
+::: {#fig-31}
+![The Agent-Environment Interface](../figures/ch03-3-1-title.png)
+
+The agent–environment interaction in an MDP
+:::
+
+**Trajectory** $\mathcal{T}$: $S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, R_3, \ldots$
+
+The **dynamics function**:
+
+$$p(s', r | s, a) \doteq \mathbb{P}\{S_t = s',\, R_t = r \mid S_{t-1} = s,\, A_{t-1} = a\}$$
+
+for all $s', s \in S,\, r \in \mathbb{R},\, a \in A(s)$.
+
+$$p: S \times R \times S \times A \to [0,1]$$
+
+$$\sum_{s' \in S} \sum_{r \in R} p(s', r | s, a) = 1 \quad \text{for all } s \in S,\, a \in A(s)$$
+
+**Derived quantities:**
+
+$$p: S \times S \times A \xrightarrow{[0,1]} \quad p(s'|s,a) \doteq \mathbb{P}\{S_t = s' \mid S_{t-1} = s,\, A_{t-1} = a\} = \sum_{r \in R} p(s', r | s, a)$$
+
+$$r: S \times A \to \mathbb{R} \quad r(s,a) \doteq \mathbb{E}\left[R_t \mid S_{t-1} = s,\, A_{t-1} = a\right] = \sum_{r \in R} r \sum_{s' \in S} p(s', r | s, a)$$
+
+$$r: S \times A \times S \to \mathbb{R} \quad r(s,a,s') \doteq \mathbb{E}\left[R_t \mid S_{t-1} = s,\, A_{t-1} = a,\, S_t = s'\right] = \sum_{r \in R} r\, \frac{p(s', r | s, a)}{p(s' | s, a)}$$
+
+---
+
+## 3.2 Goals & Rewards {#sec-ch03-3-2}
+
+$R_t \in \mathbb{R}$; the agent's goal is to maximize the cumulative reward it receives in the long run.
+
+---
+
+## 3.3 Returns & Episodes {#sec-ch03-3-3}
+
+$$G_t \doteq R_{t+1} + R_{t+2} + R_{t+3} + \ldots + R_T \quad G_t = \text{return}$$
+
+- **Episodic tasks**: tasks with episodes that have a terminal state
+- **Continuing tasks**: no terminal state ($T_{\text{final}} = \infty$)
+
+**Discounting** ($0 \leq \gamma \leq 1$; $\gamma \equiv$ discount rate):
+- $\gamma \approx 0$ : "myopic" agent
+- $\gamma \to 1$ : "far-sighted" agent
+
+$$G_t \doteq R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}$$
+
+- $\gamma \Rightarrow$ determines the present value of future rewards
+
+Recursive form:
+
+$$G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \gamma^3 R_{t+4} + \ldots$$
+
+$$= R_{t+1} + \gamma\left(R_{t+2} + \gamma R_{t+3} + \gamma^2 R_{t+4} + \ldots\right)$$
+
+$$= R_{t+1} + \gamma G_{t+1}$$
+
+From $G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}$: if $R$ = a constant $+1$ at each timestep, then the discounted return is:
+
+$$G_t = \sum_{k=0}^{\infty} \gamma^k = \frac{1}{1-\gamma}$$
+
+---
+
+## 3.4 Unified Notation for Episodic & Continuing Tasks {#sec-ch03-3-4}
+
+**Episode diagram:**
+
+::: {#fig-34}
+![state transition diagram](../figures/ch03-3-4.png)
+
+State transition diagram
+:::
+
+$$S_0 \xrightarrow{R_2=+1} S_1 \xrightarrow{R_2=+1} S_2 \xrightarrow{R_3=+1} \square \quad \begin{cases} R_4 = 0 \\ R_5 = 0 \\ \vdots \end{cases}$$
+
+$T = \infty$ or $\gamma = 1$ (but not both).
+
+$$\tilde{G}_t = \sum_{k=t+1}^{T} \gamma^{k-t-1} R_k$$
+
+---
+
+## 3.5 Policies & Value Functions {#sec-ch03-3-5}
+
+- Value functions are defined w.r.t. particular ways of acting, called **policies**.
+- States $\to$ policy: $\pi(s|a) \to$ probabilities of selecting each possible action.
+
+$$\pi(a|s) = \mathbb{P}\left[A_t = a \mid S_t = s\right]$$
+
+$\mu$ in $\pi(a|s) \Rightarrow$ defining a prob. distr. over $a \in A(s)$ for each $s \in S$.
+
+**State-value function** for policy $\pi$:
+
+$$V_\pi(s) \doteq \mathbb{E}_\pi\left[G_t \mid S_t = s\right] = \mathbb{E}_\pi\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \,\middle|\, S_t = s\right], \quad \text{for all } s \in S$$
+
+**Action-value function** for policy $\pi$:
+
+$$q_\pi(s,a) \doteq \mathbb{E}_\pi\left[G_t \mid S_t = s,\, A_t = a\right] = \mathbb{E}_\pi\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \,\middle|\, S_t = s,\, A_t = a\right]$$
+
+$\mathbb{E}_\pi[\cdot] \Rightarrow$ expected value of a random variable given that the agent follows policy $\pi$, if $t$ is any time step.
+
+### Bellman Equation for $V_\pi$
+
+Recursive relationships of value functions in RL & DP:
+
+$$V_\pi(s) \doteq \mathbb{E}_\pi\left[G_t \mid S_t = s\right]$$
+
+$$= \mathbb{E}_\pi\left[R_{t+1} + \gamma G_{t+1} \mid S_t = s\right]$$
+
+$$= \sum_a \pi(a|s) \sum_{s'} \sum_r p(s', r | s, a)\left[r + \gamma\, \mathbb{E}_\pi\left[G_{t+1} \mid S_{t+1} = s'\right]\right]$$
+
+$$= \sum_a \pi(a|s) \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_\pi(s')\right] \quad \text{for all } s \in S$$
+
+This is the **Bellman Equation for $V_\pi$**.
+
+::: {#fig-35}
+![v_pi Backup Diagram](../figures/ch03-3-5-v-pi.png))
+
+Backup Diagram for $v_\pi$
+:::
+
+> **Backup diagram for $v_\pi$**: open circle = state $s$, filled circles = state-action pairs, open squares = successor states $s'$.
+
+---
+
+## 3.6 Optimal Policies & Optimal Value Functions {#sec-ch03-3-6}
+
+Optimal policy for finite MDPs: value functions define a partial ordering over policies.
+
+$$\pi \geq \pi' \iff V_\pi(s) \geq V_{\pi'}(s) \quad \forall s \in S$$
+
+$$V_*(s) \doteq \max_\pi V_\pi(s) \quad \forall s \in S$$
+
+$$q_*(s,a) \doteq \max_\pi q_\pi(s,a) \quad \forall s \in S,\, a \in A(s)$$
+
+$$q_*(s,a) = \mathbb{E}\left[R_{t+1} + \gamma V_*(S_{t+1}) \mid S_t = s,\, A_t = a\right]$$
+
+Self-consistency condition given by Bellman equation for state values must be satisfied by $V_*$.
+
+### Bellman Optimality Equations
+
+**For $V_*$:**
+
+$$V_*(s) = \max_{a \in A(s)} q_{\pi_*}(s,a)$$
+
+$$= \max_a\, \mathbb{E}_{\pi^*}\left[G_t \mid S_t = s,\, A_t = a\right]$$
+
+$$= \max_a\, \mathbb{E}_{\pi^*}\left[R_{t+1} + \gamma G_{t+1} \mid S_t = s,\, A_t = a\right]$$
+
+$$= \max_a\, \mathbb{E}\left[R_{t+1} + \gamma V_*(S_{t+1}) \mid S_t = s,\, A_t = a\right]$$
+
+$$= \max_a \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_*(s')\right]$$
+
+**For $q_*$:**
+
+$$q_*(s,a) = \mathbb{E}\left[R_{t+1} + \gamma \max_{a'} q_*(S_{t+1}, a') \mid S_t = s,\, A_t = a\right]$$
+
+$$= \sum_{s', r} p(s', r | s, a)\left[r + \gamma \max_{a'} q_*(s', a')\right]$$
+
+
+::: {#fig-36}
+![v* and q* Backup Diagram](../figures/ch03-3-6-v-q-optimal.png))
+
+Backup diagrams for $v_*$ and $q_*$
+:::
+
+> **Backup diagrams for $v_*$ and $q_*$**: the max node appears at the state level for $v_*$ and at the action level for $q_*$.
+
+---
+
+## 3.7 Optimality & Approximation {#sec-ch03-3-7}
+
+- Optimal value functions
+- Optimal policies
+- Q-table $\Rightarrow$ not practical/possible in large state spaces
+- Hence, the need for function approximation because calculation of optimality (Q-table) is too expensive
+
+---
+
+## 3.8 Summary {#sec-ch03-3-8}
+
+- **Reinforcement Learning**: learning from interaction how to behave in order to achieve a goal
+- **Agent**: known & controllable; the RL agent & its environment interact over a sequence of discrete time steps
+- **Environment**: incompletely controllable & may/may not be completely known
+- **Actions**: choices made by the agent
+- **States**: the basis/foundation for making the choices/actions
+- **Rewards**: the basis for evaluating the choices/actions
+- **Policy**: a stochastic rule by which the agent selects actions as a function of states: $\pi(a|s) = \mathbb{P}[A_t = a | S_t = s]$
+- **MDP**: the variables formulated above within a RL setup with well-defined transition probabilities
+
+A **finite MDP**: an MDP with finite state, action & reward sets.
+
+**Markov Property** $\to$ Markov Chain/Process $\to$ MRP $\to$ MDP:
+
+| $\mathbb{P}[S_{t+1} \mid S_t] = \mathbb{P}[S_{t+1} \mid S_2, \ldots, S_t]$ | $\langle S, P \rangle$ | $\langle S, P, R, \gamma \rangle$ | $\langle S, A, P, R, \gamma \rangle$ |
+|---|---|---|---|
+| State-transition probability matrix: $P_{ss'} = \mathbb{P}[S_{t+1} = s' \mid S_t = s]$ | Sequences of random states $S_1, S_2, \ldots$ + Markov property | Markov Chain with Values | MRP + decisions |
+
+**MDP components:**
+
+$$\text{MDP} \begin{cases} S \to \text{finite set of states} \\ A \to \text{finite set of actions} \\ P \to \text{state transition probability matrix} & P^a_{ss'} = \mathbb{P}[S_{t+1} = s' \mid S_t = s,\, A_t = a] \\ R \to \text{reward function} & R^a_s = \mathbb{E}[R_{t+1} \mid S_t = s,\, A_t = a] \\ \gamma \to \text{discount factor} & \gamma \in [0,1] \end{cases}$$
+
+- **Return**: function of future rewards that the agent seeks to maximize (in expected value)
+- **Tasks**:
+  - **Episodic**: have a clear starting & ending point (a terminal state) [e.g. ping pong]
+  - **Continuing**: tasks/RL instances that continue forever w/o a terminal state [e.g. automated stock trading]
+
+- **Value functions** ($V_\pi, q_\pi$): a policy's value functions assign to each state/state-action pair, the expected return from that state/state-action pair, given that the agent uses the policy.
+- **Optimal value functions** ($V_*, q_*$): assign to each state/state-action pair the largest expected return achievable by any policy.
+
+- **Optimal policy** ($\pi_*$): a policy whose value functions are optimal $\left[V_*(s) = \max_\pi V_\pi(s)\right]$
+  - $\pi_* > \pi,\ \forall \pi$ ($\pi \geq \pi'$ iff $V_\pi(s) \geq V_{\pi'}(s)\ \forall s \in S$)
+  - $V_*$ & $q_*$ are unique for a given MDP, but there can be many optimal policies ($\pi_*$)
+  - Any policy that is **greedy** w.r.t. the optimal value functions $(q_*, V_*)$ must be an optimal policy $(\pi_*)$
+
+- **Bellman Optimality Equations**: special consistency conditions that $q_*, V_*$ must satisfy & that can, in principle, be solved for $q_*, V_*$, from which an optimal policy $(\pi_*)$ can be determined with relative ease.

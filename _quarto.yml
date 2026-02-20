@@ -1,0 +1,50 @@
+project:
+  type: book
+  output-dir: _site
+
+book:
+  title: "Reinforcement Learning: Notes on Sutton & Barto"
+  subtitle: "Personal study notes — 2nd Edition"
+  author: "Personal Notes"
+  date: last-modified
+  date-format: "MMMM YYYY"
+  repo-url: https://github.com/chizkidd/RL-Sutton-Barto-notes
+  repo-actions: [issue]
+  search: true
+  sidebar:
+    style: docked
+    background: light
+  chapters:
+    - index.qmd
+    - part: "Part I — Tabular Solution Methods"
+      chapters:
+        - chapters/ch02-multi-armed-bandits.qmd
+        - chapters/ch03-finite-mdps.qmd
+        - chapters/ch04-dynamic-programming.qmd
+        - chapters/ch05-monte-carlo.qmd
+        - chapters/ch06-temporal-difference.qmd
+        - chapters/ch07-nstep-bootstrapping.qmd
+        - chapters/ch08-planning-learning.qmd
+
+format:
+  html:
+    theme:
+      light: [flatly, custom.scss]
+      dark: [darkly, custom.scss]
+    toc: true
+    toc-depth: 3
+    toc-title: "On this page"
+    number-sections: true
+    number-depth: 2
+    code-fold: false
+    highlight-style: github
+    mainfont: "Georgia, serif"
+    monofont: "JetBrains Mono, monospace"
+    fontsize: 1.05em
+    linestretch: 1.7
+    smooth-scroll: true
+    fig-align: center
+    html-math-method: katex
+    css: custom.scss
+
+bibliography: references.bib
