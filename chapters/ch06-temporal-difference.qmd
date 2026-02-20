@@ -27,7 +27,7 @@ $$V(S_t) \leftarrow V(S_t) + \alpha\underbrace{\left[R_{t+1} + \gamma V(S_{t+1})
 where $R_{t+1} + \gamma V(S_{t+1})$ is called the **TD target**.
 
 ::: {#fig-61}
-![](../figures/ch06-1-td0.png){fig-align="center"} 
+![](../figures/ch06-6-1-td0.png){fig-align="center"} 
 
 Backup diagram for TD(0)
 :::
