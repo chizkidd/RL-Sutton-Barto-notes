@@ -19,9 +19,9 @@ number-sections: true
 
 - Recall that the value of a state is the **expected cumulative future discounted reward** (expected return). An obvious way of estimating that value from experience is to simply average the returns observed after visits to that state. As more returns are observed, the average should converge to the expected value. This idea underlies all Monte Carlo methods.
 
-- MC uses the simplest possible idea: **Value = mean return**
-- MC learns from **complete** episodes: **no bootstrapping**
-- MC is **model-free**: no knowledge of MDP transitions/rewards
+  - MC uses the simplest possible idea: **Value = mean return**
+  - MC learns from **complete** episodes: **no bootstrapping**
+  - MC is **model-free**: no knowledge of MDP transitions/rewards
 
 - **Goal**: Learn $V_\pi$ from episodes of experience under policy $\pi$
 
@@ -280,8 +280,8 @@ where $C_0 \doteq 0$ and $V_1 \to$ arbitrary.
 
 $$\bar{G}_{t:h} \doteq R_{t+1} + R_{t+2} + \ldots + R_h, \quad 0 \leq t \leq h \leq T$$
 
-    - where "flat" $\equiv$ absence of discounting
-    - where "partial" $\equiv$ these returns do not extend all the way to termination, but instead stop at $h$, called the **horizon**
+  - where "flat" $\equiv$ absence of discounting
+  - where "partial" $\equiv$ these returns do not extend all the way to termination, but instead stop at $h$, called the **horizon**
 
 - The conventional full return $G_t$ can be viewed as a sum of flat partial returns:
 
