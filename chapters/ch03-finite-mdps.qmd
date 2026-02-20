@@ -7,9 +7,7 @@ number-sections: true
 
 **Agent-Environment loop:**
 
-::: {#fig-31}
-![Figure 3.1: The agent-environment interaction in an MDP](../figures/ch03-3-1.png)
-:::
+![Figure 3.1: The agent-environment interaction in an MDP](../figures/ch03-3-1.png){width=80% fig-align="center"} 
 
 **Trajectory** $\mathcal{T}$: $S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, R_3, \ldots$
 
@@ -114,9 +112,9 @@ $$= \sum_a \pi(a|s) \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_\pi(s')\right
 This is the **Bellman Equation for $V_\pi$**.
 
 ::: {#fig-35}
-![](../figures/ch03-3-5-v-pi.png)
+![](../figures/ch03-3-5-v-pi.png){width=80% fig-align="center"} 
 
-Figure 3.2: Backup Diagram for $v_\pi$
+Backup Diagram for $v_\pi$
 :::
 
 > **Backup diagram for $V_\pi$**: open circle = state $s$, filled circles = state-action pairs, next open circles set = successor states $s'$.
@@ -158,9 +156,9 @@ $$q_*(s,a) = \mathbb{E}\left[R_{t+1} + \gamma \max_{a'} q_*(S_{t+1}, a') \mid S_
 $$= \sum_{s', r} p(s', r | s, a)\left[r + \gamma \max_{a'} q_*(s', a')\right]$$
 
 ::: {#fig-36}
-![](../figures/ch03-3-6-v-q-optimal.png)
+![](../figures/ch03-3-6-v-q-optimal.png){width=80% fig-align="center"} 
 
-Figure 3.3: Backup Diagrams for $v_*$ and $q_*$
+Backup Diagrams for $v_*$ and $q_*$
 :::
 
 > **Backup diagrams for $v_*$ and $q_*$**: the max node appears at the state level for $v_*$ and at the action level for $q_*$.
@@ -169,8 +167,7 @@ Figure 3.3: Backup Diagrams for $v_*$ and $q_*$
 
 ## Optimality & Approximation {#sec-ch03-3-7}
 
-- Optimal value functions
-- Optimal policies
+We have defined optimal value functions and optimal policies. 
 - Q-table $\Rightarrow$ not practical/possible in large state spaces
 - Hence, the need for function approximation because calculation of optimality (Q-table) is too expensive
 
@@ -184,7 +181,7 @@ Figure 3.3: Backup Diagrams for $v_*$ and $q_*$
 - **Actions**: choices made by the agent
 - **States**: the basis/foundation for making the choices/actions
 - **Rewards**: the basis for evaluating the choices/actions
-- **Policy**: a stochastic rule by which the agent selects actions as a function of states: $\pi(a|s) = \mathbb{P}[A_t = a | S_t = s]$
+- **Policy**: a stochastic rule by which the agent selects actions as a function of states (_agent's brain_) $$\pi(a|s) = \mathbb{P}[A_t = a | S_t = s]$$
 - **MDP**: the variables formulated above within a RL setup with well-defined transition probabilities
 
 A **finite MDP**: an MDP with finite state, action & reward sets.

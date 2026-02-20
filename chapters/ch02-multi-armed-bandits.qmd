@@ -33,7 +33,7 @@ As $\displaystyle\sum_{i=1}^{t-1} \mathbb{1}_{A_i=a} \to \infty$, by the law of 
 
 $$A_t \doteq \arg\max_a Q_t(a)$$
 
-- **$\varepsilon$-greedy method** $\Rightarrow$ simplest idea for ensuring continual exploration. With $m$ total actions:
+- **$\varepsilon$-greedy method** $\Rightarrow$ <br>simplest idea for ensuring continual exploration. With $m$ total actions:
   - With probability $1-\varepsilon$: choose the greedy action
   - With probability $\varepsilon$: choose a random action
 
@@ -260,4 +260,4 @@ $$\boxed{\frac{\partial \pi_t(x)}{\partial H_t(a)} = \pi_t(x)\left[\mathbb{1}_{a
   - **Posterior sampling** or **Thompson sampling** is used for action selection.
 
 - In the Bayesian setting, it is generally not feasible to perform the outrageously large computation of an information state of a horizon, but efficient approximation could be done.
-  - This turns the bandit problem to full RL problem instance, hence the need for approximate RL methods.
+  - This turns the **bandit problem** to **full RL problem instance,** hence the need for approximate RL methods.
