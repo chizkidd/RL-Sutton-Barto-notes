@@ -72,7 +72,7 @@ $$G_t = \sum_{k=0}^{\infty} \gamma^k = \frac{1}{1-\gamma}$$
 
 **State transition diagram:**
 
-$$S_0 \xrightarrow{R_2=+1} S_1 \xrightarrow{R_2=+1} S_2 \xrightarrow{R_3=+1} \square \quad \begin{cases} R_4 = 0 \\ R_5 = 0 \\ \vdots \end{cases}$$
+$$S_0 \xrightarrow{R_2=+1} S_1 \xrightarrow{R_2=+1} S_2 \xrightarrow{R_3=+1} \square \circlearrowleft \quad \begin{cases} R_4 = 0 \\ R_5 = 0 \\ \vdots \end{cases}$$
 
 $T = \infty$ or $\gamma = 1$ (but not both).
 
