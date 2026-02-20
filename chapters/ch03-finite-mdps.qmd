@@ -188,9 +188,9 @@ We have defined optimal value functions and optimal policies.
 - **Policy**: a stochastic rule by which the agent selects actions as a function of states (_agent's brain_) $$\pi(a|s) = \mathbb{P}[A_t = a | S_t = s]$$
 - **MDP**: the variables formulated above within a RL setup with well-defined transition probabilities
 
-A **finite MDP**: an MDP with finite state, action & reward sets.
+  - A **finite MDP**: an MDP with finite state, action & reward sets.
 
-**Markov Property** $\to$ Markov Chain/Process $\to$ MRP $\to$ MDP:
+  - **Markov Property** $\to$ Markov Chain/Process $\to$ MRP $\to$ MDP:
 
 | $\mathbb{P}[S_{t+1} \mid S_t] = \mathbb{P}[S_{t+1} \mid S_2, \ldots, S_t]$ | $\langle S, P \rangle$ | $\langle S, P, R, \gamma \rangle$ | $\langle S, A, P, R, \gamma \rangle$ |
 |---|---|---|---|
