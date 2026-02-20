@@ -1,5 +1,5 @@
 ---
-title: "Chapter 7: n-step Bootstrapping"
+title: "n-step Bootstrapping"
 number-sections: true
 ---
 
@@ -11,7 +11,7 @@ number-sections: true
 
 ---
 
-## 7.1 $n$-step TD Prediction — $\text{TD}(\lambda)$ {#sec-ch07-7-1}
+## $n$-step TD Prediction — $\text{TD}(\lambda)$ {#sec-ch07-7-1}
 
 - Let the TD target look $n$ steps into the future.
 - Consider estimating $V_\pi$ from sample episodes generated using $\pi$:
@@ -68,7 +68,7 @@ $$\max_s \left|\mathbb{E}_\pi\left[G_t^{(n)} \mid S_t = s\right] - V_\pi(s)\righ
 
 ---
 
-## 7.2 $n$-step Sarsa — $\text{Sarsa}(\lambda)$ {#sec-ch07-7-2}
+## $n$-step Sarsa — $\text{Sarsa}(\lambda)$ {#sec-ch07-7-2}
 
 - $n$-step value function prediction can be extended to control.
 - Switch value function updates based on state rewards to state-action value function updates based on state-action pairs and then use an $\varepsilon$-greedy policy.
@@ -122,7 +122,7 @@ $$\bar{V}_t(s) \doteq \sum_a \pi(a|s)\, Q_t(s,a) \quad \forall s \in S$$
 
 ---
 
-## 7.3 $n$-step Off-policy Learning {#sec-ch07-7-3}
+## $n$-step Off-policy Learning {#sec-ch07-7-3}
 
 - Recall that off-policy learning entails learning the value function for one policy $\pi$, while following another policy $b$ (behavior policy).
   - Often $\pi$ is the greedy policy for the current $Q(s,a)$ estimate (target policy).
@@ -161,7 +161,7 @@ $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\, \rho_{t+1:t+n-1}\left[G_t^{(n)} 
 
 ---
 
-## 7.4 Per-decision Methods with Control Variates {#sec-ch07-7-4}
+## Per-decision Methods with Control Variates {#sec-ch07-7-4}
 
 - The multi-step off-policy methods presented in section 7.3 are simple and conceptually clear but not very efficient and dramatically increase variance.
 - A more sophisticated approach would be using per-decision importance sampling.
@@ -207,7 +207,7 @@ $$= R_{t+1} + \gamma\, \rho_{t+1}\left(G_{t+1:h} - Q_{h-1}(S_{t+1}, A_{t+1})\rig
 
 ---
 
-## 7.5 Off-policy Learning Without Importance Sampling: The $n$-step Tree Backup Algorithm {#sec-ch07-7-5}
+## Off-policy Learning Without Importance Sampling: The $n$-step Tree Backup Algorithm {#sec-ch07-7-5}
 
 - Off-policy learning without importance sampling:
   - Q-learning & Expected Sarsa do it for the one-step case.
@@ -266,7 +266,7 @@ $$Q_{t+n}(s,a) = Q_{t+n-1}(s,a) \quad \forall s, a \text{ s.t. } s \neq S_t \tex
 
 ---
 
-## 7.6 A Unifying Algorithm: $n$-step $Q(\sigma)$ {#sec-ch07-7-6}
+## A Unifying Algorithm: $n$-step $Q(\sigma)$ {#sec-ch07-7-6}
 
 - So far we have considered 3 different kinds of action-value algorithms:
   - $n$-step Sarsa has all sample transitions.
@@ -305,7 +305,7 @@ $$G_{t:h} \doteq R_{t+1} + \gamma\left(\sigma_{t+1}\rho_{t+1} + (1-\sigma_{t+1})
 
 ---
 
-## 7.7 Summary {#sec-ch07-7-7}
+## Summary {#sec-ch07-7-7}
 
 - There exist a range of TD learning methods that lie in between the one-step TD (TD(0)) methods and Monte Carlo methods. These are $n$-step methods.
 - These methods involve an intermediate amount of bootstrapping and are important because they will typically perform better than either extreme.

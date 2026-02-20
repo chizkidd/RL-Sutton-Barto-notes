@@ -1,5 +1,5 @@
 ---
-title: "Chapter 8: Planning & Learning with Tabular Methods"
+title: "Planning & Learning with Tabular Methods"
 number-sections: true
 ---
 
@@ -11,7 +11,7 @@ number-sections: true
 
 ---
 
-## 8.1 Models & Planning {#sec-ch08-8-1}
+## Models & Planning {#sec-ch08-8-1}
 
 - A **model** is anything the agent can use to predict the environment's behavior.
   - Given a state and an action, a model predicts the next state and the next reward.
@@ -61,7 +61,7 @@ Loop forever:
 
 ---
 
-## 8.2 Dyna: Integrated Planning, Acting, and Learning {#sec-ch08-8-2}
+## Dyna: Integrated Planning, Acting, and Learning {#sec-ch08-8-2}
 
 - When planning is done online, while interacting with the environment, a number of interesting issues arise:
   - New information gained from the interaction may change the model (and thus the planning).
@@ -124,7 +124,7 @@ Loop forever:
 
 ---
 
-## 8.3 When the Model is Wrong {#sec-ch08-8-3}
+## When the Model is Wrong {#sec-ch08-8-3}
 
 - Models may be incorrect because:
   - The environment is stochastic and only a limited number of samples have been observed.
@@ -151,7 +151,7 @@ Loop forever:
 
 ---
 
-## 8.4 Prioritized Sweeping {#sec-ch08-8-4}
+## Prioritized Sweeping {#sec-ch08-8-4}
 
 - In Dyna agents, simulated transitions are started in state-action pairs selected uniformly at random from all previously experienced state-action pairs.
   - Uniform selection is usually not the best; focusing on particular state-action pairs could be much more efficient for planning.
@@ -185,7 +185,7 @@ Loop forever:
 
 ---
 
-## 8.5 Expected vs Sample Updates {#sec-ch08-8-5}
+## Expected vs Sample Updates {#sec-ch08-8-5}
 
 - So far in the book we've discussed dynamic programming (DP) as a way of conducting policy evaluation and policy improvement given a distribution model of the environment.
 - We've also discussed sampling methods like Monte Carlo (MC), temporal-difference (TD), and $n$-step bootstrapping to estimate value functions in the absence of a model.
@@ -268,7 +268,7 @@ $$b=100,\ \text{error} \approx \frac{1}{\sqrt{t}} \implies \text{error}(t=1) \ap
 
 ---
 
-## 8.6 Trajectory Sampling {#sec-ch08-8-6}
+## Trajectory Sampling {#sec-ch08-8-6}
 
 - Let's compare two ways of distributing updates:
   - **Exhaustive Sweeps**: classical DP approach that entails performing sweeps through the entire state (or state-action) space, updating each state (or state-action pair) once per sweep. Computationally inefficient especially on large tasks (no time to complete one full sweep).
@@ -313,7 +313,7 @@ $$b=100,\ \text{error} \approx \frac{1}{\sqrt{t}} \implies \text{error}(t=1) \ap
 
 ---
 
-## 8.7 Real-Time Dynamic Programming (RTDP) {#sec-ch08-8-7}
+## Real-Time Dynamic Programming (RTDP) {#sec-ch08-8-7}
 
 - RTDP is an on-policy trajectory-sampling version of the value-iteration algorithm of dynamic programming (DP).
 - RTDP is an asynchronous DP algorithm; async DP algorithms are not organized in terms of systematic sweeps of the state set — instead they update state values in any order whatsoever, using whatever values of other states happen to be available.
@@ -365,7 +365,7 @@ $$V(S_t) \leftarrow \max_{a \in A}\left(R^a_{S_t} + \gamma \sum_{s'} P^a_{S_t s'
 
 ---
 
-## 8.8 Planning at Decision Time {#sec-ch08-8-8}
+## Planning at Decision Time {#sec-ch08-8-8}
 
 - Planning can be used in at least 2 ways:
   - **Background planning**: planning that occurs independently of and prior to the need for action. Here planning is used to gradually improve a policy/value function on the basis of simulated experience from a model, then selects an action via lookup.
@@ -376,7 +376,7 @@ $$V(S_t) \leftarrow \max_{a \in A}\left(R^a_{S_t} + \gamma \sum_{s'} P^a_{S_t s'
 
 ---
 
-## 8.9 Heuristic Search {#sec-ch08-8-9}
+## Heuristic Search {#sec-ch08-8-9}
 
 - The classical state-space planning methods are decision-time planning methods collectively known as **heuristic search**.
 - In heuristic search, for each state encountered, a large tree of possible continuations is considered.
@@ -398,7 +398,7 @@ $$V(S_t) \leftarrow \max_{a \in A}\left(R^a_{S_t} + \gamma \sum_{s'} P^a_{S_t s'
 
 ---
 
-## 8.10 Rollout Algorithms {#sec-ch08-8-10}
+## Rollout Algorithms {#sec-ch08-8-10}
 
 - Rollout algorithms are decision-time planning algorithms based on Monte Carlo control applied to simulated trajectories that all begin at the current environment state.
 - They estimate action values for a given policy by averaging the returns of many simulated trajectories that start with each possible action and then follow the given policy.
@@ -432,7 +432,7 @@ $$\text{total cost} = O\left(|A(s)| \cdot n \cdot L\right)$$
 
 ---
 
-## 8.11 Monte Carlo Tree Search (MCTS) {#sec-ch08-8-11}
+## Monte Carlo Tree Search (MCTS) {#sec-ch08-8-11}
 
 - MCTS is a rollout algorithm that is enhanced by the addition of a means for accumulating value estimates obtained from the MC simulations in order to successively direct simulations toward more highly-rewarding trajectories.
 - It is a best-first search algorithm that builds a decision tree incrementally by iteratively sampling trajectories through an MDP, using statistical confidence bounds for exploration-exploitation balance.
@@ -537,7 +537,7 @@ $$\Rightarrow \text{total: } O\!\left(n \cdot (d + L)\right) \text{ for } n \tex
 
 ---
 
-## 8.12 Summary {#sec-ch08-8-12}
+## Summary {#sec-ch08-8-12}
 
 - Planning requires a model of the environment.
   - A **distribution model** consists of the probabilities of next states and rewards for possible actions. Dynamic Programming requires a distribution model because it uses expected updates, which involve computing expectations over all the possible next states and rewards.
@@ -565,7 +565,7 @@ $$\Rightarrow \text{total: } O\!\left(n \cdot (d + L)\right) \text{ for } n \tex
 
 ---
 
-## 8.13 Summary of Part I — Dimensions {#sec-ch08-8-13}
+## Summary of Part I — Dimensions {#sec-ch08-8-13}
 
 > **Unified View of RL** depicting a slice through the space of RL methods:
 > - Vertical axis: depth of update (from shallow/one-step TD at top to deep/MC at bottom).

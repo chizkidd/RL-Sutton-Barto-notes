@@ -1,16 +1,14 @@
 ---
-title: "Chapter 3: Finite Markov Decision Processes"
+title: "Finite Markov Decision Processes"
 number-sections: true
 ---
 
-## 3.1 The Agent-Environment Interface {#sec-ch03-3-1}
+## The Agent-Environment Interface {#sec-ch03-3-1}
 
 **Agent-Environment loop:**
 
 ::: {#fig-31}
-![The Agent-Environment Interface](../figures/ch03-3-1-title.png)
-
-The agent–environment interaction in an MDP
+![Figure 3.1: The agent-environment interaction in an MDP](../figures/ch03-3-1.png)
 :::
 
 **Trajectory** $\mathcal{T}$: $S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, R_3, \ldots$
@@ -27,7 +25,7 @@ $$\sum_{s' \in S} \sum_{r \in R} p(s', r | s, a) = 1 \quad \text{for all } s \in
 
 **Derived quantities:**
 
-$$p: S \times S \times A \xrightarrow{[0,1]} \quad p(s'|s,a) \doteq \mathbb{P}\{S_t = s' \mid S_{t-1} = s,\, A_{t-1} = a\} = \sum_{r \in R} p(s', r | s, a)$$
+$$p: S \times S \times A \to [0,1] \quad p(s'|s,a) \doteq \mathbb{P}\{S_t = s' \mid S_{t-1} = s,\, A_{t-1} = a\} = \sum_{r \in R} p(s', r | s, a)$$
 
 $$r: S \times A \to \mathbb{R} \quad r(s,a) \doteq \mathbb{E}\left[R_t \mid S_{t-1} = s,\, A_{t-1} = a\right] = \sum_{r \in R} r \sum_{s' \in S} p(s', r | s, a)$$
 
@@ -35,13 +33,13 @@ $$r: S \times A \times S \to \mathbb{R} \quad r(s,a,s') \doteq \mathbb{E}\left[R
 
 ---
 
-## 3.2 Goals & Rewards {#sec-ch03-3-2}
+## Goals & Rewards {#sec-ch03-3-2}
 
 $R_t \in \mathbb{R}$; the agent's goal is to maximize the cumulative reward it receives in the long run.
 
 ---
 
-## 3.3 Returns & Episodes {#sec-ch03-3-3}
+## Returns & Episodes {#sec-ch03-3-3}
 
 $$G_t \doteq R_{t+1} + R_{t+2} + R_{t+3} + \ldots + R_T \quad G_t = \text{return}$$
 
@@ -70,15 +68,9 @@ $$G_t = \sum_{k=0}^{\infty} \gamma^k = \frac{1}{1-\gamma}$$
 
 ---
 
-## 3.4 Unified Notation for Episodic & Continuing Tasks {#sec-ch03-3-4}
+## Unified Notation for Episodic & Continuing Tasks {#sec-ch03-3-4}
 
-**Episode diagram:**
-
-::: {#fig-34}
-![state transition diagram](../figures/ch03-3-4.png)
-
-State transition diagram
-:::
+**State transition diagram:**
 
 $$S_0 \xrightarrow{R_2=+1} S_1 \xrightarrow{R_2=+1} S_2 \xrightarrow{R_3=+1} \square \quad \begin{cases} R_4 = 0 \\ R_5 = 0 \\ \vdots \end{cases}$$
 
@@ -88,7 +80,7 @@ $$\tilde{G}_t = \sum_{k=t+1}^{T} \gamma^{k-t-1} R_k$$
 
 ---
 
-## 3.5 Policies & Value Functions {#sec-ch03-3-5}
+## Policies & Value Functions {#sec-ch03-3-5}
 
 - Value functions are defined w.r.t. particular ways of acting, called **policies**.
 - States $\to$ policy: $\pi(s|a) \to$ probabilities of selecting each possible action.
@@ -122,16 +114,16 @@ $$= \sum_a \pi(a|s) \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_\pi(s')\right
 This is the **Bellman Equation for $V_\pi$**.
 
 ::: {#fig-35}
-![v_pi Backup Diagram](../figures/ch03-3-5-v-pi.png))
+![](../figures/ch03-3-5-v-pi.png)
 
-Backup Diagram for $v_\pi$
+Figure 3.2: Backup Diagram for $v_\pi$
 :::
 
-> **Backup diagram for $v_\pi$**: open circle = state $s$, filled circles = state-action pairs, open squares = successor states $s'$.
+> **Backup diagram for $V_\pi$**: open circle = state $s$, filled circles = state-action pairs, next open circles set = successor states $s'$.
 
 ---
 
-## 3.6 Optimal Policies & Optimal Value Functions {#sec-ch03-3-6}
+## Optimal Policies & Optimal Value Functions {#sec-ch03-3-6}
 
 Optimal policy for finite MDPs: value functions define a partial ordering over policies.
 
@@ -165,18 +157,17 @@ $$q_*(s,a) = \mathbb{E}\left[R_{t+1} + \gamma \max_{a'} q_*(S_{t+1}, a') \mid S_
 
 $$= \sum_{s', r} p(s', r | s, a)\left[r + \gamma \max_{a'} q_*(s', a')\right]$$
 
-
 ::: {#fig-36}
-![v* and q* Backup Diagram](../figures/ch03-3-6-v-q-optimal.png))
+![](../figures/ch03-3-6-v-q-optimal.png)
 
-Backup diagrams for $v_*$ and $q_*$
+Figure 3.3: Backup Diagrams for $v_*$ and $q_*$
 :::
 
 > **Backup diagrams for $v_*$ and $q_*$**: the max node appears at the state level for $v_*$ and at the action level for $q_*$.
 
 ---
 
-## 3.7 Optimality & Approximation {#sec-ch03-3-7}
+## Optimality & Approximation {#sec-ch03-3-7}
 
 - Optimal value functions
 - Optimal policies
@@ -185,7 +176,7 @@ Backup diagrams for $v_*$ and $q_*$
 
 ---
 
-## 3.8 Summary {#sec-ch03-3-8}
+## Summary {#sec-ch03-3-8}
 
 - **Reinforcement Learning**: learning from interaction how to behave in order to achieve a goal
 - **Agent**: known & controllable; the RL agent & its environment interact over a sequence of discrete time steps

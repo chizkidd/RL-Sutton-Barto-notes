@@ -2,7 +2,7 @@
 title: "Preface"
 ---
 
-# Reinforcement Learning: Notes on Sutton & Barto
+# Notes on Reinforcement Learning: An Introduction (2nd Edition) 
 
 These are personal study notes from *Reinforcement Learning: An Introduction* by Richard S. Sutton and Andrew G. Barto (2nd Edition, MIT Press, 2018).
 

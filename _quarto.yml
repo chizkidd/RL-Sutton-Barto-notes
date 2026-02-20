@@ -3,9 +3,9 @@ project:
   output-dir: _site
 
 book:
-  title: "Reinforcement Learning: Notes on Sutton & Barto"
-  subtitle: "Personal study notes — 2nd Edition"
-  author: "Personal Notes"
+  title: "Reinforcement Learning: An Introduction (2nd Edition)"
+  subtitle: "Personal study notes"
+  author: "Chizoba Obasi"
   date: last-modified
   date-format: "MMMM YYYY"
   repo-url: https://github.com/chizkidd/RL-Sutton-Barto-notes

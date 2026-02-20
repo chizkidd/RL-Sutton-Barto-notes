@@ -1,5 +1,5 @@
 ---
-title: "Chapter 5: Monte Carlo Methods"
+title: "Monte Carlo Methods"
 number-sections: true
 ---
 
@@ -16,7 +16,7 @@ number-sections: true
 
 ---
 
-## 5.1 Monte Carlo Prediction {#sec-ch05-5-1}
+## Monte Carlo Prediction {#sec-ch05-5-1}
 
 - Recall that the value of a state is the **expected cumulative future discounted reward** (expected return). An obvious way of estimating that value from experience is to simply average the returns observed after visits to that state. As more returns are observed, the average should converge to the expected value. This idea underlies all Monte Carlo methods.
 
@@ -58,7 +58,7 @@ $$V(S_t) \leftarrow V(S_t) + \alpha\left[G_t - V(S_t)\right]$$
 
 ---
 
-## 5.2 Monte Carlo Estimation of Action Values {#sec-ch05-5-2}
+## Monte Carlo Estimation of Action Values {#sec-ch05-5-2}
 
 - Without a model, state-values are not sufficient to determine a policy. The value of each action must be explicitly estimated in order for the values to be useful in suggesting a policy.
 - One of the primary goals for Monte Carlo methods is to estimate the state-action value functions, $q$.
@@ -74,7 +74,7 @@ $$V(S_t) \leftarrow V(S_t) + \alpha\left[G_t - V(S_t)\right]$$
 
 ---
 
-## 5.3 Monte Carlo Control {#sec-ch05-5-3}
+## Monte Carlo Control {#sec-ch05-5-3}
 
 - Monte Carlo estimation can be used in control to approximate optimal policies via generalized policy iteration (GPI).
 
@@ -110,7 +110,7 @@ $$q_{\pi_k}(s, \pi_{k+1}(s)) = q_{\pi_k}\!\left(s, \arg\max_a q_{\pi_k}(s,a)\rig
 
 ---
 
-## 5.4 Monte Carlo Control Without Exploring Starts {#sec-ch05-5-4}
+## Monte Carlo Control Without Exploring Starts {#sec-ch05-5-4}
 
 - How can we avoid the unlikely assumption of exploring starts? (unrealistic assumption)
 - To avoid having to use exploring starts, we can use two approaches, **on-policy** and **off-policy** methods. These are the only ways to ensure that all actions are selected infinitely often by the agent continuing to select them.
@@ -164,7 +164,7 @@ Because $\tilde{V}_*$ is the unique solution, it must be that $V_\pi = \tilde{V}
 
 ---
 
-## 5.5 Off-Policy Prediction via Importance Sampling {#sec-ch05-5-5}
+## Off-Policy Prediction via Importance Sampling {#sec-ch05-5-5}
 
 - A huge dilemma is faced when learning control:
   - The need to find the optimal policy, but can only do so by behaving non-optimally in order to explore all actions.
@@ -232,7 +232,7 @@ $$V(s) \doteq \frac{\sum_{t \in \mathcal{J}(s)} \rho_{t:T(t)-1}\, G_t}{\sum_{t \
 
 ---
 
-## 5.6 Incremental Implementation {#sec-ch05-5-6}
+## Incremental Implementation {#sec-ch05-5-6}
 
 - Monte Carlo prediction methods can be implemented incrementally, on an episode-by-episode basis like the way we did in Chapter 2 (Section 2.4).
 
@@ -258,7 +258,7 @@ where $C_0 \doteq 0$ and $V_1 \to$ arbitrary.
 
 ---
 
-## 5.7 Off-Policy Monte Carlo Control {#sec-ch05-5-7}
+## Off-Policy Monte Carlo Control {#sec-ch05-5-7}
 
 - Using incremental implementation and importance sampling, we can now discuss off-policy Monte Carlo control (follows the behavior policy while learning about and improving the target policy).
 - To explore all possibilities, we require that the behavior policy be **soft** (i.e., that it selects all actions in all states with nonzero probability).
@@ -269,7 +269,7 @@ where $C_0 \doteq 0$ and $V_1 \to$ arbitrary.
 
 ---
 
-## 5.8 Discounting-aware Importance Sampling {#sec-ch05-5-8}
+## Discounting-aware Importance Sampling {#sec-ch05-5-8}
 
 - So far our off-policy methods consider returns as unitary wholes, without taking into account the returns' internal structures as sums of discounted rewards.
 
@@ -306,7 +306,7 @@ $$V(s) \doteq \frac{\sum_{t \in \mathcal{J}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(
 
 ---
 
-## 5.9 Per-decision Importance Sampling {#sec-ch05-5-9}
+## Per-decision Importance Sampling {#sec-ch05-5-9}
 
 - Another way to account for the structure of the return as a sum of rewards in off-policy importance sampling that may be able to reduce variance even in the absence of discounting (i.e., even if $\gamma = 1$):
 
@@ -334,7 +334,7 @@ $$V(s) \doteq \frac{\sum_{t \in \mathcal{J}(s)} \tilde{G}_t}{|\mathcal{J}(s)|}$$
 
 ---
 
-## 5.10 Summary {#sec-ch05-5-10}
+## Summary {#sec-ch05-5-10}
 
 - Monte Carlo (MC) methods covered so far learn value functions and optimal policies from experience in the form of sample episodes, which lead to at least 3 kinds of advantages over DP methods for MC methods:
   - Learn optimal behavior directly from interaction with the environment (model-free)

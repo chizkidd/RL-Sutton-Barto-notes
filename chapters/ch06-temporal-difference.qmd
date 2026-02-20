@@ -1,5 +1,5 @@
 ---
-title: "Chapter 6: Temporal-Difference Learning"
+title: "Temporal-Difference Learning"
 number-sections: true
 ---
 
@@ -9,7 +9,7 @@ number-sections: true
 
 ---
 
-## 6.1 TD Prediction {#sec-ch06-6-1}
+## TD Prediction {#sec-ch06-6-1}
 
 **Goal**: Learn/estimate $V_\pi$ from experience under policy $\pi$.
 
@@ -86,7 +86,7 @@ $$= \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k$$
 
 ---
 
-## 6.2 Advantages of TD Prediction Methods {#sec-ch06-6-2}
+## Advantages of TD Prediction Methods {#sec-ch06-6-2}
 
 - TD methods are model-free, unlike DP methods.
 - TD methods can learn **before** knowing the final outcome & **without** the final outcome, unlike MC:
@@ -98,7 +98,7 @@ $$= \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k$$
 
 ---
 
-## 6.3 Optimality of TD(0) {#sec-ch06-6-3}
+## Optimality of TD(0) {#sec-ch06-6-3}
 
 - For a finite number of episodes, we can run our methods repeatedly with the same data (finite episodes) until convergence as we continually update the value function by the sum of each of the increments at the end of each batch.
 - This is called **batch updating** because updates are made only after processing each complete batch of training data / finite number of episodes.
@@ -110,7 +110,7 @@ $$= \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k$$
 
 ---
 
-## 6.4 Sarsa: On-policy TD Control {#sec-ch06-6-4}
+## Sarsa: On-policy TD Control {#sec-ch06-6-4}
 
 - Using TD prediction methods for control, we'll follow Generalized Policy Iteration (GPI), only this time using TD methods for the policy evaluation part (predicting the value function).
 - For on-policy control, we learn an action-value function $q_\pi(s,a)$ for our current policy $\pi$, for all states $s$ and actions $a$.
@@ -150,7 +150,7 @@ Loop for each episode:
 
 ---
 
-## 6.5 Q-learning: Off-Policy TD Control {#sec-ch06-6-5}
+## Q-learning: Off-Policy TD Control {#sec-ch06-6-5}
 
 $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\Big[\underbrace{R_{t+1} + \gamma \max_{a'} Q(S_{t+1}, a')}_{\text{Q-learning target}} - Q(S_t, A_t)\Big]$$
 
@@ -203,7 +203,7 @@ Loop for each episode:
 
 ---
 
-## 6.6 Expected Sarsa {#sec-ch06-6-6}
+## Expected Sarsa {#sec-ch06-6-6}
 
 - Instead of updating $Q(S,A)$ with the value maximising action at $S_{t+1}$, $\max_a Q(S_{t+1}, a)$ as used in Q-learning, or the greedy $\varepsilon$-greedy exploratory action as in SARSA, we can use the **expected value** of $Q$ at $S_{t+1}$, taking into account how likely each action is under the current policy. The update rule is:
 
@@ -220,7 +220,7 @@ $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma \sum_a \pi(a
 
 ---
 
-## 6.7 Maximization Bias & Double Learning {#sec-ch06-6-7}
+## Maximization Bias & Double Learning {#sec-ch06-6-7}
 
 - All the control algorithms discussed so far utilize **maximization operations** in target policy constructions ($\varepsilon$-greedy or greedy action selection).
 - This implicitly **favors positive numbers** (significant positive bias).
@@ -265,7 +265,7 @@ $$Q_1(S_t, A_t) \leftarrow Q_1(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\, Q_2\!\
 
 ---
 
-## 6.8 Games, Afterstates & Other Special Cases {#sec-ch06-6-8}
+## Games, Afterstates & Other Special Cases {#sec-ch06-6-8}
 
 - Our general approach so far revolves around learning an action-value function, where the value of an action in a given state is quantified/evaluated **before** the action is taken.
 - In some specialized cases, it is expedient to evaluate the value function **after** an action.
@@ -278,7 +278,7 @@ $$Q_1(S_t, A_t) \leftarrow Q_1(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\, Q_2\!\
 
 ---
 
-## 6.9 Summary {#sec-ch06-6-9}
+## Summary {#sec-ch06-6-9}
 
 - TD methods learn from incomplete episodes and are alternatives to MC methods for solving the prediction part of the RL problem.
 - They use GPI to solve the control part of the RL problem.

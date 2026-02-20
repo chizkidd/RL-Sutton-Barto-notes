@@ -1,9 +1,9 @@
 ---
-title: "Chapter 2: Multi-Armed Bandits"
+title: "Multi-Armed Bandits"
 number-sections: true
 ---
 
-## 2.1 The $k$-armed Bandit Problem {#sec-ch02-2-1}
+## The $k$-armed Bandit Problem {#sec-ch02-2-1}
 
 - The particular nonassociative, evaluative feedback problem is a simple version of the $k$-armed bandit problem.
 
@@ -19,7 +19,7 @@ $$Q_t(a) \to q_*(a)$$
 
 ---
 
-## 2.2 Action-value Methods {#sec-ch02-2-2}
+## Action-value Methods {#sec-ch02-2-2}
 
 $$Q_t(a) \doteq \frac{\text{sum of rewards when } a \text{ taken prior to } t}{\text{number of times } a \text{ taken prior to } t} = \frac{\sum_{i=1}^{t-1} R_i \cdot \mathbb{1}_{A_i=a}}{\sum_{i=1}^{t-1} \mathbb{1}_{A_i=a}}$$
 
@@ -33,7 +33,7 @@ As $\displaystyle\sum_{i=1}^{t-1} \mathbb{1}_{A_i=a} \to \infty$, by the law of 
 
 $$A_t \doteq \arg\max_a Q_t(a)$$
 
-- **$\varepsilon$-greedy method** $\Rightarrow$ <br>simplest idea for ensuring continual exploration. With $m$ total actions:
+- **$\varepsilon$-greedy method** $\Rightarrow$ simplest idea for ensuring continual exploration. With $m$ total actions:
   - With probability $1-\varepsilon$: choose the greedy action
   - With probability $\varepsilon$: choose a random action
 
@@ -41,14 +41,14 @@ $$\pi(a|s) = \begin{cases} \varepsilon/m + 1 - \varepsilon & \text{if } a^* = \a
 
 ---
 
-## 2.3 The 10-armed Testbed {#sec-ch02-2-3}
+## The 10-armed Testbed {#sec-ch02-2-3}
 
 - Stationarity & determinism vs. nonstationarity & stochasticity
 - Compare the relative effectiveness of greedy & $\varepsilon$-greedy action-value methods
 
 ---
 
-## 2.4 Incremental Implementation {#sec-ch02-2-4}
+## Incremental Implementation {#sec-ch02-2-4}
 
 $$Q_n \doteq \frac{R_1 + R_2 + \ldots + R_{n-1}}{n-1}$$
 
@@ -70,7 +70,7 @@ $$\text{NewEstimate} \leftarrow \text{OldEstimate} + \text{StepSize}\underbrace{
 
 ---
 
-## 2.5 Tracking a Nonstationary Problem {#sec-ch02-2-5}
+## Tracking a Nonstationary Problem {#sec-ch02-2-5}
 
 $$Q_{n+1} \doteq Q_n + \alpha\left[R_n - Q_n\right] \quad \alpha \in (0,1] \text{ is constant}$$
 
@@ -121,7 +121,7 @@ $$\text{(II)}\ \sum_{n=1}^{\infty} \alpha_n^2(a) < \infty \quad \text{[convergen
 
 ---
 
-## 2.6 Optimistic Initial Values {#sec-ch02-2-6}
+## Optimistic Initial Values {#sec-ch02-2-6}
 
 - Compare greedy vs. $\varepsilon$-greedy method on $k$-armed testbed
 - Technique for encouraging exploration is called **optimistic initial values** (focus on initial conditions)
@@ -130,7 +130,7 @@ $$\text{(II)}\ \sum_{n=1}^{\infty} \alpha_n^2(a) < \infty \quad \text{[convergen
 
 ---
 
-## 2.7 Upper-Confidence-Bound (UCB) Action Selection {#sec-ch02-2-7}
+## Upper-Confidence-Bound (UCB) Action Selection {#sec-ch02-2-7}
 
 $$A_t \doteq \arg\max_a \left[Q_t(a) + c\sqrt{\frac{\ln(t)}{N_t(a)}}\right]$$
 
@@ -149,7 +149,7 @@ $\sqrt{\dfrac{\ln(t)}{N_t(a)}} \equiv$ measure of the uncertainty/variance in th
 
 ---
 
-## 2.8 Gradient Bandit Algorithms {#sec-ch02-2-8}
+## Gradient Bandit Algorithms {#sec-ch02-2-8}
 
 $H_t(a) \in \mathbb{R} \Rightarrow$ numerical preference for each action $a$
 
@@ -172,7 +172,7 @@ If $R_t < \bar{R}_t \Rightarrow \mathbb{P}(A_t = a)\downarrow$
 
 - The larger the preference ($H_t(a)$), the more often the action is taken.
 
-### 2.8 Proof: The Bandit Gradient Algorithm as Stochastic Gradient Ascent {#sec-ch02-2-8}
+### Proof: The Bandit Gradient Algorithm as Stochastic Gradient Ascent {#sec-ch02-2-8}
 
 Gradient ascent update:
 
@@ -226,17 +226,18 @@ $$\boxed{\frac{\partial \pi_t(x)}{\partial H_t(a)} = \pi_t(x)\left[\mathbb{1}_{a
 
 ---
 
-## 2.9 Associative Search (Contextual Bandits) {#sec-ch02-2-9}
+## Associative Search (Contextual Bandits) {#sec-ch02-2-9}
 
 - Intermediate between the $k$-armed bandit problem & the full RL problem
 - Like full RL: they learn a policy
 - Like $k$-armed bandit: each action affects only the immediate reward
-- Involves both trial & error learning to **search** for the best actions & **association** of these actions with the situations in which they are best
-- **Full RL problem**: actions are allowed to affect the **next situation** as well as the reward.
+- Involves both trial & error learning to search for the best actions & **association** of these actions with the situations in which they are best
+
+**Full RL problem**: actions are allowed to affect the **next situation** as well as the reward.
 
 ---
 
-## 2.10 Summary {#sec-ch02-2-10}
+## Summary {#sec-ch02-2-10}
 
 - Presented several simple ways of balancing exploration & exploitation:
   - **$\varepsilon$-greedy**: choose randomly a small fraction of the time
@@ -259,4 +260,4 @@ $$\boxed{\frac{\partial \pi_t(x)}{\partial H_t(a)} = \pi_t(x)\left[\mathbb{1}_{a
   - **Posterior sampling** or **Thompson sampling** is used for action selection.
 
 - In the Bayesian setting, it is generally not feasible to perform the outrageously large computation of an information state of a horizon, but efficient approximation could be done.
-  - This turns the **bandit problem** to **full RL problem instance,** hence the need for approximate RL methods.
+  - This turns the bandit problem to full RL problem instance, hence the need for approximate RL methods.

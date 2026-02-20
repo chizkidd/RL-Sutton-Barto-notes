@@ -1,5 +1,5 @@
 ---
-title: "Chapter 4: Dynamic Programming"
+title: "Dynamic Programming"
 number-sections: true
 ---
 
@@ -30,7 +30,7 @@ $$= \sum_{s', r} p(s', r | s, a)\left[r + \gamma \max_{a'} q_*(s', a')\right]$$
 
 ---
 
-## 4.1 Policy Evaluation (Prediction) {#sec-ch04-4-1}
+## Policy Evaluation (Prediction) {#sec-ch04-4-1}
 
 **Policy Evaluation**: How to compute the state-value function $V_\pi$ for an arbitrary policy $\pi$.
 
@@ -61,7 +61,7 @@ $$= \sum_a \pi(a|s) \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_k(s')\right] 
 
 ---
 
-## 4.2 Policy Improvement {#sec-ch04-4-2}
+## Policy Improvement {#sec-ch04-4-2}
 
 $$q_\pi(s,a) \doteq \mathbb{E}\left[R_{t+1} + \gamma V_\pi(S_{t+1}) \mid S_t = s,\, A_t = a\right] = \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_\pi(s')\right]$$
 
@@ -105,7 +105,7 @@ $$= \mathbb{E}_{\pi'}\left[G_t \mid S_t = s\right] = V_{\pi'}(s)$$
 
 ---
 
-## 4.3 Policy Iteration {#sec-ch04-4-3}
+## Policy Iteration {#sec-ch04-4-3}
 
 - This involves a sequence of **monotonically improving** policies & value functions.
 - The algorithm is:
@@ -124,7 +124,7 @@ $$V_\pi(s) = \mathbb{E}_\pi\left[G_t \mid S_t = s\right] \qquad \pi' = \text{gre
 
 ---
 
-## 4.4 Value Iteration {#sec-ch04-4-4}
+## Value Iteration {#sec-ch04-4-4}
 
 - Policy iteration requires full policy evaluation at each iteration step, which is a computationally expensive process that (formally) requires **infinite** sweeps of the state space to approach the true value function.
 - Could we truncate policy evaluation without losing the convergence guarantees of policy iteration? **YES**
@@ -140,7 +140,7 @@ $$= \max_a \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_k(s')\right] \quad \fo
 
 ---
 
-## 4.5 Asynchronous Dynamic Programming {#sec-ch04-4-5}
+## Asynchronous Dynamic Programming {#sec-ch04-4-5}
 
 - Async DP algorithms are in-place iterative DP algorithms that are **not** organized in terms of systematic sweeps of the state set. **(localized approach)**
 - Async DP updates the values of states **individually** in any order whatsoever, using whatever values of other states happen to be available. **(arbitrary order)**
@@ -151,7 +151,7 @@ $$= \max_a \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_k(s')\right] \quad \fo
 
 ---
 
-## 4.6 Generalized Policy Iteration (GPI) {#sec-ch04-4-6}
+## Generalized Policy Iteration (GPI) {#sec-ch04-4-6}
 
 - GPI entails letting policy evaluation and policy improvement interact, independent of the granularity & other details of the two processes.
 - Both processes in GPI can be viewed as both competing & cooperating. They compete in the sense that they pull in opposing directions.
@@ -180,7 +180,7 @@ $$= \max_a \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_k(s')\right] \quad \fo
 
 ---
 
-## 4.7 Efficiency of Dynamic Programming {#sec-ch04-4-7}
+## Efficiency of Dynamic Programming {#sec-ch04-4-7}
 
 - DP may not be practical for very large problems, but are actually quite efficient compared with other methods.
 - DP is exponentially faster than any direct search in policy could be, because direct search has to be exhaustive.
@@ -190,7 +190,7 @@ $$= \max_a \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_k(s')\right] \quad \fo
 
 ---
 
-## 4.8 Summary {#sec-ch04-4-8}
+## Summary {#sec-ch04-4-8}
 
 - **Policy Evaluation** $\Rightarrow$ (typically) iterative computation of the value functions for a given policy.
 - **Policy Improvement** $\Rightarrow$ computation of an improved policy given the value function for that policy.
