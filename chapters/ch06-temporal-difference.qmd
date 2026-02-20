@@ -18,8 +18,7 @@ number-sections: true
 
 $$V(S_t) \leftarrow V(S_t) + \alpha\left[G_t - V(S_t)\right]$$
 
-$$\text{where} $G_t \equiv$ \text{actual return following time} $t$, \text{and}$$ 
-$$\alpha \equiv$ \text{constant step-size parameter.}$$
+where $G_t \equiv$ actual return following time $t$, and $\alpha \equiv$ constant step-size parameter.
 
 - The simplest TD method, **TD(0)**, makes the update:
 
