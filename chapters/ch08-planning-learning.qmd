@@ -623,16 +623,16 @@ $$\Rightarrow \text{total: } O\!\left(n \cdot (d + L)\right) \text{ for } n \tex
 
 ## Summary of Part I — Dimensions {#sec-ch08-8-13}
 
+**Two axes for the update diagram:**
+
+>$$\text{HORIZONTAL (L to R): sample backups} \xrightarrow{\text{width of update}} \text{full/expected backups}$$
+>$$\text{VERTICAL (Top to Bottom): shallow backups} \xrightarrow{\text{depth/length of update}} \text{deep backups}$$
+
 ::: {#fig-86}
 ![](../figures/ch08-8-13-summary-unified-rl){fig-align="center"} 
 
 Unified view of RL depicting a slice through the space of RL methods
 :::
-
-**Two axes for the update diagram:**
-
->$$\text{HORIZONTAL (L to R): sample backups} \xrightarrow{\text{width of update}} \text{full/expected backups}$$
->$$\text{VERTICAL (Top to Bottom): shallow backups} \xrightarrow{\text{depth/length of update}} \text{deep backups}$$
 
 - Each RL idea presented so far can be viewed as a dimension along which methods vary. The set of the dimensions spans a large space of possible methods (quasi-infinite possibilities).
 - All the methods discussed so far in this book have 3 key ideas in common:
