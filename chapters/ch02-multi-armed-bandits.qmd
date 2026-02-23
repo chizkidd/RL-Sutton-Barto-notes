@@ -172,7 +172,7 @@ If $R_t < \bar{R}_t \Rightarrow \mathbb{P}(A_t = a)\downarrow$
 
 - The larger the preference ($H_t(a)$), the more often the action is taken.
 
-### Proof: The Bandit Gradient Algorithm as Stochastic Gradient Ascent {#sec-ch02-2-8}
+### Proof: The Bandit Gradient Algorithm as Stochastic Gradient Ascent
 
 Gradient ascent update:
 
