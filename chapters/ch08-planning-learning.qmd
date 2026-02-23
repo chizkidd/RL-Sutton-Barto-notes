@@ -231,21 +231,19 @@ Backup diagrams for all the one-step updates covered so far
 
 ### Computational Requirements & Formal Comparison (given discrete states/actions)
 
-- Model: $\hat{p}(s', r | s, a)$ known.
-- Goal: Approximate $q_*$ (optimal action values).
-- Branching factor: $b = |\{s': p(s'|s,a) > 0\}|$ (effective stochasticity).
+- <u>Model:</u> $\hat{p}(s', r | s, a)$ known.
+- <u>Goal:</u> Approximate $q_*$ (optimal action values).
+- <u>Branching factor:</u> $b = |\{s': p(s'|s,a) > 0\}|$ (effective stochasticity).
 
-**Expected Update (exact):**
+- **Expected Update (exact):**
+  - <u>Computational complexity:</u> $O(b)$.
 
 $$Q(s,a) \leftarrow \sum_{s', r} \hat{p}(s', r | s, a)\left[r + \gamma \max_{a'} Q(s', a')\right]$$
 
-Computational complexity: $O(b)$.
-
-**Sample Update (stochastic):**
+- **Sample Update (stochastic):**
+  - <u>Computational complexity:</u> $O(1)$.
 
 $$Q(s,a) \leftarrow Q(s,a) + \alpha\left[R + \gamma \max_{a'} Q(S', a') - Q(s,a)\right]$$
-
-Computational complexity: $O(1)$.
 
 - In the same fixed time budget for 1 expected update, you get $b$ sample updates.
 
