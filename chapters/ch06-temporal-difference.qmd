@@ -22,7 +22,7 @@ where $G_t \equiv$ actual return following time $t$, and $\alpha \equiv$ constan
 
 - The simplest TD method, **TD(0)**, makes the update:
 
-$$V(S_t) \leftarrow V(S_t) + \alpha\underbrace{\left[R_{t+1} + \gamma V(S_{t+1}) - V(S_t)\right]}_{\text{TD Error}}$$
+$$\boxed{V(S_t) \leftarrow V(S_t) + \alpha\underbrace{\left[R_{t+1} + \gamma V(S_{t+1}) - V(S_t)\right]}_{\text{TD Error}}}$$
 
 where $R_{t+1} + \gamma V(S_{t+1})$ is called the **TD target**.
 
@@ -88,7 +88,7 @@ $$\vdots$$
 
 $$= \delta_t + \gamma \delta_{t+1} + \gamma^2 \delta_{t+2} + \gamma^3 \delta_{t+3} + \ldots + \gamma^{T-t-1} \delta_{T-1} + \gamma^{T-t}\underbrace{\left[G_T - V(S_T)\right]}_{=\, 0}$$
 
-$$= \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k$$
+$$\boxed{G_t - V(S_t) = \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k}$$
 
 ---
 
@@ -128,7 +128,7 @@ $$= \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k$$
 An episode
 :::
 
-$$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\Big[\underbrace{R_{t+1} + \gamma Q(S_{t+1}, A_{t+1})}_{\text{TD target}} - Q(S_t, A_t)\Big]$$
+$$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\Big[\underbrace{R_{t+1} + \gamma Q(S_{t+1}, A_{t+1})}_{\text{TD target}} - Q(S_t, A_t)\Big]}$$
 
 - This update rule uses a quintuple of events $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$. Hence, the name **SARSA**. The backup diagram is shown below:
 
@@ -159,7 +159,7 @@ Every time step:
 
 > **Sarsa backup diagram**: from state-action pair $(S, A)$ through reward $R$ to next state $S'$ and next action $A'$.
 
-### SARSA (On-policy TD Control) Pseudocode — for estimating $Q \approx q_0$
+### SARSA (On-policy TD Control) Pseudocode for estimating $Q \approx q_0$
 
 ```
 Algorithm parameters: α ∈ (0,1], small ε > 0
@@ -180,7 +180,7 @@ Loop for each episode:
 
 ## Q-learning: Off-Policy TD Control {#sec-ch06-6-5}
 
-$$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\Big[\underbrace{R_{t+1} + \gamma \max_{a'} Q(S_{t+1}, a')}_{\text{Q-learning target}} - Q(S_t, A_t)\Big]$$
+$$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\Big[\underbrace{R_{t+1} + \gamma \max_{a'} Q(S_{t+1}, a')}_{\text{Q-learning target}} - Q(S_t, A_t)\Big]}$$
 
 - Here, the learned action-value function $Q$ directly approximates $q_*$, the optimal value function, independent of the policy being followed (off-policy). $V_*$ can be learned with a **1-step lookahead.**
 - Q-learning is off-policy so it updates the value function **greedily** directly while updating/exploring the other actions with the **$\varepsilon$-greedy** policy.
@@ -245,7 +245,7 @@ Loop for each episode:
 
 $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\, \mathbb{E}_\pi\left[Q(S_{t+1}, A_{t+1}) \mid S_{t+1}\right] - Q(S_t, A_t)\right]$$
 
-$$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma \sum_a \pi(a|S_{t+1})\, Q(S_{t+1}, a) - Q(S_t, A_t)\right]$$
+$$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma \sum_a \pi(a|S_{t+1})\, Q(S_{t+1}, a) - Q(S_t, A_t)\right]}$$
 
 - Given the next state $S_{t+1}$, this algorithm moves **deterministically** in the same direction as SARSA moves in **expectation,** hence the name **Expected SARSA**.
 - Expected SARSA eliminates the variance due to the random selection of $A_{t+1}$.
@@ -276,7 +276,7 @@ $$Q(s,A) \begin{cases} \geq 0 \\ < 0 \end{cases} \implies \max_{s,a} Q(s,a) > 0$
 
 - Double Learning for Q-learning $\Rightarrow$ Double Q-learning
 
-**Double Q-learning Pseudocode** for estimating $Q_1 \approx Q_2 \approx q_*$
+### Double Q-learning Pseudocode** for estimating $Q_1 \approx Q_2 \approx q_*$
 
 ```
 (α ∈ (0,1], small ε > 0)
@@ -298,7 +298,7 @@ Loop for each episode:
 
 **Double Q-learning Update Rule:**
 
-$$Q_1(S_t, A_t) \leftarrow Q_1(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\, Q_2\!\left(S_{t+1},\, \arg\max_a Q_1(S_{t+1}, a)\right) - Q_1(S_t, A_t)\right]$$
+$$\boxed{Q_1(S_t, A_t) \leftarrow Q_1(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\, Q_2\!\left(S_{t+1},\, \arg\max_a Q_1(S_{t+1}, a)\right) - Q_1(S_t, A_t)\right]}$$
 
 ---
 

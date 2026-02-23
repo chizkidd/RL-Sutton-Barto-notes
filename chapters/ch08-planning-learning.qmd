@@ -47,7 +47,7 @@ $$\text{model} \to \text{simulated experience} \xrightarrow{\text{backups}} \tex
 - A planning method based on one-step tabular Q-learning and on random samples from a sample model.
 - It converges to the optimal policy for the model under the same conditions as that for the real environment.
 
-**Pseudocode — Random-sample One-step Tabular Q-Learning:**
+### Pseudocode: Random-sample One-step Tabular Q-Learning
 
 ```
 Loop forever:
@@ -208,7 +208,7 @@ Backup diagrams for all the one-step updates covered so far
 
 | Value estimated | Expected updates (DP) | Sample updates (one-step TD) |
 |---|---|---|
-| $V_\pi(s)$ | Policy evaluation (full branching over actions & next states) | TD(0) (single sampled transition) |
+| $V_\pi(s)$ | Policy evaluation<br>(full branching over actions & next states) | TD(0)<br>(single sampled transition) |
 | $V_*(s)$ | Value iteration (max over actions, full branching) | — |
 | $q_\pi(s,a)$ | $q$-policy evaluation | Sarsa |
 | $q_*(s,a)$ | $q$-value iteration | Q-learning |
@@ -238,12 +238,12 @@ Backup diagrams for all the one-step updates covered so far
 - **Expected Update (exact):**
   - <u>Computational complexity:</u> $O(b)$.
 
-$$Q(s,a) \leftarrow \sum_{s', r} \hat{p}(s', r | s, a)\left[r + \gamma \max_{a'} Q(s', a')\right]$$
+$$\boxed{Q(s,a) \leftarrow \sum_{s', r} \hat{p}(s', r | s, a)\left[r + \gamma \max_{a'} Q(s', a')\right]}$$
 
 - **Sample Update (stochastic):**
   - <u>Computational complexity:</u> $O(1)$.
 
-$$Q(s,a) \leftarrow Q(s,a) + \alpha\left[R + \gamma \max_{a'} Q(S', a') - Q(s,a)\right]$$
+$$\boxed{Q(s,a) \leftarrow Q(s,a) + \alpha\left[R + \gamma \max_{a'} Q(S', a') - Q(s,a)\right]}$$
 
 - In the same fixed time budget for 1 expected update, you get $b$ sample updates.
 
@@ -341,7 +341,7 @@ $$b=100,\ \text{error} \approx \frac{1}{\sqrt{t}} \implies \text{error}(t=1) \ap
 
 - **RTDP update rule:**
 
-$$V(S_t) \leftarrow \max_{a \in A}\left(R^a_{S_t} + \gamma \sum_{s'} P^a_{S_t s'}\, V(s')\right)$$
+$$\boxed{V(S_t) \leftarrow \max_{a \in A}\left(R^a_{S_t} + \gamma \sum_{s'} P^a_{S_t s'}\, V(s')\right)}$$
 
 - RTDP's relationship to other methods:
   - **Value Iteration**: 
@@ -483,7 +483,7 @@ $$\text{total cost} = O\left(|A(s)| \cdot n \cdot L\right)$$
 - Starting at the root node, a tree policy based on the action values attached to the edges of the tree traverses the tree to select a leaf node.
 - Traverse tree using tree policy (typically **UCT**):
 
-$$\text{UCT}(s,a) = \underbrace{\frac{W(s,a)}{N(s,a)}}_{\text{exploitation}} + c\underbrace{\sqrt{\frac{\ln(N(s))}{N(s,a)}}}_{\text{exploration}} = Q(s,a) + c\sqrt{\frac{\ln(N(s))}{N(s,a)}}$$
+$$\boxed{\text{UCT}(s,a) = \underbrace{\frac{W(s,a)}{N(s,a)}}_{\text{exploitation}} + c\underbrace{\sqrt{\frac{\ln(N(s))}{N(s,a)}}}_{\text{exploration}} = Q(s,a) + c\sqrt{\frac{\ln(N(s))}{N(s,a)}}}$$
 
 - where:
   - $Q(s,a)$ = average return from $(s,a) = \frac{W(s,a)}{N(s,a)}$
@@ -621,7 +621,7 @@ $$\Rightarrow \text{total: } O\!\left(n \cdot (d + L)\right) \text{ for } n \tex
 
 ---
 
-## Summary of Part I — Dimensions {#sec-ch08-8-13}
+## Summary of Part I: Dimensions {#sec-ch08-8-13}
 
 **Two axes for the update diagram:**
 

@@ -42,11 +42,11 @@ The 2 Monte Carlo methods are **First-Visit** & **Every-Visit** MC:
 - Both methods converge to $V_\pi(s)$ as the number of visits (or first visits) to $s$ goes to $\infty$
 - Every-visit MC extends more naturally to function approximation & eligibility traces
 
-$$V(S_t) \leftarrow V(S_t) + \alpha\left[G_t - V(S_t)\right]$$
+$$\boxed{V(S_t) \leftarrow V(S_t) + \alpha\left[G_t - V(S_t)\right]}$$
 
 ---
 
-## First-Visit or Every-Visit Monte Carlo Policy Evaluation
+### First-Visit or Every-Visit Monte Carlo Policy Evaluation
 
 - To evaluate state $s$
 - The first timestep or every timestep $t$ that state $s$ is visited in an episode
@@ -103,7 +103,7 @@ Policy improvement theorem applied to $\pi_k$ & $\pi_{k+1}$ for all $s \in S$:
 
 $$q_{\pi_k}(s, \pi_{k+1}(s)) = q_{\pi_k}\!\left(s, \arg\max_a q_{\pi_k}(s,a)\right) = \max_a q_{\pi_k}(s,a) \geq q_{\pi_k}(s, \pi_k(s)) \geq V_{\pi_k}(s)$$
 
-- The idea of GPI is to avoid the infinite number of episodes nominally required for policy evaluation — this is **value iteration**.
+- The idea of GPI is to avoid the infinite number of episodes nominally required for policy evaluation. This is **value iteration**.
   - Only one iteration of iterative policy evaluation is performed between each step of policy improvement.
 
 - For a deterministic policy for control, it's essential we use exploring starts to ensure sufficient exploration. This creates the **Monte Carlo ES Algorithm**.
@@ -208,7 +208,7 @@ where $p \equiv$ state-transition probability function.
 
 - The relative probability of the trajectory under the target and behavior policies (the **importance-sampling ratio**) is:
 
-$$\rho_{t:T-1} \doteq \frac{\prod_{k=t}^{T-1} \pi(A_k|S_k)\, p(S_{k+1}|S_k,A_k)}{\prod_{k=t}^{T-1} b(A_k|S_k)\, p(S_{k+1}|S_k,A_k)} = \prod_{k=t}^{T-1} \frac{\pi(A_k|S_k)}{b(A_k|S_k)}$$
+$$\boxed{\rho_{t:T-1} \doteq \frac{\prod_{k=t}^{T-1} \pi(A_k|S_k)\, p(S_{k+1}|S_k,A_k)}{\prod_{k=t}^{T-1} b(A_k|S_k)\, p(S_{k+1}|S_k,A_k)} = \prod_{k=t}^{T-1} \frac{\pi(A_k|S_k)}{b(A_k|S_k)}}$$
 
 The state transition probability functions cancel out in the numerator & denominator.
 
