@@ -10,6 +10,7 @@ Personal study notes from *Reinforcement Learning: An Introduction* (Sutton & Ba
 
 | Chapter | Topic |
 |---|---|
+| 1 | Introduction to RL |
 | 2 | Multi-Armed Bandits |
 | 3 | Finite Markov Decision Processes |
 | 4 | Dynamic Programming |
@@ -17,6 +18,12 @@ Personal study notes from *Reinforcement Learning: An Introduction* (Sutton & Ba
 | 6 | Temporal-Difference Learning |
 | 7 | n-step Bootstrapping |
 | 8 | Planning & Learning with Tabular Methods |
+| 9 | On-policy Prediction with Approximation |
+| 10 | On-policy Control with Approximation | 
+| 11 | Off-policy Methods with Approximation | 
+| 12 | Eligibility Traces | 
+| 13 | Policy Gradient Methods | 
+
 
 ## Local Development
 
