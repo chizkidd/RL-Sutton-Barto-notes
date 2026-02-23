@@ -437,13 +437,13 @@ Heuristic search
 - Rollout algorithms are decision-time planning algorithms based on Monte Carlo control applied to simulated trajectories that all begin at the current environment state.
 - They estimate action values for a given policy by averaging the returns of many simulated trajectories that start with each possible action and then follow the given policy.
 
-- Key characteristics:
+- **Key characteristics:**
   - It is memoryless; it doesn't store/update a permanent value table (no persistence).
   - The rollout policy $\Pi$ is usually the current greedy policy.
   - Relies on MC averaging to reduce variance (more rollouts $\to$ better estimates).
   - It's quite very simple; no tree-building, no backups during rollouts.
 
-- **Goal**: 
+- **Goal: **
   - not to estimate a complete $q_*$ or $q_\pi$ for a given policy $\pi$; instead the focus is on MC estimates of action values only for each current state and for a given fixed policy called the **rollout policy**. 
   - Improve upon rollout policy, not find optimal policy.
 
@@ -522,7 +522,7 @@ $$\text{UCT}(s,a) = \underbrace{\frac{W(s,a)}{N(s,a)}}_{\text{exploitation}} + c
 Monte-Carlo Tree Search (MCTS)
 :::
 
-> **MCTS diagram**: four stages shown left to right — Selection (tree policy traverses with blue arrows to a leaf), Expansion (leaf expanded), Simulation (rollout policy runs from expanded node to terminal $\Delta$), Backup (return propagated back up with blue arrows).
+> **MCTS diagram**: 4 stages shown left to right: Selection (tree policy traverses with blue arrows to a leaf), Expansion (leaf expanded), Simulation (rollout policy runs from expanded node to terminal $\Delta$), Backup (return propagated back up with blue arrows).
 
 ### MCTS Pseudocode
 
@@ -631,18 +631,16 @@ Unified view of RL depicting a slice through the space of RL methods
 
 **Two axes for the update diagram:**
 
-$$\text{HORIZONTAL (L to R): sample backups} \xrightarrow{\text{width of update}} \text{full/expected backups}$$
+>$$\text{HORIZONTAL (L to R): sample backups} \xrightarrow{\text{width of update}} \text{full/expected backups}$$
+>$$\text{VERTICAL (Top to Bottom): shallow backups} \xrightarrow{\text{depth/length of update}} \text{deep backups}$$
 
-$$\text{VERTICAL (Top to Bottom): shallow backups} \xrightarrow{\text{depth/length of update}} \text{deep backups}$$
-
-- Each RL idea presented so far can be viewed as a dimension along which methods vary.
-- The set of the dimensions spans a large space of possible methods (quasi-infinite possibilities).
+- Each RL idea presented so far can be viewed as a dimension along which methods vary. The set of the dimensions spans a large space of possible methods (quasi-infinite possibilities).
 - All the methods discussed so far in this book have 3 key ideas in common:
   - They all seek to estimate value functions.
   - They all operate by backing up values along actual or possible state trajectories.
   - They all follow the general strategy of **generalized policy iteration (GPI).** This means they maintain an approximate value function and an approximate policy, and they continually try to improve each on the basis of the other.
 
-- **3 important dimensions along which RL methods vary:**
+- 3 important **dimensions** along which RL methods vary:
   - **Width of updates**: sample updates (based on a sample trajectory) vs expected updates (based on a distribution of possible trajectories).
   - **Depth of updates**: degree of bootstrapping ($\lambda$).
   - **On-policy vs off-policy methods**.
