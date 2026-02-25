@@ -444,7 +444,7 @@ Heuristic search
   - It's quite very simple; no tree-building, no backups during rollouts.
 
 - **Goal: **
-  - not to estimate a complete $q_*$ or $q_\pi$ for a given policy $\pi$; instead the focus is on MC estimates of action values only for each current state and for a given fixed policy called the **rollout policy**. 
+  - Not to estimate a complete $q_*$ or $q_\pi$ for a given policy $\pi$; instead the focus is on MC estimates of action values only for each current state and for a given fixed policy called the **rollout policy**. 
   - Improve upon rollout policy, not find optimal policy.
 
 - Rollout algorithms follow the **policy improvement theorem** by acting greedily w.r.t. $\hat{Q}(s,a)$:
