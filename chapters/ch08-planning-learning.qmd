@@ -165,20 +165,20 @@ Loop forever:
 
 - **Prioritized sweeping** optimizes Dyna-style planning by selectively updating state-action pairs based on expected magnitude of value change, rather than uniform random selection.
 
-- Steps:
-  1. Keep a priority queue of which state-action pairs need updating most.
-  2. Update the ones with biggest potential changes first.
-  3. Work backwards from important states (like the goal).
+  - Steps:
+    1. Keep a priority queue of which state-action pairs need updating most.
+    2. Update the ones with biggest potential changes first.
+    3. Work backwards from important states (like the goal).
 
-- Mechanism:
-  1. Maintain priority queue of $(s,a)$ pairs ranked by Bellman error magnitude.
-  2. Propagate updates **backward** from states with changed values.
-  3. Queue predecessors weighted by: $|R + \gamma V(s') - Q(s,a)|$
+  - Mechanism:
+    1. Maintain priority queue of $(s,a)$ pairs ranked by Bellman error magnitude.
+    2. Propagate updates **backward** from states with changed values.
+    3. Queue predecessors weighted by: $|R + \gamma V(s') - Q(s,a)|$
 
-- Key advantages:
-  1. **Efficiency**: avoid wasteful updates (such as $0 \to 0$ reward transitions).
-  2. **Convergence speed**: dramatic empirical improvements.
-  3. **Backward focusing**: value propagation follows reverse trajectory from changed states.
+  - Key advantages:
+    1. **Efficiency**: avoid wasteful updates (such as $0 \to 0$ reward transitions).
+    2. **Convergence speed**: dramatic empirical improvements.
+    3. **Backward focusing**: value propagation follows reverse trajectory from changed states.
 
 - Extensions of prioritized sweeping to **stochastic environments** are straightforward:
   - **Expected updates**: enumerate all $s'$ with transition probabilities, which is comprehensive but computationally expensive on low-probability transitions.
