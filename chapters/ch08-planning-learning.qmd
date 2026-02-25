@@ -519,10 +519,11 @@ $$\boxed{\text{UCT}(s,a) = \underbrace{\frac{W(s,a)}{N(s,a)}}_{\text{exploitatio
 Monte-Carlo Tree Search (MCTS)
 :::
 
-- MCTS continues executing these 4 steps, starting each time at the tree's root node, until no more time is left, or some other computational resource is exhausted. 
-- Then finally, an action from the root node (representative of the environment's current state) is selected according to some mechanism that depends on the accumulated statistics in the tree (action with largest action value or action with largest visit count to avoid outliers).
-
 > **MCTS diagram**: 4 stages shown left to right: Selection (tree policy traverses with blue arrows to a leaf), Expansion (leaf expanded), Simulation (rollout policy runs from expanded node to terminal $\Delta$), Backup (return propagated back up with blue arrows).
+
+- MCTS continues executing these 4 steps, starting each time at the tree's root node, until no more time is left, or some other computational resource is exhausted. 
+
+- Then finally, an action from the root node (representative of the environment's current state) is selected according to some mechanism that depends on the accumulated statistics in the tree (action with largest action value or action with largest visit count to avoid outliers).
 
 ### MCTS Pseudocode
 
