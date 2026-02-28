@@ -25,6 +25,7 @@ book:
         - chapters/ch06-temporal-difference.qmd
         - chapters/ch07-nstep-bootstrapping.qmd
         - chapters/ch08-planning-learning.qmd
+        - chapters/ch09-on-policy-prediction-approximation.qmd
 
 format:
   html:

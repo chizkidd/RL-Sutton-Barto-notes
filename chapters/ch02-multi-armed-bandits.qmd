@@ -9,9 +9,14 @@ number-sections: true
 
 $$q_*(a) \doteq \mathbb{E}\left[R_t \mid a_t = a\right] \quad \text{action-value function}$$
 
-- $Q_t(a)$: estimated action-value of action $a$ at time $t$
-
 $$Q_t(a) \to q_*(a)$$
+
+$$
+\begin{aligned}
+\text{where} \\
+Q_t(a) &= \text{estimated action-value of action } a \text{ at time } t
+\end{aligned}
+$$
 
 - **Exploitation**: always selecting the greedy actions (actions with highest estimated value)
 - **Exploration**: selecting one of the nongreedy actions
@@ -23,21 +28,31 @@ $$Q_t(a) \to q_*(a)$$
 
 $$Q_t(a) \doteq \frac{\text{sum of rewards when } a \text{ taken prior to } t}{\text{number of times } a \text{ taken prior to } t} = \frac{\sum_{i=1}^{t-1} R_i \cdot \mathbb{1}_{A_i=a}}{\sum_{i=1}^{t-1} \mathbb{1}_{A_i=a}}$$
 
-where $a$ = action, $t$ = timestep.
-
-Where $\mathbb{1}_{\text{predicate}} \equiv$ random variable that is $1$ if predicate is true & $0$ if it's not.
+$$
+\begin{aligned}
+\text{where} \\
+a &= \text{action} \\
+t &= \text{timestep} \\
+\mathbb{1}_{\text{predicate}} &\equiv \text{random variable that is } 1 \text{ if predicate is true, } 0 \text{ if not}
+\end{aligned}
+$$
 
 As $\displaystyle\sum_{i=1}^{t-1} \mathbb{1}_{A_i=a} \to \infty$, by the law of large numbers, $Q_t(a)$ converges to $q_*(a)$.
 
-- Simplest action selection rule: **greedy method** (no exploration)
+### Greedy Method
+
+- Simplest action selection rule for no exploration.
 
 $$A_t \doteq \arg\max_a Q_t(a)$$
 
-- **$\varepsilon$-greedy method** $\Rightarrow$ <br>simplest idea for ensuring continual exploration. With $m$ total actions:
+### $\varepsilon$-greedy method** 
+
+- Simplest action selection rule for ensuring continual exploration. 
+- For $m$ total actions:
   - With probability $1-\varepsilon$: choose the greedy action
   - With probability $\varepsilon$: choose a random action
 
-$$\pi(a|s) = \begin{cases} \varepsilon/m + 1 - \varepsilon & \text{if } a^* = \arg\max_{a \in A} Q(s,a) \\ \varepsilon/m & \text{otherwise} \end{cases}$$
+$$\pi(a|s) = \left\{ \begin{array}{ll} \varepsilon/m + 1 - \varepsilon & \text{if } a^* = \arg\max_{a \in A} Q(s,a) \\ \varepsilon/m & \text{otherwise} \end{array} \right\}$$
 
 ---
 
@@ -50,7 +65,15 @@ $$\pi(a|s) = \begin{cases} \varepsilon/m + 1 - \varepsilon & \text{if } a^* = \a
 
 ## Incremental Implementation {#sec-ch02-2-4}
 
+- Maintaining sample averages naively requires storing all past rewards, causing memory and computation to grow unboundedly over time. 
+- For a single action selected $n-1$ times, its value estimate $Q_n$ is:
+
 $$Q_n \doteq \frac{R_1 + R_2 + \ldots + R_{n-1}}{n-1}$$
+
+- How can we compute $Q_t(a)$ estimates in a computationally and memory efficient manner?
+
+- Instead of storing all the $R$ values and recomputing the sum at every time step, we can derive an **incremental update rule:** $Q_n$ estimate can be updated efficiently without storing the full history.
+
 
 $$Q_{n+1} = \frac{1}{n} \sum_{i=1}^{n} R_i$$
 
@@ -64,7 +87,9 @@ $$= \frac{1}{n}\left(R_n + nQ_n - Q_n\right)$$
 
 $$\boxed{Q_{n+1} = Q_n + \frac{1}{n}\left[R_n - Q_n\right]}$$
 
-In general:
+- Throughout the book, $\alpha$ is used to represent $\left(\frac{1}{n}\right)$ as the step-size parameter.
+
+- In general:
 
 $$\text{NewEstimate} \leftarrow \text{OldEstimate} + \text{StepSize}\underbrace{\left[\text{Target} - \text{OldEstimate}\right]}_{\text{error}}$$
 
@@ -72,9 +97,12 @@ $$\text{NewEstimate} \leftarrow \text{OldEstimate} + \text{StepSize}\underbrace{
 
 ## Tracking a Nonstationary Problem {#sec-ch02-2-5}
 
-$$Q_{n+1} \doteq Q_n + \alpha\left[R_n - Q_n\right] \quad \alpha \in (0,1] \text{ is constant}$$
+- Sample-average methods assume a stationary reward distribution, so they perform poorly on non-stationary bandits where the true action values drift/change over time.
+- A simple fix is to replace the $\frac{1}{n}$ step size with a constant $\alpha \in (0, 1]$, which gives more weight to recent rewards via an exponentially decaying average over past rewards.
 
-Expanding the recurrence:
+$$Q_{n+1} \doteq Q_n + \alpha\left[R_n - Q_n\right], \quad \alpha \in (0,1] \text{ is constant}$$
+
+- Expanding the recurrence:
 
 $$Q_{n+1} = Q_n + \alpha[R_n - Q_n]$$
 
@@ -94,152 +122,229 @@ $$\vdots$$
 
 $$\boxed{Q_{n+1} = (1-\alpha)^n Q_1 + \sum_{i=1}^{n} \alpha(1-\alpha)^{n-i} R_i}$$
 
-This is a **weighted average** (or **exponential recency-weighted average**): gives priority/higher value to more recently acquired rewards.
-
-Since:
+### Exponential recency-weighted average
+- The weight given to $R_i$ depends on how many rewards ago $(n-i)$ it was observed. The more recent the rweard, the higher the weight assigned to it.
+- This is a **weighted average** , which gives priority/higher value to more recently acquired rewards.
+- It's called a weighted average because the sum of the weights is $1$.
 
 $$\left(1-\alpha\right)^n + \sum_{i=1}^{n} \alpha(1-\alpha)^{n-i} = 1$$
 
-If $(1-\alpha) = 0 \Rightarrow \alpha = 1$, then:
+- The weighted average is more specifically called an **exponential recency-weighted average** because the weight decays exponentially into the past according to the exponent on $(1 - \alpha)$, $(n - i)$.
+- $Q_{n+1}$ becomes a weighted average of the previous rewards and the initial estimate $Q_1$.
 
-$$Q_{n+1} = (1-\alpha)^n Q_1 + \sum_{i=1}^{n} \alpha(1-\alpha)^{n-i} R_i = 0^n Q_1 + \sum_{i=1}^{n} 1 \cdot (0)^{n-i} R_i = Q_1 + \sum_{i=1}^{n} R_i$$
+$$\text{If } (1-\alpha) = 0 \Rightarrow \alpha = 1, \text{then:}$$
+
+$$Q_{n+1} = (1-\alpha)^n Q_1 + \sum_{i=1}^{n} \alpha(1-\alpha)^{n-i} R_i$$
+
+$$= 0^n Q_1 + \sum_{i=1}^{n} 1 \cdot (0)^{n-i} R_i$$
+
+$$= Q_1 + \sum_{i=1}^{n} R_i$$
 
 $$Q_{n+1} = Q_1 + R_1 + R_2 + R_3 + \ldots + R_n$$
 
 ### Step-size Parameter
 
-- $\alpha_n(a) = \frac{1}{n}$ (sample-average method) $\Rightarrow$ **unbiased**
+$$
+\begin{align*}
+\alpha_n(a) = \frac{1}{n} \quad &\text{(sample-average)} \Rightarrow \textbf{unbiased} \\
+\alpha_n(a) = \alpha \quad &\text{(constant)} \Rightarrow \textbf{biased}
+\end{align*}
+$$
 
-Stochastic approximation theory (Robbins-Monro sequence) requires:
+- Stochastic approximation theory (Robbins-Monro sequence) requires:
 
-$$\text{(I)}\ \sum_{n=1}^{\infty} \alpha_n(a) = \infty \quad \text{[overcome random fluctuations]}$$
+$$
+\begin{align*}
+\text{(I)} \quad & \sum_{n=1}^{\infty} \alpha_n(a) = \infty \quad \text{[overcome random fluctuations]} \\
+\text{(II)} \quad & \sum_{n=1}^{\infty} \alpha_n^2(a) < \infty \quad \text{[convergence]}
+\end{align*}
+$$
 
-$$\text{(II)}\ \sum_{n=1}^{\infty} \alpha_n^2(a) < \infty \quad \text{[convergence]}$$
-
-- (I) & (II) are met for $\alpha_n(a) = \frac{1}{n}$ (average method)
-- (II) is **not** met for $\alpha_n(a) = \alpha$ (constant method) $\Rightarrow$ biased
+- `(I)` & `(II)` are met for $\alpha_n(a) = \frac{1}{n}$ (sample-average method)
+- `(II)` is **not** met for $\alpha_n(a) = \alpha$ (constant method) 
 
 ---
 
 ## Optimistic Initial Values {#sec-ch02-2-6}
 
-- Compare greedy vs. $\varepsilon$-greedy method on $k$-armed testbed
-- Technique for encouraging exploration is called **optimistic initial values** (focus on initial conditions)
-- Effective on stationary problems, but not a general approach
-- Not good for nonstationary problems
+- The methods discussed so far are dependent to some extent on the initial action-value estimates i.e. they are biased by their initial estimates.
+- Essentially, the initial action-value estimates become model parameters that must be chosen by the user.
+- For example, in a 10-armed bandit testbed if we set $Q_{1}(a) = +5$ instead of $0$, we encourage exploration even in the greeedy case. 
+  - The agent will almost always be disappointed with its current samples action-values because they are less than the initial action-value estimate of $+5$, therefore it will continue to explore until the action-values converge.
+  - This technique for encouraging exploration is called **optimistic initial values** (focuses on initial conditions)
+
+### Pros & Cons
+- It is **effective on stationary problems,** but not a general approach
+- It is **not good for nonstationary problem**s** because its drive for exploration is inherently temporary.
 
 ---
 
 ## Upper-Confidence-Bound (UCB) Action Selection {#sec-ch02-2-7}
+- $\varepsilon$-greedy action selection explores indiscriminately, giving equal probability to all non-greedy actions regardless of their potential. 
+- A smarter approach is **Upper Confidence Bound (UCB)** action selection, which favors non-greedy actions based on both how close their value estimates are to the maximum and how uncertain those estimates are.
+- Actions can be selected by:
 
 $$A_t \doteq \arg\max_a \left[Q_t(a) + c\sqrt{\frac{\ln(t)}{N_t(a)}}\right]$$
 
-where:
-- $N_t(a) \equiv$ number of times that action $a$ has been selected prior to time $t$
-- $c > 0$ = controls the degree of exploration ($c \equiv$ confidence level)
+$$
+\begin{aligned}
+\text{where} \\
+t &\equiv \text{number of timesteps that have passed} \\
+N_t(a) &\equiv \text{number of times action } a \text{ has been selected prior to time } t \\
+c &> 0 \ \text{controls the degree of exploration} \ (c \equiv \text{confidence level}) \\
+\sqrt{\dfrac{\ln(t)}{N_t(a)}} &\equiv \text{measure of the uncertainty/variance in the estimate of a's value}
+\end{aligned}
+$$
 
-If $N_t(a) = 0$, then $a$ is considered to be a maximizing action.
+- If $N_t(a) = 0$, then $a$ is considered to be a maximizing action.
+- Introduces an exploration bonus term $c\sqrt{\ln(t)/N_t(a)}$, which measures the uncertainty in our estimate
+  - It is proportional to $t$ and inversely proportional to $N_t(a)$.
+  - The more time has passed, and the less we have sampled an action, the higher our upper-confidence-bound.
 
-$\sqrt{\dfrac{\ln(t)}{N_t(a)}} \equiv$ measure of the uncertainty/variance in the estimate of $a$'s value.
+$$t \uparrow,\ N_t(a) \downarrow \ \Rightarrow \ \sqrt{\frac{\ln t}{N_t(a)}} \uparrow \ \Rightarrow \ \text{UCB} \uparrow$$
 
-- More difficult than $\varepsilon$-greedy to extend beyond bandits to the more general RL settings
-- Difficulty in dealing with nonstationary problems
-- Difficulty in dealing with large state spaces (function approximation)
-- Introduces an exploration bonus term $c\sqrt{\ln(t)/N_t(a)}$
+- The idea of the UCB action selection is that the square-root term is a measure of the uncertainty or variance in the estimate of $a$’s value. 
+- The quantity being max’ed over is a sort of upper bound on the possible true value of action $a$, with
+$c$ determining the confidence level. 
+- Each time $a$ is selected, $N_t(a)$ increments and, since it appears in the denominator, the uncertainty term decreases. 
+- Conversely, each time any other action is selected the uncertainty increases ($t$ increases while $N_t(a)$ does not).
+- Using $\ln t$ means the uncertainty bonus grows without bound but at a diminishing rate (increases get smaller over time), ensuring all actions are eventually selected while those with lower value estimates or higher selection counts are chosen with decreasing frequency over time.
 
+### Pros & Cons
+- (+) UCB usually performs better than $\varepsilon$-greedy 
+- (-) UCB is more difficult than $\varepsilon$-greedy to extend beyond bandits to the more general RL settings
+- (-) Difficulty in dealing with nonstationary problems
+- (-) Difficulty in dealing with large state spaces (especially function approximation)
 ---
 
 ## Gradient Bandit Algorithms {#sec-ch02-2-8}
 
-$H_t(a) \in \mathbb{R} \Rightarrow$ numerical preference for each action $a$
-
-$$\mathbb{P}\{A_t = a\} \doteq \frac{e^{H_t(a)}}{\sum_{b=1}^{k} e^{H_t(b)}} \doteq \pi_t(a) \quad \text{(soft-max distribution)}$$
-
-Action preference update via stochastic gradient ascent:
-
-$$H_{t+1}(A_t) \doteq H_t(A_t) + \alpha(R_t - \bar{R}_t)(1 - \pi_t(A_t))$$
-
-$$H_{t+1}(a) \doteq H_t(a) - \alpha(R_t - \bar{R}_t)\pi_t(a) \quad \text{for all } a \neq A_t$$
-
-where:
-- $\alpha > 0 \Rightarrow$ step-size parameter
-- $\bar{R}_t \in \mathbb{R} \Rightarrow$ average of the rewards up to but not including time $t$ ($\bar{R}_1 \doteq R_1$)
-- $\bar{R}_t$ serves as a baseline with which the reward is compared
-
-If $R_t > \bar{R}_t \Rightarrow \mathbb{P}(A_t = a)\uparrow$
-
-If $R_t < \bar{R}_t \Rightarrow \mathbb{P}(A_t = a)\downarrow$
-
+- Another action selection method, which isn't based on action-value estimation, entails learning a numerical **preference** for each action $a$, which is denoted as $H_t(a)$.
 - The larger the preference ($H_t(a)$), the more often the action is taken.
+- The relative preference of one action over another is more important, hence why we define the action probabilities by a **soft-max distribution** (i.e., Gibbs or Boltzmann):
+
+$$\mathbb{P}\{A_t = a\} \doteq \frac{e^{H_t(a)}}{\sum_{b=1}^{k} e^{H_t(b)}} \doteq \pi_t(a) \quad \text{(softmax)}$$
+
+$$
+\begin{aligned}
+\text{where} \\
+H_t(a) &\in \mathbb{R} \equiv \text{numerical preference for action } a \text{ at time } t \\
+\pi_t(a) &= \text{probability of taking action } a \text{ at time } t
+\end{aligned}
+$$
+- Initially all action preferences are the same (e.g., $H_1(a) = 0 \forall a$) so that all actions have an equal probability of being selected.
+
+- The action preferences are updated via **stochastic gradient ascent**:
+$$
+\begin{align*}
+H_{t+1}(A_t) &\doteq H_t(A_t) + \alpha(R_t - \bar{R}_t)(1 - \pi_t(A_t)), \quad \text{and} \\
+H_{t+1}(a) &\doteq H_t(a) - \alpha(R_t - \bar{R}_t)\pi_t(a), \quad \forall a \neq A_t
+\end{align*}
+$$
+
+$$
+\begin{aligned}
+\text{where} \\
+\alpha &> 0 \equiv \text{step-size parameter} \\
+\bar{R}_t &\in \mathbb{R} \equiv \text{average of rewards up to but not including time } t \ (\bar{R}_1 \doteq R_1) \\
+\bar{R}_t &\equiv \text{baseline against which the reward is compared}
+\end{aligned}
+$$
+
+- If $R_t > \bar{R}_t \Rightarrow \mathbb{P}(A_t = a)\uparrow$
+- If $R_t < \bar{R}_t \Rightarrow \mathbb{P}(A_t = a)\downarrow$
+- If $R_t > \bar{R}_t \Rightarrow \mathbb{P}(A_t = a)\downarrow \quad \forall a \neq A_t$
+- If $R_t < \bar{R}_t \Rightarrow \mathbb{P}(A_t = a)\uparrow \quad \forall a \neq A_t$
+
+
 
 ### Proof: The Bandit Gradient Algorithm as Stochastic Gradient Ascent
 
-Gradient ascent update:
+#### Gradient ascent update:
 
 $$H_{t+1}(a) \doteq H_t(a) + \alpha \frac{\partial \mathbb{E}[R_t]}{\partial H_t(a)}$$
 
-where $\mathbb{E}[R_t] = \sum_x \pi_t(x) q_*(x)$.
+$$
+\begin{aligned}
+\text{where} \quad \mathbb{E}[R_t] &= \sum_x \pi_t(x) q_{*}(x)
+\end{aligned}
+$$
 
-Exact performance gradient:
+#### Exact performance gradient:
 
-$$\frac{\partial \mathbb{E}[R_t]}{\partial H_t(a)} = \frac{\partial}{\partial H_t(a)}\left[\sum_x \pi_t(x) q_*(x)\right] = \sum_x q_*(x) \frac{\partial \pi_t(x)}{\partial H_t(a)}$$
+$$
+\begin{align*}
+\frac{\partial \mathbb{E}[R_t]}{\partial H_t(a)} &= \frac{\partial}{\partial H_t(a)}\left[\sum_x \pi_t(x) q_{*}(x)\right] \\
+&= \sum_x q_{*}(x) \frac{\partial \pi_t(x)}{\partial H_t(a)} \\
+&= \sum_x \left(q_{*}(x) - B_t\right) \frac{\partial \pi_t(x)}{\partial H_t(a)} \\
+&= \sum_x \pi_t(x)\left[q_{*}(x) - B_t\right] \frac{\partial \pi_t(x)}{\partial H_t(a)} \frac{1}{\pi_t(x)} \\
+&= \mathbb{E}\left[\left(q_{*}(A_t) - B_t\right) \frac{\partial \pi_t(A_t)}{\partial H_t(a)} \frac{1}{\pi_t(A_t)}\right] \quad (B_t = \bar{R}_t) \\
+&= \mathbb{E}\left[\left(R_t - \bar{R}_t\right) \frac{\partial \pi_t(A_t)}{\partial H_t(a)} \frac{1}{\pi_t(A_t)}\right]
+\end{align*}
+$$
 
-$$= \sum_x \left(q_*(x) - B_t\right) \frac{\partial \pi_t(x)}{\partial H_t(a)} \quad B_t = \text{baseline}$$
+$$q_*(A_t) = R_t$ \text{because} $\mathbb{E}[R_t|A_t] = q_*(A_t)$$
 
-$$= \sum_x \pi_t(x)\left[q_*(x) - B_t\right] \frac{\partial \pi_t(x)}{\partial H_t(a)} \frac{1}{\pi_t(x)}$$
-
-$$= \mathbb{E}\left[\left(q_*(A_t) - B_t\right) \frac{\partial \pi_t(A_t)}{\partial H_t(a)} \frac{1}{\pi_t(A_t)}\right] \quad \text{with } B_t = \bar{R}_t$$
-
-$$= \mathbb{E}\left[\left(R_t - \bar{R}_t\right) \frac{\partial \pi_t(A_t)}{\partial H_t(a)} \frac{1}{\pi_t(A_t)}\right]$$
-
-since $q_*(A_t) = R_t$ (because $\mathbb{E}[R_t|A_t] = q_*(A_t)$).
+---
 
 **Aside:**
 
 $$\frac{\partial \pi_t(x)}{\partial H_t(a)} = \pi_t(x)\left[\mathbb{1}_{a=x} - \pi_t(a)\right]$$
 
-where $\mathbb{1}_{a=x} = \begin{cases} 1 & \text{if } a = x \\ 0 & \text{otherwise} \end{cases}$
+$$ \text{where } \mathbb{1}_{a=x} = \left\{ \begin{array}{ll} 1 & \text{if } a = x \\ 0 & \text{otherwise} \end{array} \right\}$$
 
-Therefore:
+---
 
-$$= \mathbb{E}\left[(R_t - \bar{R}_t)\,\pi_t(A_t)\left(\mathbb{1}_{a=A_t} - \pi_t(a)\right)\frac{1}{\pi_t(A_t)}\right]$$
+**Therefore:**
 
-$$= \mathbb{E}\left[(R_t - \bar{R}_t)\left(\mathbb{1}_{a=A_t} - \pi_t(a)\right)\right]$$
+$$
+\begin{align*}
+\frac{\partial \mathbb{E}[R_t]}{\partial H_t(a)} &= \mathbb{E}\left[(R_t - \bar{R}_t)\,\pi_t(A_t)\left(\mathbb{1}_{a=A_t} - \pi_t(a)\right)\frac{1}{\pi_t(A_t)}\right] \\
+&= \mathbb{E}\left[(R_t - \bar{R}_t)\left(\mathbb{1}_{a=A_t} - \pi_t(a)\right)\right]
+\end{align*}
+$$
 
 $$\Rightarrow \boxed{H_{t+1}(a) = H_t(a) + \alpha(R_t - \bar{R}_t)\left(\mathbb{1}_{a=A_t} - \pi_t(a)\right)} \quad \text{for all } a$$
 
-**Proof that** $\dfrac{\partial \pi_t(x)}{\partial H_t(a)} = \pi_t(x)\left[\mathbb{1}_{a=x} - \pi_t(a)\right]$:
+**Prove** $\dfrac{\partial \pi_t(x)}{\partial H_t(a)} = \pi_t(x)\left[\mathbb{1}_{a=x} - \pi_t(a)\right]$:
 
-Using the quotient rule $\dfrac{\partial}{\partial z}\left[\dfrac{f(z)}{g(z)}\right] = \dfrac{f'(z)g(z) - f(z)g'(z)}{g(z)^2}$:
+- Using the quotient rule: $\dfrac{\partial}{\partial z}\left[\dfrac{f(z)}{g(z)}\right] = \dfrac{f'(z)g(z) - f(z)g'(z)}{g(z)^2}$:
 
-$$\frac{\partial \pi_t(x)}{\partial H_t(a)} = \frac{\partial}{\partial H_t(a)} \pi_t(x) = \frac{\partial}{\partial H_t(a)}\left[\frac{e^{H_t(x)}}{\sum_{y=1}^{k} e^{H_t(y)}}\right]$$
-
-$$= \frac{\frac{\partial e^{H_t(x)}}{\partial H_t(a)} \sum_{y=1}^{k} e^{H_t(y)} - e^{H_t(x)} \frac{\partial \sum_{y=1}^{k} e^{H_t(y)}}{\partial H_t(a)}}{\left(\sum_{y=1}^{k} e^{H_t(y)}\right)^2}$$
-
-$$= \frac{\mathbb{1}_{a=x}\, e^{H_t(x)} \sum_{y=1}^{k} e^{H_t(y)} - e^{H_t(x)} e^{H_t(a)}}{\left(\sum_{y=1}^{k} e^{H_t(y)}\right)^2}$$
-
-$$= \frac{\mathbb{1}_{a=x}\, e^{H_t(x)}}{\sum_{y=1}^{k} e^{H_t(y)}} - \frac{e^{H_t(x)} e^{H_t(a)}}{\left(\sum_{y=1}^{k} e^{H_t(y)}\right)^2}$$
-
-$$= \mathbb{1}_{a=x}\, \pi_t(x) - \pi_t(x)\pi_t(a)$$
+$$
+\begin{align*}
+\frac{\partial \pi_t(x)}{\partial H_t(a)} &= \frac{\partial}{\partial H_t(a)}\left[\frac{e^{H_t(x)}}{\sum_{y=1}^{k} e^{H_t(y)}}\right] \\
+&= \frac{\frac{\partial e^{H_t(x)}}{\partial H_t(a)} \sum_{y=1}^{k} e^{H_t(y)} - e^{H_t(x)} \frac{\partial \sum_{y=1}^{k} e^{H_t(y)}}{\partial H_t(a)}}{\left(\sum_{y=1}^{k} e^{H_t(y)}\right)^2} \\
+&= \frac{\mathbb{1}_{a=x}\, e^{H_t(x)} \sum_{y=1}^{k} e^{H_t(y)} - e^{H_t(x)} e^{H_t(a)}}{\left(\sum_{y=1}^{k} e^{H_t(y)}\right)^2} \\
+&= \frac{\mathbb{1}_{a=x}\, e^{H_t(x)}}{\sum_{y=1}^{k} e^{H_t(y)}} - \frac{e^{H_t(x)} e^{H_t(a)}}{\left(\sum_{y=1}^{k} e^{H_t(y)}\right)^2} \\
+&= \mathbb{1}_{a=x}\, \pi_t(x) - \pi_t(x)\pi_t(a) \\
+&= \pi_t(x)\left(\mathbb{1}_{a=x} - \pi_t(a)\right)
+\end{align*}
+$$
 
 $$\boxed{\frac{\partial \pi_t(x)}{\partial H_t(a)} = \pi_t(x)\left[\mathbb{1}_{a=x} - \pi_t(a)\right]}$$
 
 ---
 
 ## Associative Search (Contextual Bandits) {#sec-ch02-2-9}
-
-- Intermediate between the $k$-armed bandit problem & the full RL problem
-- Like full RL: they learn a policy
+- **Nonassociative tasks:** tasks where there is no need to associate different actions with different situations.
+- **Associative Search:** extend nonassociative tasks to the associative setting.
+  -  Consider a setting where the bandit task changes from step to step, but the value distributions of the arms within each task remain fixed. 
+  - These are called **associative search tasks**, or **contextual bandits**, where the agent must learn to associate different policies with different task contexts.
+- These tasks are intermediate between the $k$-armed bandit stationary problem & the full reinforcement learning (RL) problem
+- Like full RL probelm: they learn a policy
 - Like $k$-armed bandit: each action affects only the immediate reward
-- Involves both trial & error learning to search for the best actions & **association** of these actions with the situations in which they are best
-
-**Full RL problem**: actions are allowed to affect the **next situation** as well as the reward.
+- These tasks involve both trial & error learning to search for the best actions & **association** of these actions with the situations in which they are best
+- **Full RL problem**: Actions are allowed to affect the **next situation** as well as the reward.
 
 ---
 
 ## Summary {#sec-ch02-2-10}
-
-- Presented several simple ways of balancing exploration & exploitation:
+- The value of an action can be defined as $Q_t(a)$, the sample average return of action $a$ taken prior to time $t$.
+- Understand the need for **incremental** action-value estimation in stationary bandit problems to minimize memory usage and computational complexity.
+- Introduced to **weighted averages, the step-size parameter $\alpha$, and stochastic approximation conditions** in non-stationary bandit problems.
+- Understand the distinction between **stationary/deterministic** and **nonstationary/stochastic** bandit problems.
+- Understand the transition from nonassociative to **associative search tasks** as a stepping stone toward the full RL problem.
+- Presented several simple ways of balancing exploration & exploitation during action selection:
   - **$\varepsilon$-greedy**: choose randomly a small fraction of the time
   - **UCB**: choose deterministically but achieve exploration by subtly favoring at each step the actions that have received fewer samples
   - **Gradient Bandit algorithms**: estimate action preferences, not action values, and favor the more preferred actions in a graded, probabilistic manner using a soft-max distribution
