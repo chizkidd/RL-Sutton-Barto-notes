@@ -26,6 +26,8 @@ $$
 
 ## Action-value Methods {#sec-ch02-2-2}
 
+- Let's go through how we can estimate our action-value, $Q_t(a)$. One method is by averaging the rewards that have been received (**Sample average**)
+
 $$Q_t(a) \doteq \frac{\text{sum of rewards when } a \text{ taken prior to } t}{\text{number of times } a \text{ taken prior to } t} = \frac{\sum_{i=1}^{t-1} R_i \cdot \mathbb{1}_{A_i=a}}{\sum_{i=1}^{t-1} \mathbb{1}_{A_i=a}}$$
 
 $$
@@ -37,7 +39,8 @@ t &= \text{timestep} \\
 \end{aligned}
 $$
 
-As $\displaystyle\sum_{i=1}^{t-1} \mathbb{1}_{A_i=a} \to \infty$, by the law of large numbers, $Q_t(a)$ converges to $q_*(a)$.
+- As $\displaystyle\sum_{i=1}^{t-1} \mathbb{1}_{A_i=a} \to \infty$, by the law of large numbers, $Q_t(a)$ converges to $q_*(a)$.
+- Now that we can compute $Q_t(a)$, how do we use it to select actions?
 
 ### Greedy Method
 
@@ -174,8 +177,8 @@ $$
   - This technique for encouraging exploration is called **optimistic initial values** (focuses on initial conditions)
 
 ### Pros & Cons
-- It is **effective on stationary problems,** but not a general approach
-- It is **not good for nonstationary problem**s** because its drive for exploration is inherently temporary.
+- (+) It is **effective on stationary problems,** but not a general approach
+- (-) It is **not good for nonstationary problem**s** because its drive for exploration is inherently temporary.
 
 ---
 
@@ -215,6 +218,7 @@ $c$ determining the confidence level.
 - (-) UCB is more difficult than $\varepsilon$-greedy to extend beyond bandits to the more general RL settings
 - (-) Difficulty in dealing with nonstationary problems
 - (-) Difficulty in dealing with large state spaces (especially function approximation)
+
 ---
 
 ## Gradient Bandit Algorithms {#sec-ch02-2-8}
@@ -283,7 +287,7 @@ $$
 \end{align*}
 $$
 
-$$q_*(A_t) = R_t$ \text{because} $\mathbb{E}[R_t|A_t] = q_*(A_t)$$
+$$q_*(A_t) = R_t \text{because} \mathbb{E}[R_t|A_t] = q_*(A_t)$$
 
 ---
 
