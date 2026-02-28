@@ -271,7 +271,7 @@ $$\boxed{\overline{\text{VE}}(\mathbf{w}_\text{TD}) \leq \frac{1}{1-\gamma} \min
 
 - Let's discuss different ways of constructing features, which is important for function approximation in linear methods.
 
-### Polynomials {#sec-ch09-9-5-1}
+### 9.5.1 Polynomials {#sec-ch09-9-5-1}
 
 - There may be a need to design features with higher complexity that can be captured with linear methods.
 - Say for example a state has 2 numerical dimensions, $s_1, s_2 \in \mathbb{R}$. Then it is insufficient to represent this state as $\mathbf{x}(s) = (s_1, s_2)^T$ because it does not take into account any interactions between the 2 dimensions.
@@ -291,7 +291,7 @@ c_{i,j} &= \text{integer in } \{0, 1, 2, 3, \ldots, n\}, \quad \text{for } n \ge
 \end{aligned}
 $$
 
-### Fourier Basis {#sec-ch09-9-5-2}
+### 9.5.2 Fourier Basis {#sec-ch09-9-5-2}
 
 - Fourier series express periodic functions as weighted sums of sine and cosine basis functions of different frequencies, with a function $f$ being periodic if:
 
@@ -315,7 +315,7 @@ j &\equiv \text{dimensions}
 \end{aligned}
 $$
 
-### Coarse Coding {#sec-ch09-9-5-3}
+### 9.5.3 Coarse Coding {#sec-ch09-9-5-3}
 
 - Mapping circles to the features of a state space for 2-dimension.
 
@@ -334,7 +334,7 @@ Coarse coding.
 - If we train at one state (a point in the space), then the weights of all circles intersecting that state will be affected (each circle has a corresponding weight, a single $\mathbf{w}$ component).
 - Generalization in linear function approximation methods is determined by the **sizes** and **shapes** of the features' receptive fields.
 
-### Tile Coding {#sec-ch09-9-5-4}
+### 9.5.4 Tile Coding {#sec-ch09-9-5-4}
 
 - Tile coding is a form of coarse coding for multi-dimensional continuous spaces that is flexible and computationally efficient.
 - It may be the most practical feature representation for modern sequential digital computers.
@@ -369,7 +369,7 @@ Hashing.
 
 >**Hashing:** 4 subtiles collapse into 1 tile in the above diagram
 
-### Radial Basis Functions (RBF) {#sec-ch09-9-5-5}
+### 9.5.5 Radial Basis Functions (RBF) {#sec-ch09-9-5-5}
 
 - RBFs are the natural extension/generalization of coarse coding to continuous-valued domain/feature space.
   - Rather than a feature being 0 or 1 (binary), it can take any value in the interval $[0, 1]$.
