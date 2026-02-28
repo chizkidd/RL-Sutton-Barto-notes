@@ -3,6 +3,16 @@ title: "Finite Markov Decision Processes"
 number-sections: true
 ---
 
+- MDPs are a classical formalization of sequential decision making, where actions influence not just immediate rewards, but also subsequent states, and through those future rewards. 
+- Hence, there exists a tradeoff between delayed and immediate rewards.
+- In bandit problems, we estimated $q_{*}(a) of each action $a$.
+- In MDPs, we estimate the value $q_{*}(s, a)$ of each action $a$ in each state $s$.
+- These state-dependent action-values are essential for accurate credit assignment for long-term consequences to individual action selections.
+- Markov Decision Processes (MDPs) are a mathematical idealized form of the reinforcement learning problem. 
+- To build the full RL problem mathematical structure, key elements are introduced: **returns, value functions, & Bellman equations.$$
+
+---
+
 ## The Agent-Environment Interface {#sec-ch03-3-1}
 
 **Agent-Environment loop:**
@@ -13,9 +23,17 @@ number-sections: true
 The agent-environment interaction in an MDP
 :::
 
-**Trajectory** $\mathcal{T}$: $S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, R_3, \ldots$
+- The agent is the learner and decison maker, while the environment is everything outside the agent that the agent interacts with.
+- The agent and environment interact continually over a sequence of discrete time steps.
+- The agent selects actions, and the environment responds with new states back to the agent.
+- The environment also yields rewards, numerical values which the agent seeks to maximize over time through its choice of actions
 
-The **dynamics function**:
+- **Trajectory** $\mathcal{T}$: $S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, R_3, \ldots$
+
+### Dynamics function
+
+In a **finite** MDP, the sets of states, actions, and rewards are all finite. The random variables $S_t$ and $R_t$ have well-defined discrete probability distributions dependent only on the preceding state and action — this is the **Markov property**. The transition dynamics are fully characterized by the function $p$, which gives the probability of transitioning to state $s'$ and receiving reward $r$, given state $s$ and action $a$.
+
 
 $$p(s', r | s, a) \doteq \mathbb{P}\{S_t = s',\, R_t = r \mid S_{t-1} = s,\, A_{t-1} = a\}$$
 
@@ -25,7 +43,7 @@ $$p: S \times R \times S \times A \to [0,1]$$
 
 $$\sum_{s' \in S} \sum_{r \in R} p(s', r | s, a) = 1 \quad \text{for all } s \in S,\, a \in A(s)$$
 
-**Derived quantities:**
+### Derived quantities
 
 $$p: S \times S \times A \to [0,1] \quad p(s'|s,a) \doteq \mathbb{P}\{S_t = s' \mid S_{t-1} = s,\, A_{t-1} = a\} = \sum_{r \in R} p(s', r | s, a)$$
 
