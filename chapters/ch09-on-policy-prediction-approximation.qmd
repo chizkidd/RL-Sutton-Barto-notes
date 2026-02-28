@@ -1,5 +1,5 @@
 ---
-title: "Chapter 9: On-Policy Prediction with Approximation"
+title: "On-Policy Prediction with Approximation"
 number-sections: true
 ---
 
@@ -15,7 +15,7 @@ $$\hat{v}(s, \mathbf{w}) \approx V_\pi(s)$$
 
 ---
 
-## 9.1 Value-Function Approximation {#sec-ch09-9-1}
+## Value-Function Approximation {#sec-ch09-9-1}
 
 - All the prediction methods covered so far involve an update to an estimated value function that shifts its value towards a "backed-up value" (update target, $u$). Let's denote an individual state update by $s \mapsto u$:
 
@@ -40,7 +40,7 @@ $$
 
 ---
 
-## 9.2 The Prediction Objective ($\overline{\text{VE}}$) {#sec-ch09-9-2}
+## The Prediction Objective ($\overline{\text{VE}}$) {#sec-ch09-9-2}
 
 - We have more states $s$ than weights $\mathbf{w}$, therefore we cannot feasibly approximate the value function perfectly.
 - Making one state's estimate more accurate invariably leads to making the others' less accurate.
@@ -106,17 +106,17 @@ $$
 
 - Although $\overline{\text{VE}}$ is a good starting point, it's not completely clear that it is the right performance objective.
 - The **ultimate goal** (reason for learning a value function) is to find a better policy.
-- If we use $\overline{\text{VE}}$, the goal is to find a **global optimum**:
+- If we use $\overline{\text{VE}}$, the goal is to find a **global optimum** (optimal weight vector, $\mathbf{w}^*$):
 
-$$\text{optimal weight vector} \hspace{.5em} \mathbf{w}^* \hspace{.5em} \text{for which} \hspace{.75em} \overline{\text{VE}}(\mathbf{w}^*) \leq \overline{\text{VE}}(\mathbf{w}), \quad \forall \mathbf{w}$$
+$$\mathbf{w}^* \hspace{.5em} \text{for which} \hspace{.75em} \overline{\text{VE}}(\mathbf{w}^*) \leq \overline{\text{VE}}(\mathbf{w}), \quad \forall \mathbf{w}$$
 
-- Complex function approximators may converge to a **local optimum**:
+- Complex function approximators may converge to a **local optimum**: 
 
 $$\mathbf{w}^* \hspace{.5em} \text{for which} \hspace{.75em} \overline{\text{VE}}(\mathbf{w}^*) \leq \overline{\text{VE}}(\mathbf{w}), \quad \forall \mathbf{w} \hspace{.5em} \text{in some neighborhood of} \hspace{.5em} \mathbf{w}^*$$
 
 ---
 
-## 9.3 Stochastic-Gradient & Semi-Gradient Methods {#sec-ch09-9-3}
+## Stochastic-Gradient & Semi-Gradient Methods {#sec-ch09-9-3}
 
 ### Stochastic Gradient Descent (SGD)
 
@@ -183,7 +183,7 @@ $$\nabla \hat{v}(S_t, \mathbf{w}_t) = \left\{ \begin{array}{ll} 1 & \text{for } 
 
 ---
 
-## 9.4 Linear Methods {#sec-ch09-9-4}
+## Linear Methods {#sec-ch09-9-4}
 
 - One of the simplest cases for function approximation is when the approximate value function is a **linear combination** of the weight vector.
 - Linear methods approximate the state-value function by the inner product between $\mathbf{w}$ and $\mathbf{x}(s)$:
@@ -267,11 +267,11 @@ $$\boxed{\overline{\text{VE}}(\mathbf{w}_\text{TD}) \leq \frac{1}{1-\gamma} \min
 
 ---
 
-## 9.5 Feature Construction for Linear Methods {#sec-ch09-9-5}
+## Feature Construction for Linear Methods {#sec-ch09-9-5}
 
 - Let's discuss different ways of constructing features, which is important for function approximation in linear methods.
 
-### 9.5.1 Polynomials {#sec-ch09-9-5-1}
+### Polynomials {#sec-ch09-9-5-1}
 
 - There may be a need to design features with higher complexity that can be captured with linear methods.
 - Say for example a state has 2 numerical dimensions, $s_1, s_2 \in \mathbb{R}$. Then it is insufficient to represent this state as $\mathbf{x}(s) = (s_1, s_2)^T$ because it does not take into account any interactions between the 2 dimensions.
@@ -291,7 +291,7 @@ c_{i,j} &= \text{integer in } \{0, 1, 2, 3, \ldots, n\}, \quad \text{for } n \ge
 \end{aligned}
 $$
 
-### 9.5.2 Fourier Basis {#sec-ch09-9-5-2}
+### Fourier Basis {#sec-ch09-9-5-2}
 
 - Fourier series express periodic functions as weighted sums of sine and cosine basis functions of different frequencies, with a function $f$ being periodic if:
 
@@ -315,7 +315,7 @@ j &\equiv \text{dimensions}
 \end{aligned}
 $$
 
-### 9.5.3 Coarse Coding {#sec-ch09-9-5-3}
+### Coarse Coding {#sec-ch09-9-5-3}
 
 - Mapping circles to the features of a state space for 2-dimension.
 
@@ -334,7 +334,7 @@ Coarse coding.
 - If we train at one state (a point in the space), then the weights of all circles intersecting that state will be affected (each circle has a corresponding weight, a single $\mathbf{w}$ component).
 - Generalization in linear function approximation methods is determined by the **sizes** and **shapes** of the features' receptive fields.
 
-### 9.5.4 Tile Coding {#sec-ch09-9-5-4}
+### Tile Coding {#sec-ch09-9-5-4}
 
 - Tile coding is a form of coarse coding for multi-dimensional continuous spaces that is flexible and computationally efficient.
 - It may be the most practical feature representation for modern sequential digital computers.
@@ -369,7 +369,7 @@ Hashing.
 
 >**Hashing:** 4 subtiles collapse into 1 tile in the above diagram
 
-### 9.5.5 Radial Basis Functions (RBF) {#sec-ch09-9-5-5}
+### Radial Basis Functions (RBF) {#sec-ch09-9-5-5}
 
 - RBFs are the natural extension/generalization of coarse coding to continuous-valued domain/feature space.
   - Rather than a feature being 0 or 1 (binary), it can take any value in the interval $[0, 1]$.
@@ -394,7 +394,7 @@ $$\boxed{x_i(s) \doteq \exp\!\left(-\frac{\lVert s - c_i \rVert^2}{2\sigma_i^2}\
 
 ---
 
-## 9.6 Selecting Step-Size Parameters Manually {#sec-ch09-9-6}
+## Selecting Step-Size Parameters Manually {#sec-ch09-9-6}
 
 - What is the best way to select $\alpha$ for function approximation?
 - So far:
@@ -418,7 +418,7 @@ $$
 
 ---
 
-## 9.7 Nonlinear Function Approximation: Artificial Neural Networks (ANNs) {#sec-ch09-9-7}
+## Nonlinear Function Approximation: Artificial Neural Networks (ANNs) {#sec-ch09-9-7}
 
 - ANNs are widely used for nonlinear function approximation.
 - An ANN is a network of interconnected units that have some of the properties of neurons, the main components of nervous systems.
@@ -453,7 +453,7 @@ $$
 
 ---
 
-## 9.8 Least-Squares TD (LSTD) {#sec-ch09-9-8}
+## Least-Squares TD (LSTD) {#sec-ch09-9-8}
 
 - As established earlier, TD(0) with linear function approximator converges asymptotically (for appropriately decreasing step sizes) to the TD fixed point:
 
@@ -498,7 +498,7 @@ $$\boxed{\mathbf{\hat{A}_t^{-1}} = \mathbf{\hat{A}_{t-1}^{-1}} - \frac{\mathbf{\
 
 ---
 
-## 9.9 Memory-based Function Approximation {#sec-ch09-9-9}
+## Memory-based Function Approximation {#sec-ch09-9-9}
 
 - So far we have been parametrising functions that approximate our value function, and these parameters are updated as we see more data. This is called the **parametric** approach.
 - Memory-based function approximators store training examples in memory as they arrive without updating any parameters and retrieve them from memory upon query of a state value's estimate.
@@ -518,12 +518,13 @@ $$\boxed{\mathbf{\hat{A}_t^{-1}} = \mathbf{\hat{A}_{t-1}^{-1}} - \frac{\mathbf{\
   - Do not limit approximations to pre-specified functional forms.
   - The more data accumulated, the better the accuracy.
   - Allow for relatively immediate effect on value estimates in the neighborhood of the current state.
-  - Handle/address the curse of dimensionality, which is a big problem for global approximation.
-    - For example, for a state space with $K$ dimensions, a **tabular method** storing a global approximation requires memory ***exponential in $K$,*** while storing examples in a **memory-based method** requires only memory ***proportional to $K$, or linear in the number of examples $n$.***
+  - Handle/address the curse of dimensionality, which is a big problem for global approximation. For example, for a state space with $K$ dimensions, 
+    - A **tabular method** storing a global approximation requires memory ***exponential in $K$,*** while
+    - Storing examples in a **memory-based method** requires only memory ***proportional to $K$, or linear in the number of examples $n$.***
 
 ---
 
-## 9.10 Kernel-based Function Approximation {#sec-ch09-9-10}
+## Kernel-based Function Approximation {#sec-ch09-9-10}
 
 - Weighted average and locally weighted regression depend on assigning weights based on some distance metric between examples $s'$ and a query state $s$.
 - The function that assigns these weights is called a **kernel function** or simply a **kernel**.
@@ -559,7 +560,7 @@ $$k(s, s') = \mathbf{x}(s)^T \mathbf{x}(s')$$
 
 ---
 
-## 9.11 Looking Deeper at On-Policy Learning: Interest & Emphasis {#sec-ch09-9-11}
+## Looking Deeper at On-Policy Learning: Interest & Emphasis {#sec-ch09-9-11}
 
 - So far we have treated all encountered states with equal importance, however it seems more likely that we often have more interest in some states than others.
 - For this scenario, we introduce 2 new concepts: **Interest** and **Emphasis**.
@@ -587,7 +588,7 @@ $$M_t \doteq 0, \quad \forall t < 0$$
 
 ---
 
-## 9.12 Summary {#sec-ch09-9-12}
+## Summary {#sec-ch09-9-12}
 
 - **Generalization** is a must for RL systems for AI applications and **supervised-learning function approximation** helps achieve this.
 - The prediction objective $\overline{\text{VE}}(\mathbf{w})$, called the **mean squared value error,** gives us a clear way to rank different value-function approximations in the on-policy case.
