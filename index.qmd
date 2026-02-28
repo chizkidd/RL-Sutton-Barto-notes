@@ -19,7 +19,7 @@ The notes cover the core ideas, equations, and algorithms from each chapter, tra
 | 6 | Temporal-Difference Learning | ✓ |
 | 7 | $n$-step Bootstrapping | ✓ |
 | 8 | Planning & Learning with Tabular Methods | ✓ |
-| 9 | On-policy Prediction with Approximation | _pending_ |
+| 9 | On-policy Prediction with Approximation | ✓ |
 | 10 | On-policy Control with Approximation | _pending_ |
 | 11 | Off-policy Methods with Approximation | _pending_ | 
 | 12 | Eligibility Traces | _pending_ | 
