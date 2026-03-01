@@ -57,13 +57,13 @@ $$\sum_{s' \in \mathcal{S}} \sum_{r \in \mathcal{R}} p(s', r \mid s, a) = 1 \qua
 
 $$p(s'|s,a) \doteq \mathbb{P}\{S_t = s' \mid S_{t-1} = s,\, A_{t-1} = a\} = \sum_{r \in R} p(s', r | s, a)$$
 
-#### Reward functioon for $(s,a)$ pair
+#### Reward function for $(s,a)$ pair
 
 - _Expected rewards for state-action pairs_ as a 2-argument function $r: S \times A \to \mathbb{R}$
 
 $$r(s,a) \doteq \mathbb{E}\left[R_t \mid S_{t-1} = s,\, A_{t-1} = a\right] = \sum_{r \in R} r \sum_{s' \in S} p(s', r | s, a)$$
 
-#### Reward functioon for $(s,a,s')$ triple
+#### Reward function for $(s,a,s')$ triple
 
 - _Expected rewards for state-action-next-state triples_ as a 3-argument function $r: S \times A \times S \to \mathbb{R}$
 
