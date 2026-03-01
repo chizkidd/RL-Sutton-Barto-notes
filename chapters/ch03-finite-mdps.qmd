@@ -374,8 +374,8 @@ $$\text{MDP} \left\{ \begin{array}{lll}
 S & \to & \text{finite set of states} \\
 A & \to & \text{finite set of actions} \\
 P & \to & \text{state transition probability matrix,} \quad P^a_{ss'} = \mathbb{P}[S_{t+1} = s' \vert S_t = s,\, A_t = a] \\
-R & \to & \text{reward function,} \qquad\qquad\qquad\quad R^a_s = \mathbb{E}[R_{t+1} \vert S_t = s,\, A_t = a] \\
-\gamma & \to & \text{discount factor,} \qquad\qquad\qquad\qquad \gamma \in [0,1]
+R & \to & \text{reward function,} \qquad\qquad\qquad\qquad\quad R^a_s = \mathbb{E}[R_{t+1} \vert S_t = s,\, A_t = a] \\
+\gamma & \to & \text{discount factor,} \qquad\qquad\qquad\qquad\qquad \gamma \in [0,1]
 \end{array} \right\}$$
 
 - **Return**: function of future rewards that the agent seeks to maximize (in expected value)
