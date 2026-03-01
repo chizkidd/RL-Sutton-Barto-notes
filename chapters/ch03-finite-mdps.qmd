@@ -88,7 +88,7 @@ $$\textbf{Episode } \equiv (S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, R_3, \ldots,
 - **Episodic tasks**: Tasks with episodes that have a terminal state, $S_T$
 - **Continuing tasks**: Tasks with no terminal state ($T_{\text{final}} = \infty$)
 
-### **Discounting** ($0 \leq \gamma \leq 1$; $\gamma \equiv$ discount rate):
+### Discounting ($0 \leq \gamma \leq 1$; $\gamma \equiv$ discount rate):
 
 - $\gamma \Rightarrow$ determines the present value of future rewards
 - $\gamma \approx 0$ : "myopic" agent
@@ -342,7 +342,7 @@ Backup Diagrams for $v_*$ and $q_*$
 
 - RL is about learning from interaction to maximize cumulative reward over time, with the agent-environment interface defined by **actions, states, and rewards**.
 - A **finite MDP** formalizes this with well-defined transition probabilities over finite state, action, and reward sets.
-- The **return** is the (expected) function of future rewards the agent seeks to maximize (undiscounted for episodic tasks, discounted for continuing tasks).
+- The **return** is the (expected) function of future rewards the agent seeks to maximize (undiscounted for episodic tasks, discounted for tabular continuing tasks).
 - **Value functions** assign expected returns to states or state-action pairs; **optimal value functions** give the maximum achievable return, and any policy greedy w.r.t. them is optimal.
 - Problems vary by knowledge level: **complete knowledge** gives the agent full dynamics $p$; **incomplete knowledge** does not.
 - In practice, optimal solutions are rarely computable, therefore memory and computation constraints force agents to **approximate** value functions, policies, and models.
@@ -357,13 +357,11 @@ Backup Diagrams for $v_*$ and $q_*$
 - **Rewards**: the basis for evaluating the choices/actions
 - **Policy**: a stochastic rule by which the agent selects actions as a function of states (_agent's brain_) $$\pi(a|s) = \mathbb{P}[A_t = a | S_t = s]$$
 - **MDP**: the variables formulated above within a RL setup with well-defined transition probabilities
+- A **finite MDP**: an MDP with finite state, action & reward sets.
 
-  - A **finite MDP**: an MDP with finite state, action & reward sets.
-
-  - **Markov Property** $\to$ Markov Chain/Process $\to$ MRP $\to$ MDP:
-
-| $\mathbb{P}[S_{t+1} \mid S_t] = \mathbb{P}[S_{t+1} \mid S_1, \ldots, S_t]$ | $\langle S, P \rangle$ | $\langle S, P, R, \gamma \rangle$ | $\langle S, A, P, R, \gamma \rangle$ |
+|**Markov Property** | **Markov Chain/Process** | **MRP** | **MDP** |
 |---|---|---|---|
+| $\mathbb{P}[S_{t+1} \mid S_t] = \mathbb{P}[S_{t+1} \mid S_1, \ldots, S_t]$ | $\langle S, P \rangle$ | $\langle S, P, R, \gamma \rangle$ | $\langle S, A, P, R, \gamma \rangle$ |
 | State-transition probability matrix:<br>$P_{ss'} = \mathbb{P}[S_{t+1} = s' \mid S_t = s]$ | Sequences of random states $(S_1, S_2, \ldots)$ + Markov property | Markov Chain with Values | MRP + decisions |
 
 - **MDP components:**
@@ -380,7 +378,7 @@ R & \to & \text{reward function}, \quad R^a_s = \mathbb{E}[R_{t+1} \mid S_t = s,
 - **Tasks**:
   - **Episodic**: have a clear starting & ending point (a terminal state) [e.g. ping pong]
   - **Continuing**: tasks/RL instances that continue forever w/o a terminal state [e.g. automated stock trading]
-
+- **Discount factor,  $\gamma$**: determines the present value of future rewards
 - **Value functions** ($v_\pi, q_\pi$): a policy's value functions assign to each state/state-action pair, the expected return from that state/state-action pair, given that the agent uses the policy.
 - **Optimal value functions** ($v_*, q_*$): assign to each state/state-action pair the largest expected return achievable by any policy.
 
