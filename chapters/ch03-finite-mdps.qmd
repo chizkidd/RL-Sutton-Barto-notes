@@ -362,11 +362,12 @@ Backup Diagrams for $v_*$ and $q_*$
 - **Policy**: a stochastic rule by which the agent selects actions as a function of states (_agent's brain_) $$\boxed{\pi(a|s) = \mathbb{P}[A_t = a | S_t = s]}$$
 - **MDP**: the variables formulated above within a RL setup with well-defined transition probabilities
 - A **finite MDP**: an MDP with finite state, action & reward sets.
+- **MRP**: Markov Reward Process
 
 |**Markov Property** | **Markov Chain/Process** | **MRP** | **MDP** |
 |---|---|---|---|
-| $\mathbb{P}[S_{t+1} \mid S_t] =$$<br>$$\mathbb{P}[S_{t+1} \mid S_1, \ldots, S_t]$ | $\langle S, P \rangle$ | $\langle S, P, R, \gamma \rangle$ | $\langle S, A, P, R, \gamma \rangle$ |
-| State-transition <br>probability matrix:<br>$P_{ss'} = \mathbb{P}[S_{t+1} = s' \mid S_t = s]$ | Sequences of <br>random states $(S_1, S_2, \ldots)$ + <br>Markov property | Markov Chain with Values | MRP + decisions |
+| $\mathbb{P}[S_{t+1} \mid S_t] =$$ <br> $$\mathbb{P}[S_{t+1} \mid S_1, \ldots, S_t]$ | $\langle S, P \rangle$ | $\langle S, P, R, \gamma \rangle$ | $\langle S, A, P, R, \gamma \rangle$ |
+| State-transition <br>probability matrix:<br>$P_{ss'} = \mathbb{P}[S_{t+1} = s' \mid S_t = s]$ | Sequences of random <br>states $(S_1, S_2, \ldots)$ + <br>Markov property | Markov Chain with Values | MRP + decisions |
 
 - **MDP components:**
 
