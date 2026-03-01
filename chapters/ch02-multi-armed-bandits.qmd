@@ -48,7 +48,7 @@ $$
 
 $$A_t \doteq \arg\max_a Q_t(a)$$
 
-### $\varepsilon$-greedy method** 
+### $\varepsilon$-greedy method
 
 - Simplest action selection rule for ensuring continual exploration. 
 - For $m$ total actions:
@@ -236,6 +236,7 @@ H_t(a) &\in \mathbb{R} \equiv \text{numerical preference for action } a \text{ a
 \pi_t(a) &= \text{probability of taking action } a \text{ at time } t
 \end{aligned}
 $$
+
 - Initially all action preferences are the same (e.g., $H_1(a) = 0 \forall a$) so that all actions have an equal probability of being selected.
 
 - The action preferences are updated via **stochastic gradient ascent**:
