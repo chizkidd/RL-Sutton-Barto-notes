@@ -101,9 +101,11 @@ $$\textbf{Episode } \equiv (S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, R_3, \ldots,
 - **Episodic tasks**: Tasks with episodes that have a terminal state, $S_T$
 - **Continuing tasks**: Tasks with no terminal state ($T_{\text{final}} = \infty$)
 
-### Discounting ($0 \leq \gamma \leq 1$; $\gamma \equiv$ discount rate)
+### Discounting 
 
+- $\gamma \equiv$ discount rate/factor
 - $\gamma \Rightarrow$ determines the present value of future rewards
+- $0 \leq \gamma \leq 1$
 - $\gamma \approx 0$ : "myopic" agent
 - $\gamma \to 1$ : "far-sighted" agent
 
