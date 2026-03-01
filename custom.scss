@@ -49,20 +49,25 @@ pre {
   margin: 1.5em 0;
 }
 
-.callout-note {
-  border-left-color: #2c5f8a;
+.callout.callout-style-default.callout-note {
+  border-left-color: #2c5f8a !important;
 }
 
-.callout-tip {
-  border-left-color: #2a9d8f;
+.callout.callout-style-default.callout-note .callout-header {
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
 }
 
-.callout-important {
-  border-left-color: #e76f51;
+.callout.callout-style-default.callout-tip {
+  border-left-color: #2a9d8f !important;
 }
 
-.callout-warning {
-  border-left-color: #e9c46a;
+.callout.callout-style-default.callout-important {
+  border-left-color: #e76f51 !important;
+}
+
+.callout.callout-style-default.callout-warning {
+  border-left-color: #e9c46a !important;
 }
 
 /* ── Tables ──────────────────────────────────────────────── */
