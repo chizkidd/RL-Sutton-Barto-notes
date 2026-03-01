@@ -51,21 +51,21 @@ $$\sum_{s' \in \mathcal{S}} \sum_{r \in \mathcal{R}} p(s', r \mid s, a) = 1 \qua
 
 - From the 4-argument dynamics function, $p$, we can compute anthing we want to know about the environment. Let's go through some of these functions of interest below.
 
-#### **State-transition probability function
+#### State-transition/Transition probability function
 
-- **State-transition probabilities** as a 3-argument function $p: S \times S \times A \to [0,1]$
+- _State-transition probabilities_ as a 3-argument function $p: S \times S \times A \to [0,1]$
 
 $$p(s'|s,a) \doteq \mathbb{P}\{S_t = s' \mid S_{t-1} = s,\, A_{t-1} = a\} = \sum_{r \in R} p(s', r | s, a)$$
 
 #### Reward functioon for $(s,a)$ pair
 
-- **Expected rewards for state-action pairs** as a 2-argument function $r: S \times A \to \mathbb{R}$
+- _Expected rewards for state-action pairs_ as a 2-argument function $r: S \times A \to \mathbb{R}$
 
 $$r(s,a) \doteq \mathbb{E}\left[R_t \mid S_{t-1} = s,\, A_{t-1} = a\right] = \sum_{r \in R} r \sum_{s' \in S} p(s', r | s, a)$$
 
 #### Reward functioon for $(s,a,s')$ triple
 
-- **Expected rewards for state-action-next-state triples** as a 3-argument function $r: S \times A \times S \to \mathbb{R}$
+- _Expected rewards for state-action-next-state triples_ as a 3-argument function $r: S \times A \times S \to \mathbb{R}$
 
 $$r(s,a,s') \doteq \mathbb{E}\left[R_t \mid S_{t-1} = s,\, A_{t-1} = a,\, S_t = s'\right] = \sum_{r \in R} r\, \frac{p(s', r | s, a)}{p(s' | s, a)}$$
 
@@ -101,7 +101,7 @@ $$\textbf{Episode } \equiv (S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, R_3, \ldots,
 - **Episodic tasks**: Tasks with episodes that have a terminal state, $S_T$
 - **Continuing tasks**: Tasks with no terminal state ($T_{\text{final}} = \infty$)
 
-### Discounting ($0 \leq \gamma \leq 1$; $\gamma \equiv$ discount rate):
+### Discounting ($0 \leq \gamma \leq 1$; $\gamma \equiv$ discount rate)
 
 - $\gamma \Rightarrow$ determines the present value of future rewards
 - $\gamma \approx 0$ : "myopic" agent
@@ -300,17 +300,20 @@ v_{*}(s) &= \max_{a \in A(s)} q_{\pi_{*}}(s,a) \\
 \end{align*}
 $$
 
+$$\boxed{\begin{array}{rcl}
+v_{*}(s) &=& \displaystyle \max_a \sum_{s', r} p(s', r \vert s, a)\left[r + \gamma v_{*}(s')\right]
+\end{array}}$$
+
+
 #### $q_{*}(s,a)$
 
-$$q_*(s,a) = \mathbb{E}\left[R_{t+1} + \gamma \max_{a'} q_*(S_{t+1}, a') \mid S_t = s,\, A_t = a\right]$$
-
-$$= \sum_{s', r} p(s', r | s, a)\left[r + \gamma \max_{a'} q_*(s', a')\right]$$
-
 $$
-\begin{align*}
+\boxed{
+\begin{align*}{rcl}
 q_{*}(s,a) &= \mathbb{E}\left[R_{t+1} + \gamma \max_{a'} q_{*}(S_{t+1}, a') \mid S_t = s,\, A_t = a\right] \\
 &= \sum_{s', r} p(s', r \vert s, a)\left[r + \gamma \max_{a'} q_{*}(s', a')\right]
 \end{align*}
+}
 $$
 
 #### Backup Diagrams for $v_{*}(s)$ & $q_{*}(s,a)$
