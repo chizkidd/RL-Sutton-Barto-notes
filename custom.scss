@@ -6,7 +6,7 @@ $code-color: #24292e;
 
 /*-- scss:rules --*/
 
-/* ── Typography ─────────────────────────────────────────── */
+/* -- Typography -------------------------------------------- */
 .book-title {
   font-size: 2rem;
   font-weight: 700;
@@ -30,20 +30,20 @@ h3 {
   margin-top: 1.6em;
 }
 
-/* ── Math ────────────────────────────────────────────────── */
+/* -- Math --------------------------------------------------- */
 .math.display {
   overflow-x: auto;
   padding: 0.5em 0;
 }
 
-/* ── Code blocks ─────────────────────────────────────────── */
+/* -- Code blocks ------------------------------------------- */
 pre {
   border-left: 3px solid $primary;
   border-radius: 4px;
   font-size: 0.88em;
 }
 
-/* ── Callout blocks ──────────────────────────────────────── */
+/* -- Callout blocks ---------------------------------------- */
 .callout {
   border-radius: 6px;
   margin: 1.5em 0;
@@ -70,7 +70,7 @@ pre {
   border-left-color: #e9c46a !important;
 }
 
-/* ── Tables ──────────────────────────────────────────────── */
+/* -- Tables ------------------------------------------------- */
 table {
   font-size: 0.92em;
 }
@@ -79,32 +79,32 @@ thead {
   background-color: #f0f4f8;
 }
 
-/* ── SVG figures ─────────────────────────────────────────── */
+/* -- SVG figures ------------------------------------------- */
 img[src$=".svg"] {
   max-width: 100%;
   margin: 1.5em auto;
   display: block;
 }
 
-/* ── Sidebar nav ─────────────────────────────────────────── */
+/* -- Sidebar nav ------------------------------------------- */
 .sidebar nav[role=doc-toc] ul > li > a {
   font-size: 0.9em;
 }
 
-/* ── Dark mode overrides ─────────────────────────────────── */
+/* -- Dark mode overrides ----------------------------------- */
 [data-bs-theme=dark] h1,
 [data-bs-theme=dark] h2,
 [data-bs-theme=dark] h3,
 [data-bs-theme=dark] h4 {
-  color: #c9d8e8;
+  color: #c9d8e8 !important;
 }
 
 [data-bs-theme=dark] h2 {
-  border-bottom-color: #3a4a5a;
+  border-bottom-color: #3a4a5a !important;
 }
 
 [data-bs-theme=dark] h3 {
-  color: #7eb8d4;
+  color: #7eb8d4 !important;
 }
 
 [data-bs-theme=dark] pre {
