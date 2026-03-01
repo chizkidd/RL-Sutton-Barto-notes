@@ -34,9 +34,10 @@ $$\textbf{Trajectory, }\mathcal{T} \equiv (S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_
 ### Dynamics function
 
 - In a **finite** MDP, the sets of states $S$, actions $A$, and rewards $R$ are all finite. The random variables $S_t$ and $R_t$ have well-defined discrete probability distributions dependent only on the preceding state and action, this is the **Markov property**. 
-- The transition dynamics are fully characterized by the function $p$, which gives the probability of transitioning to state $s' \in S$ and receiving reward $r \in R$, given state $s$ and action $a$.
+- The transition dynamics are fully characterized by the function $p$, which gives the probability of transitioning to state $s' \in S$ and receiving reward $r \in R$, given state $s$ and action $a$ 
+- $\forall\ s', s \in \mathcal{S},\, r \in \mathbb{R},\, a \in \mathcal{A}(s)}$, the dynamics function is:
 
-$$\boxed{p(s', r \mid s, a) \doteq \mathbb{P}\{S_t = s',\, R_t = r \mid S_{t-1} = s,\, A_{t-1} = a\} \quad \forall\, s', s \in \mathcal{S},\, r \in \mathbb{R},\, a \in \mathcal{A}(s)}$$
+$$\boxed{p(s', r \mid s, a) \doteq \mathbb{P}\{S_t = s',\, R_t = r \mid S_{t-1} = s,\, A_{t-1} = a\} }$$
 
 - The dynamics function is an ordinary deterministic function of 4 arguments:
 
@@ -50,15 +51,21 @@ $$\sum_{s' \in \mathcal{S}} \sum_{r \in \mathcal{R}} p(s', r \mid s, a) = 1 \qua
 
 - From the 4-argument dynamics function, $p$, we can compute anthing we want to know about the environment. Let's go through some of these functions of interest below.
 
-#### **State-transition probabilities** as a 3-argument function $p: S \times S \times A \to [0,1]$
+#### **State-transition probability function
+
+- **State-transition probabilities** as a 3-argument function $p: S \times S \times A \to [0,1]$
 
 $$p(s'|s,a) \doteq \mathbb{P}\{S_t = s' \mid S_{t-1} = s,\, A_{t-1} = a\} = \sum_{r \in R} p(s', r | s, a)$$
 
-#### **Expected rewards for state-action pairs** as a 2-argument function $r: S \times A \to \mathbb{R}$
+#### Reward functioon for $(s,a)$ pair
+
+- **Expected rewards for state-action pairs** as a 2-argument function $r: S \times A \to \mathbb{R}$
 
 $$r(s,a) \doteq \mathbb{E}\left[R_t \mid S_{t-1} = s,\, A_{t-1} = a\right] = \sum_{r \in R} r \sum_{s' \in S} p(s', r | s, a)$$
 
-#### **Expected rewards for state-action-next-state triples** as a 3-argument function $r: S \times A \times S \to \mathbb{R}$
+#### Reward functioon for $(s,a,s')$ triple
+
+- **Expected rewards for state-action-next-state triples** as a 3-argument function $r: S \times A \times S \to \mathbb{R}$
 
 $$r(s,a,s') \doteq \mathbb{E}\left[R_t \mid S_{t-1} = s,\, A_{t-1} = a,\, S_t = s'\right] = \sum_{r \in R} r\, \frac{p(s', r | s, a)}{p(s' | s, a)}$$
 
@@ -167,7 +174,7 @@ v_\pi(s) &\doteq \mathbb{E}_\pi\left[G_t \mid S_t = s\right] \\
 \end{align*}
 $$
 
-This is the **Bellman Equation for $v_\pi$**. It expresses the relationship between the value of a state and the value of its successor states.
+- This is the **Bellman Equation for $v_\pi$**. It expresses the relationship between the value of a state and the value of its successor states.
 
 - The Bellman equation averages over all possibilities, weighting each by its probability of occurring.
 - It states that the starting state value must equal the (discounted) value of the expected next state, plus the reward expected along the way.
