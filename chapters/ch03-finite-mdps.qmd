@@ -35,7 +35,7 @@ $$\textbf{Trajectory, }\mathcal{T} \equiv (S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_
 
 - In a **finite** MDP, the sets of states $S$, actions $A$, and rewards $R$ are all finite. The random variables $S_t$ and $R_t$ have well-defined discrete probability distributions dependent only on the preceding state and action, this is the **Markov property**. 
 - The transition dynamics are fully characterized by the function $p$, which gives the probability of transitioning to state $s' \in S$ and receiving reward $r \in R$, given state $s$ and action $a$ 
-- $\forall\ s', s \in \mathcal{S},\, r \in \mathbb{R},\, a \in \mathcal{A}(s)}$, the dynamics function is:
+- $\forall\ s', s \in \mathcal{S},\, r \in \mathbb{R},\, a \in \mathcal{A}(s)$, the dynamics function is:
 
 $$\boxed{p(s', r \mid s, a) \doteq \mathbb{P}\{S_t = s',\, R_t = r \mid S_{t-1} = s,\, A_{t-1} = a\} }$$
 
