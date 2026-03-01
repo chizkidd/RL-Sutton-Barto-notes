@@ -38,18 +38,51 @@ These notes are meant to accompany the textbook, not replace it. They are most u
 | Symbol | Meaning |
 |---|---|
 | $s, s'$ | State, next state |
-| $a$ | Action |
+| $a, a'$ | Action, next action |
 | $r, R$ | Reward |
-| $\pi$ | Policy |
-| $V_\pi(s)$ | State-value function under $\pi$ |
-| $q_\pi(s,a)$ | Action-value function under $\pi$ |
-| $V_*, q_*$ | Optimal value functions |
-| $\alpha$ | Step size (learning rate) |
-| $\gamma$ | Discount factor |
-| $\varepsilon$ | Exploration parameter |
-| $\delta_t$ | TD error at time $t$ |
-| $G_t$ | Return at time $t$ |
+| $t$ | Discrete time step |
 | $T$ | Terminal time step |
+| $\pi$ | Policy |
+| $\pi(a \mid s)$ | Probability of taking action $a$ in state $s$ under policy $\pi$ |
+| $\pi_{*}$ | Optimal policy |
+| $v_{\pi}(s)$ | State-value function under policy $\pi$ |
+| $q_{\pi}(s,a)$ | Action-value function under policy $\pi$ |
+| $v_{*}(s)$ | Optimal state-value function |
+| $q_{*}(s,a)$ | Optimal action-value function |
+| $G_t$ | Return (cumulative discounted reward) at time $t$ |
+| $G_{t:h}$ | Truncated return from $t$ to horizon $h$ |
+| $\gamma$ | Discount factor, $\gamma \in [0,1]$ |
+| $\alpha$ | Step size (learning rate) |
+| $\varepsilon$ | Exploration parameter ($\varepsilon$-greedy) |
+| $\delta_t$ | TD error at time $t$ |
+| $\rho_{t:h}$ | Importance sampling ratio from $t$ to $h$ |
+| $b(a \mid s)$ | Behavior policy |
+| $n$ | Number of steps in $n$-step methods |
+| $Q(s,a)$ | Estimated action-value |
+| $V(s)$ | Estimated state-value |
+| $\hat{v}(s, \mathbf{w})$ | Approximate value function parameterized by $\mathbf{w}$ |
+| $\mathbf{w}$ | Weight vector for function approximation, $\mathbf{w} \in \mathbb{R}^d$ |
+| $\nabla \hat{v}(s, \mathbf{w})$ | Gradient of $\hat{v}$ w.r.t. $\mathbf{w}$ |
+| $\mathbf{x}(s)$ | Feature vector representing state $s$ |
+| $x_i(s)$ | $i$-th component of feature vector, $x_i : S \to \mathbb{R}$ |
+| $\mu(s)$ | On-policy state distribution |
+| $\overline{VE}(\mathbf{w})$ | Mean square value error |
+| $\eta(s)$ | Expected number of time steps spent in state $s$ per episode |
+| $U_t$ | Update target at time $t$ |
+| $h(s)$ | Probability that an episode begins in state $s$ |
+| $b$ | Branching factor |
+| $\tau$ | Elapsed time since a state-action pair was last visited (Dyna-Q+) |
+| $k$ | Small bonus constant in Dyna-Q+ |
+| $N(s,a)$ | Visit count for state-action pair $(s,a)$ (MCTS) |
+| $W(s,a)$ | Total reward accumulated through $(s,a)$ (MCTS) |
+| $c$ | Exploration constant in UCT, typically $\sqrt{2}$ |
+| $d$ | Dimension of weight vector $\mathbf{w}$ |
+| $\mathbb{E}_{\pi}[\cdot]$ | Expectation under policy $\pi$ |
+| $p(s', r \mid s, a)$ | Transition probability |
+| $\hat{p}(s', r \mid s, a)$ | Estimated/model transition probability |
+| $A$ | Matrix $\mathbb{E}[\mathbf{x}_t(\mathbf{x}_t - \gamma \mathbf{x}_{t+1})^T] \in \mathbb{R}^{d \times d}$ (linear TD) |
+| $\mathbf{b}$ | Vector $\mathbb{E}[R_{t+1} \mathbf{x}_t] \in \mathbb{R}^d$ (linear TD) |
+| $\mathbf{w}_{\text{TD}}$ | TD fixed point, $\mathbf{w}_{\text{TD}} = A^{-1}\mathbf{b}$ |
 
 ## Reference
 
