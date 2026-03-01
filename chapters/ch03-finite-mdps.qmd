@@ -5,7 +5,7 @@ number-sections: true
 
 - MDPs are a classical formalization of sequential decision making, where actions influence not just immediate rewards, but also subsequent states, and through those future rewards. 
 - Hence, there exists a tradeoff between delayed and immediate rewards.
-- In bandit problems, we estimated $q_{*}(a) of each action $a$.
+- In bandit problems, we estimated $q_{*}(a)$ of each action $a$.
 - In MDPs, we estimate the value $q_{*}(s, a)$ of each action $a$ in each state $s$.
 - These state-dependent action-values are essential for accurate credit assignment for long-term consequences to individual action selections.
 - Markov Decision Processes (MDPs) are a mathematical idealized form of the reinforcement learning problem. 
@@ -33,31 +33,32 @@ $$\textbf{Trajectory, }\mathcal{T} \equiv (S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_
 
 ### Dynamics function
 
-In a **finite** MDP, the sets of states $S$, actions $A$, and rewards $R$ are all finite. The random variables $S_t$ and $R_t$ have well-defined discrete probability distributions dependent only on the preceding state and action, this is the **Markov property**. The transition dynamics are fully characterized by the function $p$, which gives the probability of transitioning to state $s' \in S$ and receiving reward $r \in R$, given state $s$ and action $a$.
+- In a **finite** MDP, the sets of states $S$, actions $A$, and rewards $R$ are all finite. The random variables $S_t$ and $R_t$ have well-defined discrete probability distributions dependent only on the preceding state and action, this is the **Markov property**. 
+- The transition dynamics are fully characterized by the function $p$, which gives the probability of transitioning to state $s' \in S$ and receiving reward $r \in R$, given state $s$ and action $a$.
 
+$$\boxed{p(s', r \vert s, a) &\doteq \mathbb{P}\{S_t = s',\, R_t = r \mid S_{t-1} = s,\, A_{t-1} = a\} \quad \forall\, s', s \in S,\, r \in \mathbb{R},\, a \in A(s)}$$
 
-$$
-\begin{align*}
-p(s', r \vert s, a) &\doteq \mathbb{P}\{S_t = s',\, R_t = r \mid S_{t-1} = s,\, A_{t-1} = a\} \\
-& \quad \forall\, s', s \in S,\, r \in \mathbb{R},\, a \in A(s) \\[6pt]
-p &: S \times R \times S \times A \to [0,1] \\[6pt]
-\sum_{s' \in S} \sum_{r \in R} p(s', r \vert s, a) &= 1 \quad \forall\, s \in S,\, a \in A(s)
-\end{align*}
-$$
+- The dynamics function is an ordinary deterministic function of 4 arguments:
+
+$$p &: S \times R \times S \times A \to [0,1]$$
+
+- The "|" in the middle of $p(s, r \vert s, a)$ signifies conditional probability, which reminds us that $p$ specifies a probability distribution for each choice of $s$ and $a$. i.e., that
+
+$$\sum_{s' \in S} \sum_{r \in R} p(s', r \vert s, a) &= 1 \quad \forall\, s \in S,\, a \in A(s)$$
 
 ### Derived quantities
 
-- From the 4-argument dynamics function, $p$, we can compute anthing we want to know about the environment. Let's go through the variables of interest below.
+- From the 4-argument dynamics function, $p$, we can compute anthing we want to know about the environment. Let's go through some of these functions of interest below.
 
-- **State-transition probabilities** as a 3-argument function $p: S \times S \times A \to [0,1]$
+#### **State-transition probabilities** as a 3-argument function $p: S \times S \times A \to [0,1]$
 
 $$p(s'|s,a) \doteq \mathbb{P}\{S_t = s' \mid S_{t-1} = s,\, A_{t-1} = a\} = \sum_{r \in R} p(s', r | s, a)$$
 
-- **Expected rewards for state-action pairs** as a 2-argument function $r: S \times A \to \mathbb{R}$
+#### **Expected rewards for state-action pairs** as a 2-argument function $r: S \times A \to \mathbb{R}$
 
 $$r(s,a) \doteq \mathbb{E}\left[R_t \mid S_{t-1} = s,\, A_{t-1} = a\right] = \sum_{r \in R} r \sum_{s' \in S} p(s', r | s, a)$$
 
-- **Expected rewards for state-action-next-state triples** as a 3-argument function $r: S \times A \times S \to \mathbb{R}$
+#### **Expected rewards for state-action-next-state triples** as a 3-argument function $r: S \times A \times S \to \mathbb{R}$
 
 $$r(s,a,s') \doteq \mathbb{E}\left[R_t \mid S_{t-1} = s,\, A_{t-1} = a,\, S_t = s'\right] = \sum_{r \in R} r\, \frac{p(s', r | s, a)}{p(s' | s, a)}$$
 
@@ -67,18 +68,23 @@ $$r(s,a,s') \doteq \mathbb{E}\left[R_t \mid S_{t-1} = s,\, A_{t-1} = a,\, S_t = 
 
 - At each time step, the reward is a simple number, $R_t \in \mathbb{R}$
 - The agent's goal is to maximize the cumulative reward it receives in the long run not the immediate reward.
-- This idea was formalized by the **reward hypothesis:**
->all of what we mean by goals and purposes can be well thought of as the maximization of the expected value of the cumulative sum of a received scalar signal (called reward).
+- This idea was formalized by the **reward hypothesis**.
+
+::: {.callout-note title="Reward Hypothesis"}
+All of what we mean by goals and purposes can be well thought of as the maximization of the expected value of the cumulative sum of a received scalar signal (called reward).
+:::
+
 - The agent always learns to maximize its reward. If we want it to do something for us, we must provide rewards
 to it in such a way that in maximizing them the agent will also achieve our goals. 
 - The reward signal is our way of communicating to the agent what we want it to achieve, not how we want it achieved.
+
 ---
 
 ## Returns & Episodes {#sec-ch03-3-3}
 
 - The formal definition of the maximization of the cumulative reward received by the agent in the long run leads to the **expected return,** $G_t$ we want to maximize:
 
-$$G_t \doteq R_{t+1} + R_{t+2} + R_{t+3} + \ldots + R_T \quad \quad T = \text{final time step}$$
+$$G_t \doteq R_{t+1} + R_{t+2} + R_{t+3} + \ldots + R_T, \quad \quad T = \text{final time step}$$
 
 - Episodes are finite sequences of interactions between an agent and environment that have a natural terminal state, after which the process resets to a starting state. Each episode is independent, beginning from an initial state and ending at a terminal state $S_T$.
 - An episode is basically a trajectory with a defined endpoint $S_T$.
@@ -94,7 +100,7 @@ $$\textbf{Episode } \equiv (S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_2, R_3, \ldots,
 - $\gamma \approx 0$ : "myopic" agent
 - $\gamma \to 1$ : "far-sighted" agent
 
-$$G_t \doteq R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}$$
+$$\boxed{G_t \doteq R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}}$$
 
 ### Recursive form of Expected return
 
@@ -106,8 +112,7 @@ G_t &= R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \gamma^3 R_{t+4} + \ldots \
 \end{align*}
 $$
 
-- From $G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}$, the expected return is finite if $R \neq 0 \text{ and constant, if } \gamma < 1$: 
-  - For example, if $R = \text{a constant } + 1$ at each timestep, then the discounted return is:
+- From $G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}$, the expected return is finite if $R \neq 0 \text{ and constant, if } \gamma < 1$. For example, if $R = \text{a constant } + 1$ at each timestep, then the discounted return is:
 
 $$G_t = \sum_{k=0}^{\infty} \gamma^k = \frac{1}{1-\gamma}$$
 
@@ -125,23 +130,23 @@ $$S_0 \xrightarrow{R_1=+1} S_1 \xrightarrow{R_2=+1} S_2 \xrightarrow{R_3=+1} \sq
 - Starting from $S_0$, the reward sequence is $+1, +1, +1, 0, 0, 0, \ldots$, which when summed yields the same return whether over the first $T$ rewards ($T = 3$) or over the full infinite sequence, even with discounting present.
 - The unified notation, including the possibility that $T = \infty$ or $\gamma = 1$ (but not both), for  the return is:
 
-$$\tilde{G}_t = \sum_{k=t+1}^{T} \gamma^{k-t-1} R_k$$
+$$\boxed{\tilde{G}_t = \sum_{k=t+1}^{T} \gamma^{k-t-1} R_k}$$
 
 ---
 
 ## Policies, Value Functions & Bellman Equations {#sec-ch03-3-5}
 
 - Value functions are defined w.r.t. particular ways of acting, called **policies**.
-- A **Policy**is a mapping from states to probabilities of selecting each possible action.
+- A **Policy** is a mapping from states to probabilities of selecting each possible action.
 
-$$\pi(a|s) = \mathbb{P}\left[A_t = a \mid S_t = s\right]$$
+$$\boxed{\pi(a|s) = \mathbb{P}\left[A_t = a \mid S_t = s\right]}$$
 
-- "$\vert$" in $\pi(a|s) \Rightarrow$ defines a probability distribution over $a \in A(s)$ for each $s \in S$.
+- "|" in the middle of $\pi(a|s) \Rightarrow$ reminds us that it defines a probability distribution over $a \in A(s)$ for each $s \in S$.
 -  RL methods specify how the agent’s policy is changed as a result of its experience.
 
 ### State-value function for policy $\pi$
 
-$$v_\pi(s) \doteq \mathbb{E}_\pi\left[G_t \mid S_t = s\right] = \mathbb{E}_\pi\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \,\middle|\, S_t = s\right], \quad \text{for all } s \in S$$
+$$v_\pi(s) \doteq \mathbb{E}_\pi\left[G_t \mid S_t = s\right] = \mathbb{E}_\pi\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \,\middle|\, S_t = s\right], \quad \forall s \in S$$
 
 ### Action-value function for policy $\pi$
 
@@ -162,7 +167,8 @@ v_\pi(s) &\doteq \mathbb{E}_\pi\left[G_t \mid S_t = s\right] \\
 \end{align*}
 $$
 
-- This is the **Bellman Equation for $v_\pi$**. It expresses the relationship between the value of a state and the value of its successor states.
+This is the **Bellman Equation for $v_\pi$**. It expresses the relationship between the value of a state and the value of its successor states.
+
 - The Bellman equation averages over all possibilities, weighting each by its probability of occurring.
 - It states that the starting state value must equal the (discounted) value of the expected next state, plus the reward expected along the way.
 - We visualize this relationship between a state and its possible successor states with a **backup diagram.**
@@ -178,9 +184,9 @@ Backup Diagram for $v_\pi$
 
 > **Backup diagram for $v_\pi$**: Each open circle represents a state $s$, filled circles represent state-action pairs $(s, a)$, next open circles set represent successor states $s'$.
 
-A state-value is an expectation over the available action-values under a policy:
+- A state-value is an expectation over the available action-values under a policy:
 
-$$\begin{equation} \label{eq3}
+$$\begin{equation} 
 \begin{split}
 v_{\pi}(s) & \doteq \mathbb{E}_{\pi,p} [G_t\ |\ S_t{=}s]\\
 & = \mathbb{E}_{\pi,p} [q_{\pi}(s,A_t)\ |\ S_t{=}s], \quad \text{(cf. [*])}\\
@@ -190,12 +196,12 @@ v_{\pi}(s) & \doteq \mathbb{E}_{\pi,p} [G_t\ |\ S_t{=}s]\\
 
 [*] Given a state-action pair, the return $G_t$ is an action-value. 
 
--In the example above: $G_t$ is a function of the state $s$ (given by the condition "$S_t{=}s$") and the action $A_t$ (given by the policy $\pi$ under the expectation "$\mathbb{E}_{\pi,p}$").
+- In the example above: $G_t$ is a function of the state $s$ (given by the condition "$S_t{=}s$") and the action $A_t$ (given by the policy $\pi$ under the expectation $\mathbb{E}_{\pi,p}$).
 
 - The following recursive relationship satisfied by $v_{\pi}(s)$ is called the _Bellman equation for state-values_. The value function $v_{\pi}(s)$ is the _unique solution_ to its Bellman equation.
 
-$$\begin{equation} \label{eq4}
-\begin{split}
+$$
+\begin{align*}
 v_{\pi}(s) & \doteq \mathbb{E}_{\pi,p} [G_t\ |\ S_t{=}s]\\
 & = \mathbb{E}_{\pi,p} [R_{t+1} + \gamma G_{t+1}\ |\ S_t{=}s]\\
 & = \displaystyle \sum_{a} \pi(a|s) \mathbb{E}_{p,\pi} [R_{t+1} + \gamma G_{t+1}\ |\ S_t{=}s, A_t{=}a ]\\
@@ -203,38 +209,38 @@ v_{\pi}(s) & \doteq \mathbb{E}_{\pi,p} [G_t\ |\ S_t{=}s]\\
 & = \displaystyle \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a) \mathbb{E}_{\pi,p} [r + \gamma G_{t+1}\ |\ S_{t+1}{=}s' ] \;\; \text{(by the Markov property)}\\
 & = \displaystyle \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a) \Big[r + \gamma \mathbb{E}_{\pi,p} [G_{t+1}\ |\ S_{t+1}{=}s'] \Big]\\
 & = \displaystyle \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a) \Big[r + \gamma v_{\pi}(s') \Big]\\
-\end{split}
-\end{equation}$$
+\end{align*}
+$$
 
 - Final form: 
 
-$$\begin{array}{rcl}
+$$\boxed{\begin{array}
 v_{\pi}(s) & = & \displaystyle \sum_{a} \pi(a|s) q_{\pi}(s,a)\\
 & = & \displaystyle \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a) \Big[r + \gamma v_{\pi}(s') \Big]\\
-\end{array}
+\end{array}}
 $$
 
 ### Bellman equation for $q_{\pi}(s,a)$
 
-An action-value is an expectation over the possible next state-values under the environment’s dynamics.
+- An action-value is an expectation over the possible next state-values under the environment’s dynamics.
 
-$$\begin{equation} 
-\begin{split}
+$$
+\begin{align*}
 q_{\pi}(s,a) & \doteq \mathbb{E}_{p,\pi} [G_t\ |\ S_t{=}s, A_t{=}a]\\
 & = \mathbb{E}_{p,\pi} [R_{t+1} + \gamma G_{t+1}\ |\ S_t{=}s, A_t{=}a]\\
 & = \mathbb{E}_{p,\pi} [R_{t+1} + \gamma v_{\pi}(S_{t+1})\ |\ S_t{=}s, A_t{=}a], \quad \text{(cf. [*])}\\
 & = \displaystyle \sum_{s',r} p(s',r|s,a) \Big[r + \gamma v_{\pi}(s')\Big]\\
-\end{split}
-\end{equation}$$
+\end{align*}
+$$
 
 [*] Given only a state $s$, the return $G_t$ is a state-value. 
 
-- In the example above: $G_t$ is a function of the state $S_{t+1}$ (given by the environment’s dynamics $p$ under the expectation "$\mathbb{E}_{p,\pi}$").
+- In the example above: $G_t$ is a function of the state $S_{t+1}$ (given by the environment’s dynamics $p$ under the expectation $\mathbb{E}_{p,\pi}$).
 
 - The following recursive relationship satisfied by $q_{\pi}(s,a)$ is called the _Bellman equation for action-values_. The value function $q_{\pi}(s,a)$ is the _unique solution_ to its Bellman equation.
 
-$$\begin{equation}
-\begin{split}
+$$
+\begin{align*}
 q_{\pi}(s,a) & \doteq \mathbb{E}_{p,\pi} [G_t\ |\ S_t{=}s, A_t{=}a]\\
 & = \mathbb{E}_{p,\pi} [R_{t+1} + \gamma G_{t+1}\ |\ S_t{=}s, A_t{=}a]\\
 & = \displaystyle \sum_{s',r} p(s',r|s,a) \mathbb{E}_{\pi,p} [r + \gamma G_{t+1}\ |\ S_t{=}s, A_t{=}a, S_{t+1}{=}s' ]\\
@@ -242,42 +248,45 @@ q_{\pi}(s,a) & \doteq \mathbb{E}_{p,\pi} [G_t\ |\ S_t{=}s, A_t{=}a]\\
 & = \displaystyle \sum_{s',r} p(s',r|s,a) \Big[r + \gamma \mathbb{E}_{\pi,p} [G_{t+1}\ |\ S_{t+1}{=}s'] \Big]\\
 & = \displaystyle \sum_{s',r} p(s',r|s,a) \Big[r + \gamma \sum_{a'} \pi(a'|s') \mathbb{E}_{p,\pi} [G_{t+1}\ |\ S_{t+1}{=}s', A_{t+1}{=}a'] \Big]\\
 & = \displaystyle \sum_{s',r} p(s',r|s,a) \Big[r + \gamma \sum_{a'} \pi(a'|s') q_{\pi}(s',a') \Big]\\
-\end{split}
-\end{equation}$$
+\end{align*}
+$$
 
 - Final form:
 
-$$\begin{array}{rcl}
+$$
+\boxed{
+\begin{array}
 q_{\pi}(s,a)& = & \displaystyle \sum_{s',r} p(s',r|s,a) \Big[r + \gamma v_{\pi}(s')\Big]\\
 & = & \displaystyle \sum_{s',r} p(s',r|s,a) \Big[r + \gamma \sum_{a'} \pi(a'|s') q_{\pi}(s',a') \Big]\\
 \end{array}
+}
 $$
 
 ---
 
 ## Optimal Policies & Optimal Value Functions {#sec-ch03-3-6}
 
-For finite MDPS, we can define an optimal policy for finite MDPs as a policy that achieves the maximum expected return.Value functions define a partial ordering over policies. A policy $\pi$ is better than or equal to $\pi'$ iff $v_\pi(s) \geq v_{\pi'}(s)$ for all $s \in S$. 
+- For finite MDPS, we can define an optimal policy for finite MDPs as a policy that achieves the maximum expected return.Value functions define a partial ordering over policies. A policy $\pi$ is better than or equal to $\pi'$ iff $v_\pi(s) \geq v_{\pi'}(s)$ for all $s \in S$. 
 
 $$\pi \geq \pi' \iff v_\pi(s) \geq v_{\pi'}(s) \quad \forall s \in S$$
 
-There always exists at least one **optimal policy** $\pi_{*}$, which is better than or equal to all other policies. All optimal policies share the same **optimal state-value function** $v_{*}$, defined as:
+- There always exists at least one **optimal policy** $\pi_{*}$, which is better than or equal to all other policies. All optimal policies share the same **optimal state-value function** $v_{*}$, defined as:
 
 $$v_*(s) \doteq \max_\pi v_\pi(s) \quad \forall s \in S$$
 
-All optimal policies also share the same **optimal action-value function** $q_{*}$, defined as:
+- All optimal policies also share the same **optimal action-value function** $q_{*}$, defined as:
 
 $$q_*(s,a) \doteq \max_\pi q_\pi(s,a) \quad \forall s \in S,\, a \in A(s)$$
 
-For a state-action pair $(s, a)$, $q_{*}$ gives the expected return for taking action $a$ in state $s$ and thereafter following an optimal policy. We can therefore write $q_{*}$ in terms of $v_{*}$ as:
+- For a state-action pair $(s, a)$, $q_{*}$ gives the expected return for taking action $a$ in state $s$ and thereafter following an optimal policy. We can therefore write $q_{*}$ in terms of $v_{*}$ as:
 
 $$q_*(s,a) = \mathbb{E}\left[R_{t+1} + \gamma v_*(S_{t+1}) \mid S_t = s,\, A_t = a\right]$$
 
 ### Bellman Optimality Equations
 
-Self-consistency condition given by Bellman equation for state values must be satisfied by $v_{*}$ and $q_{*}$.
+- Self-consistency condition given by Bellman equation for state values must be satisfied by $v_{*}$ and $q_{*}$.
 
-#### For $v_{*}(s)$
+#### $v_{*}(s)$
 
 $$
 \begin{align*}
@@ -289,7 +298,7 @@ v_{*}(s) &= \max_{a \in A(s)} q_{\pi_{*}}(s,a) \\
 \end{align*}
 $$
 
-#### For $q_{*}(s,a)$
+#### $q_{*}(s,a)$
 
 $$q_*(s,a) = \mathbb{E}\left[R_{t+1} + \gamma \max_{a'} q_*(S_{t+1}, a') \mid S_t = s,\, A_t = a\right]$$
 
@@ -317,7 +326,7 @@ Backup Diagrams for $v_*$ and $q_*$
 - For finite MDPs, the Bellman optimality equation has a **unique solution,** a system of $n$ equations in $n$ unknowns (one per state) solvable if the dynamics $p$ are known.
 - Any policy that is **greedy with respect to** $v_{*}$ is an optimal policy: since $v_{*}$ already accounts for all future rewards, a one-step-ahead search is sufficient to identify optimal actions.
 - $q_{*}$ makes optimal action selection even easier; the agent simply picks $\arg\max_a\, q_{*}(s, a)$ without needing to know the environment's dynamics or successor state values.
-- Explicitly solving the Bellman optimality equation is rarely practical: it requires 3  assumptions that rarely all hold simultaneously:
+- Explicitly solving the Bellman optimality equation is rarely practical. It requires 3  assumptions that rarely all hold simultaneously:
   1. Known environment dynamics,
   2. Sufficient computational resources, and 
   3. The Markov property
