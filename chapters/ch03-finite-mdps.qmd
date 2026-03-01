@@ -9,7 +9,7 @@ number-sections: true
 - In MDPs, we estimate the value $q_{*}(s, a)$ of each action $a$ in each state $s$.
 - These state-dependent action-values are essential for accurate credit assignment for long-term consequences to individual action selections.
 - Markov Decision Processes (MDPs) are a mathematical idealized form of the reinforcement learning problem. 
-- To build the full reinforcement learning (RL) problem's mathematical structure, key elements are introduced: **returns, value functions, & Bellman equations.$$
+- To build the full reinforcement learning (RL) problem's mathematical structure, key elements are introduced: **returns, value functions, & Bellman equations.**
 
 ---
 
@@ -36,15 +36,15 @@ $$\textbf{Trajectory, }\mathcal{T} \equiv (S_0, A_0, R_1, S_1, A_1, R_2, S_2, A_
 - In a **finite** MDP, the sets of states $S$, actions $A$, and rewards $R$ are all finite. The random variables $S_t$ and $R_t$ have well-defined discrete probability distributions dependent only on the preceding state and action, this is the **Markov property**. 
 - The transition dynamics are fully characterized by the function $p$, which gives the probability of transitioning to state $s' \in S$ and receiving reward $r \in R$, given state $s$ and action $a$.
 
-$$\boxed{p(s', r \vert s, a) &\doteq \mathbb{P}\{S_t = s',\, R_t = r \mid S_{t-1} = s,\, A_{t-1} = a\} \quad \forall\, s', s \in S,\, r \in \mathbb{R},\, a \in A(s)}$$
+$$\boxed{p(s', r \mid s, a) \doteq \mathbb{P}\{S_t = s',\, R_t = r \mid S_{t-1} = s,\, A_{t-1} = a\} \quad \forall\, s', s \in \mathcal{S},\, r \in \mathbb{R},\, a \in \mathcal{A}(s)}$$
 
 - The dynamics function is an ordinary deterministic function of 4 arguments:
 
-$$p &: S \times R \times S \times A \to [0,1]$$
+$$p : \mathcal{S} \times \mathcal{R} \times \mathcal{S} \times \mathcal{A} \to [0,1]$$
 
 - The "|" in the middle of $p(s, r \vert s, a)$ signifies conditional probability, which reminds us that $p$ specifies a probability distribution for each choice of $s$ and $a$. i.e., that
 
-$$\sum_{s' \in S} \sum_{r \in R} p(s', r \vert s, a) &= 1 \quad \forall\, s \in S,\, a \in A(s)$$
+$$\sum_{s' \in \mathcal{S}} \sum_{r \in \mathcal{R}} p(s', r \mid s, a) = 1 \quad \forall\, s \in \mathcal{S},\, a \in \mathcal{A}(s)$$
 
 ### Derived quantities
 
@@ -120,7 +120,7 @@ $$G_t = \sum_{k=0}^{\infty} \gamma^k = \frac{1}{1-\gamma}$$
 
 ## Unified Notation for Episodic & Continuing Tasks {#sec-ch03-3-4}
 
-- We can unify the notations for expected return for episodic and continuing tasks into a single notation by considering episode termination to be the entering of a special **absorbing state** that transitions only to itself and that generates only rewards of $0$. For example, lets consider the state transtion diagram:
+- We can unify the notations for expected return for episodic and continuing tasks into a single notation by considering episode termination to be the entering of a **special absorbing state** that transitions only to itself and that generates only rewards of $0$. For example, lets consider the state transtion diagram:
 
 ### State transition diagram
 
@@ -214,11 +214,10 @@ $$
 
 - Final form: 
 
-$$\boxed{\begin{array}
-v_{\pi}(s) & = & \displaystyle \sum_{a} \pi(a|s) q_{\pi}(s,a)\\
-& = & \displaystyle \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a) \Big[r + \gamma v_{\pi}(s') \Big]\\
-\end{array}}
-$$
+$$\boxed{\begin{array}{rcl}
+v_{\pi}(s) &=& \displaystyle\sum_{a} \pi(a \vert s)\, q_{\pi}(s,a)\\[1em]
+&=& \displaystyle\sum_{a} \pi(a \vert s) \sum_{s',r} p(s',r \vert s,a) \Big[r + \gamma v_{\pi}(s') \Big]
+\end{array}}$$
 
 ### Bellman equation for $q_{\pi}(s,a)$
 
@@ -253,14 +252,10 @@ $$
 
 - Final form:
 
-$$
-\boxed{
-\begin{array}
-q_{\pi}(s,a)& = & \displaystyle \sum_{s',r} p(s',r|s,a) \Big[r + \gamma v_{\pi}(s')\Big]\\
-& = & \displaystyle \sum_{s',r} p(s',r|s,a) \Big[r + \gamma \sum_{a'} \pi(a'|s') q_{\pi}(s',a') \Big]\\
-\end{array}
-}
-$$
+$$\boxed{\begin{array}{rcl}
+q_{\pi}(s,a) &=& \displaystyle\sum_{s',r} p(s',r \vert s,a) \Big[r + \gamma v_{\pi}(s')\Big]\\[1em]
+&=& \displaystyle\sum_{s',r} p(s',r \vert s,a) \Big[r + \gamma \sum_{a'} \pi(a' \vert s')\, q_{\pi}(s',a') \Big]
+\end{array}}$$
 
 ---
 
@@ -378,9 +373,9 @@ Backup Diagrams for $v_*$ and $q_*$
 $$\text{MDP} \left\{ \begin{array}{lll}
 S & \to & \text{finite set of states} \\
 A & \to & \text{finite set of actions} \\
-P & \to & \text{state transition probability matrix}, \quad P^a_{ss'} = \mathbb{P}[S_{t+1} = s' \mid S_t = s,\, A_t = a] \\
-R & \to & \text{reward function}, \quad R^a_s = \mathbb{E}[R_{t+1} \mid S_t = s,\, A_t = a] \\
-\gamma & \to & \text{discount factor}, \quad \gamma \in [0,1]
+P & \to & \text{state transition probability matrix,} \quad P^a_{ss'} = \mathbb{P}[S_{t+1} = s' \vert S_t = s,\, A_t = a] \\
+R & \to & \text{reward function,} \qquad\qquad\qquad\quad R^a_s = \mathbb{E}[R_{t+1} \vert S_t = s,\, A_t = a] \\
+\gamma & \to & \text{discount factor,} \qquad\qquad\qquad\qquad \gamma \in [0,1]
 \end{array} \right\}$$
 
 - **Return**: function of future rewards that the agent seeks to maximize (in expected value)
