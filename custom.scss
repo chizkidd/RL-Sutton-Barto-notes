@@ -16,7 +16,7 @@ $code-color: #24292e;
 h1, h2, h3, h4 {
   font-family: Georgia, serif;
   font-weight: 600;
-  color: #1a1a2e;
+  /* No hardcoded color — let the active theme (flatly/darkly) provide it */
 }
 
 h2 {
@@ -92,19 +92,13 @@ img[src$=".svg"] {
 }
 
 /* -- Dark mode overrides ----------------------------------- */
-[data-bs-theme=dark] h1,
-[data-bs-theme=dark] h2,
-[data-bs-theme=dark] h3,
-[data-bs-theme=dark] h4 {
-  color: #c9d8e8 !important;
-}
-
+/* h2 separator and h3 accent color for dark bundle */
 [data-bs-theme=dark] h2 {
-  border-bottom-color: #3a4a5a !important;
+  border-bottom-color: #3a4a5a;
 }
 
 [data-bs-theme=dark] h3 {
-  color: #7eb8d4 !important;
+  color: #7eb8d4;
 }
 
 [data-bs-theme=dark] pre {
