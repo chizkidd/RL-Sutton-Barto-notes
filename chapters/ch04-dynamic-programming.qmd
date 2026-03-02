@@ -112,7 +112,7 @@ v_\pi(s) &\leq q_\pi(s, \pi'(s)) \\
 \end{align*}
 $$
 
-$$\therefore\quad V_\pi(s) \leq V_{\pi'}(s)$$
+$$\therefore\quad v_\pi(s) \leq v_{\pi'}(s)$$
 
 - If improvements stop: $q_\pi(s, \pi'(s)) = \max_{a \in A} q_\pi(s,a) = q_\pi(s, \pi(s)) = v_\pi(s)$
 - Then the Bellman optimality equation has been satisfied: $v_\pi(s) = \max_{a \in A} q_\pi(s,a)$
@@ -203,7 +203,7 @@ Generalized Policy Iteration
 - Classical DP methods operate in sweeps through the state set, performing an **expected update** operation on each state.
   - Each such operation updates a single state-value on the basis of **all possible successor states and their probabilities of occurring.**
   - With no changes in value with subsequent updates, then convergence has occurred to values that satisfy the corresponding **Bellman Equations.**
-  - There are 4 primary value functions **($V_\pi, V_*, q_\pi, q_*$),** 4 corresponding Bellman equations, and 4 corresponding expected updates.
+  - There are 4 primary value functions **($v_\pi, v_*, q_\pi, q_*$),** 4 corresponding Bellman equations, and 4 corresponding expected updates.
   - **Backup diagrams** give an intuitive view of the operation of DP updates.
 
 - **Generalized Policy Iteration (GPI)**: insight into DP methods, and almost all RL methods can be gained by viewing them as GPI.
