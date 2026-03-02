@@ -17,50 +17,60 @@ $$p(s', r | s, a) = \mathbb{P}\left[R_{t+1} = r,\, S_{t+1} = s' \mid S_t, A_t\ri
 
 - Use value functions to organize & structure the search for good policies
 - Show how DP can be used to compute the value functions
-- $V_*$ or $q_*$ that satisfy the **Bellman Optimality Equations** can then be used to easily obtain optimal policies $\pi_*$
+- $v_*$ or $q_*$ that satisfy the **Bellman Optimality Equations** can then be used to easily obtain optimal policies $\pi_*$
 
 ### Bellman Optimality Equations
-- **State-Value function:**
 
 $$\quad \forall s \in S,\, a \in A(s),\, s' \in S^+$$
 
-$$V_*(s) = \max_a\, \mathbb{E}\left[R_{t+1} + \gamma V_*(S_{t+1}) \mid S_t = s,\, A_t = a\right] $$
+- **State-Value function:**
 
-$$= \max_a \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_*(s')\right] $$
+$$
+\begin{align*}
+v_{*}(s) &= \max_a\, \mathbb{E}\left[R_{t+1} + \gamma v_{*}(S_{t+1}) \mid S_t = s,\, A_t = a\right] \\
+&= \max_a \sum_{s', r} p(s', r \vert s, a)\left[r + \gamma v_{*}(s')\right]
+\end{align*}
+$$
 
 - **Action-Value function:**
-$$q_*(s,a) = \mathbb{E}\left[R_{t+1} + \gamma \max_{a'} q_*(S_{t+1}, a') \mid S_t = s,\, A_t = a\right] $$
 
-$$= \sum_{s', r} p(s', r | s, a)\left[r + \gamma \max_{a'} q_*(s', a')\right]$$
+$$
+\begin{align*}
+q_{*}(s,a) &= \mathbb{E}\left[R_{t+1} + \gamma \max_{a'} q_{*}(S_{t+1}, a') \mid S_t = s,\, A_t = a\right] \\
+&= \sum_{s', r} p(s', r \vert s, a)\left[r + \gamma \max_{a'} q_{*}(s', a')\right]
+\end{align*}
+$$
 
 ---
 
 ## Policy Evaluation (Prediction) {#sec-ch04-4-1}
 
-**Policy Evaluation**: How to compute the state-value function $V_\pi$ for an arbitrary policy $\pi$.
+**Policy Evaluation**: How to compute the state-value function $v_\pi$ for an arbitrary policy $\pi$.
 
-$$V_\pi(s) \doteq \mathbb{E}\left[G_t \mid S_t = s\right]$$
+$$
+\begin{align*}
+v_\pi(s) &\doteq \mathbb{E}\left[G_t \mid S_t = s\right] \\
+&= \mathbb{E}_\pi\left[R_{t+1} + \gamma G_{t+1} \mid S_t = s\right] \\
+&= \mathbb{E}_\pi\left[R_{t+1} + \gamma v_\pi(S_{t+1}) \mid S_t = s\right] \\
+&= \sum_a \pi(a \vert s) \sum_{s', r} p(s', r \vert s, a)\left[r + \gamma v_\pi(s')\right]
+\end{align*}
+$$
 
-$$= \mathbb{E}_\pi\left[R_{t+1} + \gamma G_{t+1} \mid S_t = s\right]$$
+- If the dynamics are known perfectly/completely, then the equation above becomes a system of $|S|$ simultaneous linear equations in $|S|$ unknowns, where the unknowns are $v_\pi(s),\ s \in S$.
 
-$$= \mathbb{E}_\pi\left[R_{t+1} + \gamma V_\pi(S_{t+1}) \mid S_t = s\right]$$
+- If we consider an iterative sequence of approximate value functions $(v_0, v_1, v_2, \ldots): S^+ \Rightarrow \mathbb{R}$ with initial approximation $v_0$ chosen arbitrarily, then each successive approximation is obtained by using the Bellman Equation for $v_\pi$ as an update rule, $\forall s \in S$:
 
-$$= \sum_a \pi(a|s) \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_\pi(s')\right]$$
-
-- If the dynamics are known perfectly/completely, then the equation above becomes a system of $|S|$ simultaneous linear equations in $|S|$ unknowns, where the unknowns are $V_\pi(s),\ s \in S$.
-
-- If we consider an iterative sequence of approximate value functions $V_0, V_1, V_2, \ldots$ with initial approximation $V_0$ chosen arbitrarily, then each successive approximation is obtained by using the Bellman Equation for $V_\pi$ as an update rule.
-
-$$\{V_0, V_1, V_2, \ldots\}: S^+ \Rightarrow \mathbb{R}$$
-
-$$V_{k+1}(s) \doteq \mathbb{E}_\pi\left[R_{t+1} + \gamma V_k(S_{t+1}) \mid S_t = s\right]$$
-
-$$= \sum_a \pi(a|s) \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_k(s')\right] \quad \forall s \in S$$
+$$
+\begin{align*}
+v_{k+1}(s) &\doteq \mathbb{E}_\pi\left[R_{t+1} + \gamma v_k(S_{t+1}) \mid S_t = s\right] \\
+&= \sum_a \pi(a \vert s) \sum_{s', r} p(s', r \vert s, a)\left[r + \gamma v_k(s')\right]
+\end{align*}
+$$
 
 ### Iterative Policy Evaluation
 
-- Eventually $\{V_k\}$ sequence converges to $V_\pi$ as $k \to \infty$ under the same conditions that guarantee the existence of $V_\pi$. This is **iterative policy evaluation**.
-- At each iteration $k+1$, for all states $s \in S$, we update $V_{k+1}(s)$ from $V_k(s')$ where $s'$ is a successor state of $s$.
+- Eventually $\{v_k\}$ sequence converges to $v_\pi$ as $k \to \infty$ under the same conditions that guarantee the existence of $v_\pi$. This is **iterative policy evaluation**.
+- At each iteration $k+1$, for all states $s \in S$, we update $v_{k+1}(s)$ from $v_k(s')$ where $s'$ is a successor state of $s$.
 - This update is called an **expected update** because it is based on the expectation over all possible next states, rather than a sample of reward/value from the next state.
 - We think of the updates occurring through **sweeps** of state space.
 
@@ -68,7 +78,12 @@ $$= \sum_a \pi(a|s) \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_k(s')\right] 
 
 ## Policy Improvement {#sec-ch04-4-2}
 
-$$q_\pi(s,a) \doteq \mathbb{E}\left[R_{t+1} + \gamma V_\pi(S_{t+1}) \mid S_t = s,\, A_t = a\right] = \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_\pi(s')\right]$$
+$$
+\begin{align*}
+q_\pi(s,a) &\doteq \mathbb{E}\left[R_{t+1} + \gamma v_\pi(S_{t+1}) \mid S_t = s,\, A_t = a\right] \\
+&= \sum_{s', r} p(s', r \vert s, a)\left[r + \gamma v_\pi(s')\right]
+\end{align*}
+$$
 
 The process of making a new policy that improves on an original policy, by making it greedy w.r.t. the value function of the original policy.
 
@@ -76,38 +91,33 @@ The process of making a new policy that improves on an original policy, by makin
 - We can improve the policy by acting greedily: $\pi'(s) = \arg\max_{a \in A} q_\pi(s,a)$
 - This improves the value from any state over one step (**monotonic policy improvement**):
 
-$$q_\pi(s, \pi'(s)) = \max_{a \in A} q_\pi(s,a) \geq q_\pi(s, \pi(s)) = V_\pi(s)$$
+$$q_\pi(s, \pi'(s)) = \max_{a \in A} q_\pi(s,a) \geq q_\pi(s, \pi(s)) = v_\pi(s)$$
 
-- It therefore improves the value function, $V_{\pi'}(s) \geq V_\pi(s)$:
+- It therefore improves the value function, $v_{\pi'}(s) \geq v_\pi(s)$:
 
-$$V_\pi(s) \leq q_\pi(s, \pi'(s))$$
+$$
+\begin{align*}
+v_\pi(s) &\leq q_\pi(s, \pi'(s)) \\
+&= \mathbb{E}\left[R_{t+1} + \gamma v_\pi(S_{t+1}) \mid S_t = s,\, A_t = \pi'(s)\right] \\
+&= \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma v_\pi(S_{t+1}) \mid S_t = s\right] \\
+&\leq \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma q_\pi(S_{t+1}, \pi'(S_{t+1})) \mid S_t = s\right] \\
+&= \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma\, \mathbb{E}\left[R_{t+2} + \gamma V_\pi(S_{t+2}) \mid S_{t+1}, A_{t+1} = \pi'(S_{t+1})\right] \mid S_t = s\right] \\
+&= \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma R_{t+2} + \gamma^2 V_\pi(S_{t+2}) \mid S_t = s\right] \\
+&\leq \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \gamma^3 V_\pi(S_{t+3}) \mid S_t = s\right] \\
+&\quad \vdots \\
+&\leq \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \gamma^3 R_{t+4} + \ldots \mid S_t = s\right] \\
+&= \mathbb{E}_{\pi'}\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t = s\right] \\
+&= \mathbb{E}_{\pi'}\left[G_t \mid S_t = s\right] \\
+&= v_{\pi'}(s)
+\end{align*}
+$$
 
-$$= \mathbb{E}\left[R_{t+1} + \gamma V_\pi(S_{t+1}) \mid S_t = s,\, A_t = \pi'(s)\right]$$
+$$\therefore\quad V_\pi(s) \leq V_{\pi'}(s)$$
 
-$$= \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma V_\pi(S_{t+1}) \mid S_t = s\right]$$
-
-$$\leq \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma q_\pi(S_{t+1}, \pi'(S_{t+1})) \mid S_t = s\right]$$
-
-$$= \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma\, \mathbb{E}\left[R_{t+2} + \gamma V_\pi(S_{t+2}) \mid S_{t+1}, A_{t+1} = \pi'(S_{t+1})\right] \mid S_t = s\right]$$
-
-$$= \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma R_{t+2} + \gamma^2 V_\pi(S_{t+2}) \mid S_t = s\right]$$
-
-$$\leq \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \gamma^3 V_\pi(S_{t+3}) \mid S_t = s\right]$$
-
-$$\vdots$$
-
-$$\leq \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \gamma^3 R_{t+4} + \ldots \mid S_t = s\right]$$
-
-$$= \mathbb{E}_{\pi'}\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t = s\right]$$
-
-$$= \mathbb{E}_{\pi'}\left[G_t \mid S_t = s\right] = V_{\pi'}(s)$$
-
-$$V_\pi(s) \leq V_{\pi'}(s)$$
-
-- If improvements stop: $q_\pi(s, \pi'(s)) = \max_{a \in A} q_\pi(s,a) = q_\pi(s, \pi(s)) = V_\pi(s)$
-- Then the Bellman optimality equation has been satisfied: $V_\pi(s) = \max_{a \in A} q_\pi(s,a)$
-- Therefore $V_\pi(s) = V_*(s)\ \forall s \in S$, so $\pi$ is an optimal policy.
-- Essentially, if $V_\pi(s) = V_{\pi'}(s)$ then $V_\pi'(s)$ must be $V_*(s)$ & both $\pi(s)$ and $\pi'(s)$ are optimal policies.
+- If improvements stop: $q_\pi(s, \pi'(s)) = \max_{a \in A} q_\pi(s,a) = q_\pi(s, \pi(s)) = v_\pi(s)$
+- Then the Bellman optimality equation has been satisfied: $v_\pi(s) = \max_{a \in A} q_\pi(s,a)$
+- Therefore $v_\pi(s) = v_*(s)\ \forall s \in S$, so $\pi$ is an optimal policy.
+- Essentially, if $v_\pi(s) = v_{\pi'}(s)$ then $v_{\pi'}(s)$ must be $v_{*}(s)$ & both $\pi(s)$ and $\pi'(s)$ are optimal policies.
 - Policy improvement thus must give a **strictly better** policy except when the original policy is already optimal.
 
 ---
@@ -116,14 +126,14 @@ $$V_\pi(s) \leq V_{\pi'}(s)$$
 
 - This involves a sequence of **monotonically improving** policies & value functions.
 - The algorithm is:
-  1. Given a policy, evaluate the policy $\pi$ to obtain the value function $V_\pi$
-  2. Then improve the policy by acting greedily w.r.t. $V_\pi$ to obtain new policy $\pi'$
-  3. Evaluate new policy $\pi'$ to obtain new value function $V_{\pi'}$
-  4. Repeat until $\pi'$ converges to the optimal policy $\pi^*$ (only for finite MDPs)
+  1. Given a policy, evaluate the policy $\pi$ to obtain the value function $v_\pi$
+  2. Then improve the policy by acting greedily w.r.t. $v_\pi$ to obtain new policy $\pi'$
+  3. Evaluate new policy $\pi'$ to obtain new value function $v_{\pi'}$
+  4. Repeat until $\pi'$ converges to the optimal policy $\pi^{*}$ (only for finite MDPs)
 
-$$\pi_0 \xrightarrow{E} V_{\pi_0} \xrightarrow{I} \pi_1 \xrightarrow{E} V_{\pi_1} \xrightarrow{I} \pi_2 \xrightarrow{E} \ldots \xrightarrow{I} \pi_* \xrightarrow{E} V_*$$
+$$\pi_0 \xrightarrow{E} V_{\pi_0} \xrightarrow{I} \pi_1 \xrightarrow{E} v_{\pi_1} \xrightarrow{I} \pi_2 \xrightarrow{E} \ldots \xrightarrow{I} \pi_* \xrightarrow{E} V_*$$
 
-where $\xrightarrow{E}$ denotes a policy evaluation ($V_\pi(s) = \mathbb{E}_\pi\left[G_t \mid S_t = s\right]$) and $\xrightarrow{I}$ denotes a policy improvement ($\pi' = \text{greedy}(V_\pi)$).
+where $\xrightarrow{E}$ denotes a policy evaluation ($v_\pi(s) = \mathbb{E}_\pi\left[G_t \mid S_t = s\right]$) and $\xrightarrow{I}$ denotes a policy improvement ($\pi' = \text{greedy}(v_\pi)$).
 
 <!-- $$V_\pi(s) = \mathbb{E}_\pi\left[G_t \mid S_t = s\right] \qquad \pi' = \text{greedy}(V_\pi)$$ -->
 
@@ -136,11 +146,14 @@ where $\xrightarrow{E}$ denotes a policy evaluation ($V_\pi(s) = \mathbb{E}_\pi\
 - Policy iteration requires full policy evaluation at each iteration step, which is a computationally expensive process that (formally) requires **infinite** sweeps of the state space to approach the true value function.
 - Could we truncate policy evaluation without losing the convergence guarantees of policy iteration? **YES**
 - In Value Iteration, policy evaluation is stopped after just **one sweep of the state space** (one update of each state).
-- It can be written as a particularly simple update operation that combines the policy improvement & truncated policy evaluation steps:
+- It can be written as a particularly simple update operation that combines the policy improvement & truncated policy evaluation steps ($\forall s \in S$):
 
-$$V_{k+1}(s) \doteq \max_a\, \mathbb{E}\left[R_{t+1} + \gamma V_k(S_{t+1}) \mid S_t = s,\, A_t = a\right]$$
-
-$$= \max_a \sum_{s', r} p(s', r | s, a)\left[r + \gamma V_k(s')\right] \quad \forall s \in S$$
+$$
+\begin{align*}
+v_{k+1}(s) &\doteq \max_a\, \mathbb{E}\left[R_{t+1} + \gamma v_k(S_{t+1}) \mid S_t = s,\, A_t = a\right] \\
+&= \max_a \sum_{s', r} p(s', r \vert s, a)\left[r + \gamma v_k(s')\right]
+\end{align*}
+$$
 
 - Value iteration is obtained simply by turning the Bellman Optimality Equation into an update rule.
 
