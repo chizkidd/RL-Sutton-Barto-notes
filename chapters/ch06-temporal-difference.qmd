@@ -39,7 +39,7 @@ Backup diagram for TD(0)
 
 > **TD(0) backup diagram**: one-step lookahead from state $s$ through action to next state $s'$.
 
-### Tabular TD(0) for Estimating $V_\pi$ (Pseudocode)
+### Tabular TD(0) for Estimating $v_\pi$ (Pseudocode)
 
 ```
 Input: the policy π to be evaluated
@@ -65,8 +65,6 @@ v_\pi(s) &\doteq \mathbb{E}\left[G_t \mid S_t = s\right] \\
 &= \mathbb{E}_\pi\left[R_{t+1} + \gamma v_\pi(S_{t+1}) \mid S_t = s\right] \\
 \end{align*}
 $$
-
-$$V_\pi(s) = \mathbb{E}_\pi\left[R_{t+1} + \gamma V_\pi(S_{t+1}) \mid S_t = s\right]$$
 
 - The TD target is an estimate because it samples the expected values in the equation above, and it uses the current estimate $V$ instead of the true $V_\pi$.
 - TD methods **combine** the sampling of MC with the bootstrapping of DP.
@@ -246,10 +244,6 @@ Loop for each episode:
 
 - Instead of updating $Q(S,A)$ with the value maximising action at $S_{t+1}$, $\max_a Q(S_{t+1}, a)$ as used in Q-learning, or the $\varepsilon$-greedy exploratory action as in SARSA, we can use the **expected value** of $Q$ at $S_{t+1}$, taking into account how likely each action is under the current policy. The update rule is:
 
-$$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\, \mathbb{E}_\pi\left[Q(S_{t+1}, A_{t+1}) \mid S_{t+1}\right] - Q(S_t, A_t)\right]$$
-
-$$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma \sum_a \pi(a|S_{t+1})\, Q(S_{t+1}, a) - Q(S_t, A_t)\right]}$$
-
 $$\boxed{\begin{aligned}
 Q(S_t, A_t) &\leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\, \mathbb{E}_\pi\left[Q(S_{t+1}, A_{t+1}) \vert S_{t+1}\right] - Q(S_t, A_t)\right] \\[6pt]
 Q(S_t, A_t) &\leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma \sum_a \pi(a \vert S_{t+1})\, Q(S_{t+1}, a) - Q(S_t, A_t)\right]
@@ -271,13 +265,9 @@ Q(S_t, A_t) &\leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma \sum_a \pi(a 
 - If the true values of state-action pairs $q(s,a)$ of a single state $s$ with multiple actions $a$ are all zero, i.e. $q(s,a) = 0\ \forall s, a$, but whose estimated values $Q(s,A)$ are uncertain and thus distributed some above & some below zero, then the maximum of the true values is zero, but the maximum of the estimates is positive; hence a positive bias.
 - This is called the **maximization bias**:
 
-$$q(s,a) = 0 \quad \forall s,a \implies \max_{s,a} q(s,a) = 0$$
-
-$$Q(s,A) \begin{cases} \geq 0 \\ < 0 \end{cases} \implies \max_{s,a} Q(s,a) > 0$$
-
 $$\begin{aligned}
 q(s,a) = 0 \quad \forall s,a &\implies \max_{s,a} q(s,a) = 0 \\[6pt]
-Q(s,a) = \left\{ \begin{array}{l} \geq 0 \\ < 0 \end{array} \right. &\implies \max_{s,a} Q(s,a) > 0
+Q(s,a) = \left\{ \begin{array}{l} \geq 0 \\ < 0 \end{array} \right\} &\implies \max_{s,a} Q(s,a) > 0
 \end{aligned}$$
 
 - We can avoid maximization bias by learning 2 independent estimates of the value function $Q_1(a), Q_2(a)$, in which we could then:
@@ -289,7 +279,7 @@ Q(s,a) = \left\{ \begin{array}{l} \geq 0 \\ < 0 \end{array} \right. &\implies \m
 
 - Double Learning for Q-learning is called **Double Q-learning.**
 
-### Double Q-learning Pseudocode** for estimating $Q_1 \approx Q_2 \approx q_*$
+### Double Q-learning Pseudocode for estimating $Q_1 \approx Q_2 \approx q_*$
 
 ```
 (α ∈ (0,1], small ε > 0)
