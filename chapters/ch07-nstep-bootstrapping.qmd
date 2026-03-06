@@ -123,7 +123,7 @@ $$\begin{aligned}
 
 - $\bar{V}_t(s)$ is the **expected approximate value** of state $s$ using the estimated action values at time $t$, under the target policy:
 
-$$\bar{V}_t(s) \doteq \sum_a \pi(a|s)\, Q_t(s,a) \quad \forall s \in S$$
+$$\bar{V}_t(s) \doteq \sum_a \pi(a|s)\, Q_t(s,a), \quad \forall s \in S$$
 
 - Expected approximate values are essential for action-value methods in RL.
 - If $s$ is terminal, then its expected approximate value is defined to be zero: $$\bar{V}_t(\mathcal{T}) = 0$$
@@ -190,10 +190,10 @@ $$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\, \rho_{t+1:t+n-1}\left[G_t
 
 - A simple approach would be to weight the RHS ($R_{t+1} + \gamma G_{t+1:h}$) by $\rho_t$, but a more sophisticated approach would be to use an off-policy definition of the $n$-step return ending at horizon $h$:
 
-$$\begin{aligned}
+$$\boxed{\begin{aligned}
 G_{t:h} &\doteq \rho_t\left(R_{t+1} + \gamma G_{t+1:h}\right) + (1 - \rho_t) V_{h-1}(S_t), \quad t < h < T \\[6pt]
 G_{h:h} &\doteq V_{h-1}(S_h)
-\end{aligned}$$
+\end{aligned}}$$
 
 - If $\rho_t = 0$ (trajectory has no chance of occurrence under the target policy), then instead of the target $G_{t:h}$ being zero and causing the estimate to shrink, the target is the same as the estimate and causes no change.
 
@@ -206,10 +206,10 @@ G_{h:h} &\doteq V_{h-1}(S_h)
 - For action values, the off-policy definition of the $n$-step return is a little different because the first action does not play a role in the importance sampling (it has already been taken).
 - The $n$-step on-policy return ending at horizon $h$ can be written recursively, and for action values the recursion ends with $G_{h:h} \doteq V_{h-1}(S_h)$. An off-policy form with control variates is:
 
-$$\begin{aligned}
+$$\boxed{\begin{aligned}
 G_{t:h} &\doteq R_{t+1} + \gamma\left[\rho_{t+1} G_{t+1:h} + \bar{V}_{h-1}(S_{t+1}) - \rho_{t+1} Q_{h-1}(S_{t+1}, A_{t+1})\right] \\[6pt]
 &= R_{t+1} + \gamma\, \rho_{t+1}\left(G_{t+1:h} - Q_{h-1}(S_{t+1}, A_{t+1})\right) + \gamma \bar{V}_{h-1}(S_{t+1}), \quad t < h \leq T
-\end{aligned}$$
+\end{aligned}}$$
 
 - If $h < T$, then the recursion ends with $G_{h:h} \doteq Q_{h-1}(S_h, A_h)$.
 - If $h \geq T$, the recursion ends with $G_{T-1:h} = R_T$.
