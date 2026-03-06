@@ -127,38 +127,38 @@ q_{\pi_k}(s, \pi_{k+1}(s)) &= q_{\pi_k}\!\left(s, \arg\max_a\, q_{\pi_k}(s,a)\ri
 
 ### $\varepsilon$-greedy Exploration
 
-$$\pi(a \vert s) = \begin{array}{ll} 1 - \varepsilon + \dfrac{\varepsilon}{\vert A(s) \vert} & \text{if greedy action} \\[6pt] \dfrac{\varepsilon}{\vert A(s) \vert} & \text{if non-greedy action} \end{array}$$
+$$\pi(a \vert s) = \left\{ \begin{array}{ll} 1 - \varepsilon + \dfrac{\varepsilon}{\vert A(s) \vert} & \text{if greedy action} \\[6pt] \dfrac{\varepsilon}{\vert A(s) \vert} & \text{if non-greedy action} \end{array} \right\}$$
 
 ### $\varepsilon$-greedy Policy Improvement
 
 - For any $\varepsilon$-soft policy $\pi$, any $\varepsilon$-greedy policy w.r.t. $q_\pi$ is guaranteed to be better than or equal to $\pi$.
 - For any $\varepsilon$-soft policy $\pi$, any $\varepsilon$-greedy policy $\pi'$ w.r.t. $q_\pi$ is an improvement: $v_{\pi'}(s) \geq v_\pi(s)$
 
-$$\begin{align}
+$$\begin{align*}
 q_{\pi}(s, \pi'(s)) &= \sum_a \pi'(a \vert s)\, q_{\pi}(s,a) \\[6pt]
 &= \frac{\varepsilon}{\vert A(s) \vert} \sum_a q_{\pi}(s,a) + (1-\varepsilon) \max_a q_{\pi}(s,a) \\[6pt]
 &\geq \frac{\varepsilon}{\vert A(s) \vert} \sum_a q_{\pi}(s,a) + (1-\varepsilon) \sum_a \frac{\pi(a \vert s) - \frac{\varepsilon}{\vert A(s) \vert}}{1-\varepsilon}\, q_{\pi}(s,a) \\[6pt]
 &= \frac{\varepsilon}{\vert A(s) \vert} \sum_a q_{\pi}(s,a) + \sum_a \pi(a \vert s)\, q_{\pi}(s,a) - \frac{\varepsilon}{\vert A(s) \vert} \sum_a q_{\pi}(s,a) \\[6pt]
 &= \sum_a \pi(a \vert s)\, q_{\pi}(s,a) \\[6pt]
 &= v_{\pi}(s)
-\end{align}$$
+\end{align*}$$
 
 - By the policy improvement theorem, $\pi' \geq \pi$ (i.e., $v_{\pi'}(s) \geq v_\pi(s)$ for all $s \in S$).
 
 - A policy $\pi$ is optimal among $\varepsilon$-soft policies if and only if $v_\pi = \tilde{v}_*$
 - $\tilde{v}_*$ is the unique solution to the Bellman optimality equation with altered transition probabilities:
 
-$$\begin{align}
+$$\begin{align*}
 \tilde{v}_{*}(s) &= \max_a \sum_{s',r} \left[(1-\varepsilon)\,p(s',r \vert s,a) + \sum_{a'} \frac{\varepsilon}{\vert A(s) \vert}\, p(s',r \vert s,a')\right]\left[r + \gamma \tilde{v}_{*}(s')\right] \\[8pt]
 &= (1-\varepsilon) \max_a \sum_{s',r} p(s',r \vert s,a)\left[r + \gamma \tilde{v}_{*}(s')\right] + \frac{\varepsilon}{\vert A(s) \vert} \sum_a \sum_{s',r} p(s',r \vert s,a)\left[r + \gamma \tilde{v}_{*}(s')\right]
-\end{align}$$
+\end{align*}$$
 
 - When equality holds and the $\varepsilon$-soft policy $\pi$ is no longer improved, then:
 
-$$\begin{align}
+$$\begin{align*}
 v_{\pi}(s) &= (1-\varepsilon) \max_a q_{\pi}(s,a) + \frac{\varepsilon}{\vert A(s) \vert} \sum_a q_{\pi}(s,a) \\[8pt]
 &= (1-\varepsilon) \max_a \sum_{s',r} p(s',r \vert s,a)\left[r + \gamma v_{\pi}(s')\right] + \frac{\varepsilon}{\vert A(s) \vert} \sum_a \sum_{s',r} p(s',r \vert s,a)\left[r + \gamma v_{\pi}(s')\right]
-\end{align}$$
+\end{align*}$$
 
 - Because $\tilde{v}_*$ is the unique solution, it must be that $v_\pi = \tilde{v}_*$.
 
@@ -196,14 +196,14 @@ $$\pi(a|s) > 0 \implies b(a|s) > 0$$
 
 - Given a starting state $S_t$, the probability of the subsequent state-action trajectory, $A_t, S_{t+1}, A_{t+1}, \ldots, S_T$, occurring under any policy $\pi$ is:
 
-$$\begin{align}
+$$\begin{align*}
 &\Pr\{A_t, S_{t+1}, A_{t+1}, \ldots, S_T \mid S_t,\; A_{t:T-1} \sim \pi\} \\[8pt]
 &= \pi(A_t \vert S_t)\, p(S_{t+1} \vert S_t,A_t)\, \pi(A_{t+1} \vert S_{t+1}) \cdots p(S_T \vert S_{T-1},A_{T-1}) \\[8pt]
 &= \prod_{k=t}^{T-1} \pi(A_k \vert S_k)\, p(S_{k+1} \vert S_k, A_k)
-\end{align}$$
+\end{align*}$$
 
 $$\begin{aligned}
-\text{where } p &\equiv p(s', r \vert s, a) = \text{state-transition probability function}
+\text{where } p &\equiv \text{state-transition probability function}
 \end{aligned}$$
 
 - The relative probability of the trajectory under the target and behavior policies (the **importance-sampling ratio**) is:
@@ -255,7 +255,7 @@ C_{n+1} &\doteq C_n + W_{n+1}
 \end{aligned}$$
 
 $$\begin{aligned}
-\text{where } C_0 \doteq 0 \text{and} $V_1 \to \text{arbitrary.}
+\text{where } C_0 \doteq 0 \text{and} V_1 \to \text{arbitrary.}
 \end{aligned}$$
 
 ---
@@ -279,7 +279,7 @@ $$\begin{aligned}
 
 - The **flat partial** returns:
 
-$$\bar{G}_{t:h} \doteq R_{t+1} + R_{t+2} + \ldots + R_h, \quad 0 \leq t \leq h \leq T$$
+$$\boxed{\bar{G}_{t:h} \doteq R_{t+1} + R_{t+2} + \ldots + R_h, \quad 0 \leq t \leq h \leq T}$$
 
 $$\begin{aligned}
 \text{where "flat"} &\equiv \text{absence of discounting} \\[6pt]
