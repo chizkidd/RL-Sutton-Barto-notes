@@ -15,9 +15,9 @@ number-sections: true
 
 - Let the TD target look $n$ steps into the future.
 - Consider estimating $V_\pi$ from sample episodes generated using $\pi$:
-  - MC methods perform an update for each visited state based on the entire sequence of observed rewards from that state until the end of the episode.
-  - One-step TD methods update is based on the one next reward only.
-  - $n$-step: somewhere in between that performs an update based on an intermediate number of rewards (more than 1 but less than all the rewards in the entire episode).
+  - **MC** methods perform an update for each visited state based on the entire sequence of observed rewards from that state until the end of the episode.
+  - **One-step** TD methods update is based on the one next reward only.
+  - $\mathbf{n}$**-step**: somewhere in between that performs an update based on an intermediate number of rewards (more than 1 but less than all the rewards in the entire episode).
 
 <!-- ![n-step TD Backup Diagrams](../figures/fig71_nstep_td.svg) -->
 ::: {#fig-71}
@@ -30,24 +30,22 @@ Backup diagrams for n-step methods
 
 - The $n$-step return looks like:
 
-$$G_t^{(n)} = G_{t:t+n} \equiv \text{the return from time step } t \text{ to } t+n$$
-
-$$n=1\ (\text{TD(0)}): \quad G_t^{(1)} = R_{t+1} + \gamma V_t(S_{t+1})$$
-
-$$n=2: \quad G_t^{(2)} = R_{t+1} + \gamma R_{t+2} + \gamma^2 V_{t+1}(S_{t+2})$$
-
-$$\vdots$$
-
-$$n=\infty\ (\text{MC}): \quad G_t^{(\infty)} = R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{T-1} R_T$$
+$$\begin{aligned}
+G_t^{(n)} = G_{t:t+n} &\equiv \text{the return from time step } t \text{ to } t+n \\[10pt]
+n=1\ (\text{TD(0)}): \quad G_t^{(1)} &= R_{t+1} + \gamma V_t(S_{t+1}) \\[6pt]
+n=2: \quad G_t^{(2)} &= R_{t+1} + \gamma R_{t+2} + \gamma^2 V_{t+1}(S_{t+2}) \\[6pt]
+&\quad \vdots \\[6pt]
+n=\infty\ (\text{MC}): \quad G_t^{(\infty)} &= R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{T-1} R_T
+\end{aligned}$$
 
 - **MC target** is the return.
-- **TD(0) target** is the one-step return, the first reward plus the discounted next state estimated value ($V_t: S \to \mathbb{R}$ is the estimate at time $t$ of $V_\pi$).
+- **TD(0) target** is the one-step return, the first reward plus the discounted next state estimated value ($V_t: S \to \mathbb{R}$ is the estimate at time $t$ of $v_\pi$).
 
 - **$n$-step return:**
 
-$$G_t^{(n)} = R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{n-1} R_{t+n} + \gamma^n V_{t+n-1}(S_{t+n}),$$
+$$\boxed{G_t^{(n)} = R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{n-1} R_{t+n} + \gamma^n V_{t+n-1}(S_{t+n}),}$$
 
-$$\forall n, t \text{ s.t. } n \geq 1 \text{ and } 0 \leq t \leq T-n$$
+$$\forall n, t \text{ s.t. } \quad n \geq 1 \text{ and } 0 \leq t \leq T-n$$
 
 - All $n$-step returns can be considered approximations to the full return, truncated after $n$ steps and then corrected for the remaining missing terms by $V_{t+n-1}(S_{t+n})$.
 - If the $n$-step return extends to or beyond termination, then all the missing terms are taken as zero, and the $n$-step return becomes the ordinary full return:
@@ -67,9 +65,9 @@ $$V_{t+n}(s) = V_{t+n-1}(s) \quad \forall s \neq S_t$$
 
 $$\boxed{V(S_t) \leftarrow V(S_t) + \alpha\left[G_t^{(n)} - V(S_t)\right]}$$
 
-- The $n$-step return uses the value function $V_{t+n-1}$ to correct for the missing rewards beyond $R_{t+n}$. An important property of $n$-step returns is that their expectation is guaranteed to be a better estimate of $V_\pi$ than $V_{t+n-1}$ is in a worst-state sense. This is called the **error reduction property**. Using this property, all $n$-step TD methods converge to the correct predictions:
+- The $n$-step return uses the value function $V_{t+n-1}$ to correct for the missing rewards beyond $R_{t+n}$. An important property of $n$-step returns is that their expectation is guaranteed to be a better estimate of $v_\pi$ than $V_{t+n-1}$ is in a worst-state sense. This is called the **error reduction property**. Using this property, all $n$-step TD methods converge to the correct predictions:
 
-$$\max_s \left|\mathbb{E}_\pi\left[G_t^{(n)} \mid S_t = s\right] - V_\pi(s)\right| \leq \gamma^n \max_s \left|V_{t+n-1}(s) - V_\pi(s)\right|$$
+$$\max_s \left|\mathbb{E}_\pi\left[G_t^{(n)} \mid S_t = s\right] - v_\pi(s)\right| \leq \gamma^n \max_s \left|V_{t+n-1}(s) - v_\pi(s)\right|$$
 
 ---
 
@@ -86,31 +84,29 @@ $$\max_s \left|\mathbb{E}_\pi\left[G_t^{(n)} \mid S_t = s\right] - V_\pi(s)\righ
 Backup diagrams for n-step SARSA methods
 :::
 
-Consider the following $n$-step returns for $n = 1, 2, \ldots, \infty$:
+- Consider the following $n$-step returns for $n = 1, 2, \ldots, \infty$:
 
-$$G_t^{(n)} = G_{t:t+n}$$
+$$\begin{aligned}
+G_t^{(n)} &= G_{t:t+n} \\[10pt]
+n=1\ (\text{Sarsa(0)}): \quad G_t^{(1)} &= R_{t+1} + \gamma Q(S_{t+1}, A_{t+1}) \\[6pt]
+n=2: \quad G_t^{(2)} &= R_{t+1} + \gamma R_{t+2} + \gamma^2 Q(S_{t+2}, A_{t+2}) \\[6pt]
+&\quad \vdots \\[6pt]
+n=\infty\ (\text{MC}): \quad G_t^{(\infty)} &= R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{T-1} R_T
+\end{aligned}$$
 
-$$n=1\ (\text{Sarsa(0)}): \quad G_t^{(1)} = R_{t+1} + \gamma Q(S_{t+1}, A_{t+1})$$
+- **$n$-step Q-return:**
 
-$$n=2: \quad G_t^{(2)} = R_{t+1} + \gamma R_{t+2} + \gamma^2 Q(S_{t+2}, A_{t+2})$$
+$$\boxed{G_t^{(n)} \doteq R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{n-1} R_{t+n} + \gamma^n Q_{t+n-1}(S_t, A_t)}$$
 
-$$\vdots$$
+$$\forall n, t \quad \text{ s.t. } \quad n \geq 1,\ 0 \leq t \leq T-n, \quad \text{with } G_t^{(n)} = G_t \text{ if } t+n \geq T$$
 
-$$n=\infty\ (\text{MC}): \quad G_t^{(\infty)} = R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{T-1} R_T$$
-
-**$n$-step Q-return:**
-
-$$G_t^{(n)} \doteq R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{n-1} R_{t+n} + \gamma^n Q_{t+n-1}(S_t, A_t)$$
-
-$$\forall n, t \text{ s.t. } n \geq 1,\ 0 \leq t \leq T-n, \quad \text{with } G_t^{(n)} = G_t \text{ if } t+n \geq T$$
-
-The natural state-action value learning algorithm is then:
+- The natural state-action value learning algorithm is then:
 
 $$Q_{t+n}(S_t, A_t) \doteq Q_{t+n-1}(S_t, A_t) + \alpha\left[G_t^{(n)} - Q_{t+n-1}(S_t, A_t)\right], \quad 0 \leq t < T$$
 
-$$Q_{t+n}(s,a) = Q_{t+n-1}(s,a) \quad \forall s, a \text{ s.t. } s \neq S_t \text{ or } a \neq A_t$$
+$$Q_{t+n}(s,a) = Q_{t+n-1}(s,a) \quad \forall s, a \quad \text{ s.t. } \quad s \neq S_t \text{ or } a \neq A_t$$
 
-This algorithm is called **$n$-step Sarsa**:
+- This algorithm is called **$n$-step Sarsa**:
 
 $$\boxed{Q_{t+n}(S_t, A_t) \leftarrow Q_{t+n-1}(S_t, A_t) + \alpha\left[G_t^{(n)} - Q_{t+n-1}(S_t, A_t)\right]}$$
 
@@ -121,9 +117,11 @@ $$\boxed{Q_{t+n}(S_t, A_t) \leftarrow Q_{t+n-1}(S_t, A_t) + \alpha\left[G_t^{(n)
 
 $$G_t^{(n)} = R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{n-1} R_{t+n} + \gamma^n \bar{V}_{t+n-1}(S_{t+n}), \quad t+n < T$$
 
-(with $G_t^{(n)} = G_t$ if $t+n \geq T$)
+$$\begin{aligned}
+\text{with } G_t^{(n)} &= G_t \quad \text{if } t+n \geq T
+\end{aligned}$$
 
-where $\bar{V}_t(s)$ is the **expected approximate value** of state $s$ using the estimated action values at time $t$, under the target policy:
+- $\bar{V}_t(s)$ is the **expected approximate value** of state $s$ using the estimated action values at time $t$, under the target policy:
 
 $$\bar{V}_t(s) \doteq \sum_a \pi(a|s)\, Q_t(s,a) \quad \forall s \in S$$
 
@@ -143,11 +141,14 @@ $$\bar{V}_t(s) \doteq \sum_a \pi(a|s)\, Q_t(s,a) \quad \forall s \in S$$
 
 $$\rho_{t:h} = \prod_{k=t}^{\min(h,\, T-1)} \frac{\pi(A_k|S_k)}{b(A_k|S_k)}$$
 
-- $\rho_{t:h} \equiv$ relative probability under the two policies of taking the $n$ actions from $A_t$ to $A_{t+n-1}$.
+$$\begin{aligned}
+\text{where } \rho_{t:h} &\equiv \text{relative probability under the two policies of} \\
+&\quad \text{taking the } n \text{ actions from } A_t \text{ to } A_{t+n-1}
+\end{aligned}$$
 
 - The off-policy $n$-step TD update when weighted by $\rho_{t:h}$ becomes:
 
-$$V_{t+n}(S_t) \leftarrow V_{t+n-1}(S_t) + \alpha\, \rho_{t:t+n-1}\left[G_t^{(n)} - V_{t+n-1}(S_t)\right], \quad 0 \leq t < T$$
+$$\boxed{V_{t+n}(S_t) \leftarrow V_{t+n-1}(S_t) + \alpha\, \rho_{t:t+n-1}\left[G_t^{(n)} - V_{t+n-1}(S_t)\right], \quad 0 \leq t < T}$$
 
 - If both policies are actually the same (on-policy), then the importance sampling ratio is always 1 and we have our previous update (on-policy $n$-step TD):
 
@@ -176,20 +177,24 @@ $$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\, \rho_{t+1:t+n-1}\left[G_t
 - The multi-step off-policy methods presented in section 7.3 are simple and conceptually clear but not very efficient and dramatically increase variance.
 - A more sophisticated approach would be using per-decision importance sampling.
 
-1. The ordinary $n$-step return can be written recursively. For the $n$-steps ending at horizon $h$, the $n$-step return can be written:
+  1. The ordinary $n$-step return can be written recursively. For the $n$-steps ending at horizon $h$, the $n$-step return can be written:
 
 $$G_{t:h} = R_{t+1} + \gamma G_{t+1:h}, \quad t < h < T$$
 
-where $G_{h:h} \doteq V_{h-1}(S_h)$.
+$$\begin{aligned}
+\text{where } G_{h:h} &\doteq V_{h-1}(S_h)
+\end{aligned}$$
 
-2. Consider the effect of following a behavior policy $b$ that is not the same as the target policy $\pi$. All of the resulting experiences, including the first reward $R_{t+1}$ and the next state $S_{t+1}$, must be weighted by the importance sampling ratio for time $t$:
+  2. Consider the effect of following a behavior policy $b$ that is not the same as the target policy $\pi$. All of the resulting experiences, including the first reward $R_{t+1}$ and the next state $S_{t+1}$, must be weighted by the importance sampling ratio for time $t$:
 
 $$\rho_t = \frac{\pi(A_t|S_t)}{b(A_t|S_t)}$$
 
-- A simple approach would be to weight the RHS $R_{t+1} + \gamma G_{t+1:h}$ by $\rho_t$, but a more sophisticated approach would be to use an off-policy definition of the $n$-step return ending at horizon $h$:
+- A simple approach would be to weight the RHS ($R_{t+1} + \gamma G_{t+1:h}$) by $\rho_t$, but a more sophisticated approach would be to use an off-policy definition of the $n$-step return ending at horizon $h$:
 
-$$G_{t:h} \doteq \rho_t\left(R_{t+1} + \gamma G_{t+1:h}\right) + (1 - \rho_t) V_{h-1}(S_t),$$ 
-$$t < h < T,\ G_{h:h} \doteq V_{h-1}(S_h)$$
+$$\begin{aligned}
+G_{t:h} &\doteq \rho_t\left(R_{t+1} + \gamma G_{t+1:h}\right) + (1 - \rho_t) V_{h-1}(S_t), \quad t < h < T \\[6pt]
+G_{h:h} &\doteq V_{h-1}(S_h)
+\end{aligned}$$
 
 - If $\rho_t = 0$ (trajectory has no chance of occurrence under the target policy), then instead of the target $G_{t:h}$ being zero and causing the estimate to shrink, the target is the same as the estimate and causes no change.
 
@@ -202,16 +207,16 @@ $$t < h < T,\ G_{h:h} \doteq V_{h-1}(S_h)$$
 - For action values, the off-policy definition of the $n$-step return is a little different because the first action does not play a role in the importance sampling (it has already been taken).
 - The $n$-step on-policy return ending at horizon $h$ can be written recursively, and for action values the recursion ends with $G_{h:h} \doteq V_{h-1}(S_h)$. An off-policy form with control variates is:
 
-$$G_{t:h} \doteq R_{t+1} + \gamma\left[\rho_{t+1} G_{t+1:h} + \bar{V}_{h-1}(S_{t+1}) - \rho_{t+1} Q_{h-1}(S_{t+1}, A_{t+1})\right]$$
-
-$$= R_{t+1} + \gamma\, \rho_{t+1}\left(G_{t+1:h} - Q_{h-1}(S_{t+1}, A_{t+1})\right) + \gamma \bar{V}_{h-1}(S_{t+1}), \quad t < h \leq T$$
+$$\begin{aligned}
+G_{t:h} &\doteq R_{t+1} + \gamma\left[\rho_{t+1} G_{t+1:h} + \bar{V}_{h-1}(S_{t+1}) - \rho_{t+1} Q_{h-1}(S_{t+1}, A_{t+1})\right] \\[6pt]
+&= R_{t+1} + \gamma\, \rho_{t+1}\left(G_{t+1:h} - Q_{h-1}(S_{t+1}, A_{t+1})\right) + \gamma \bar{V}_{h-1}(S_{t+1}), \quad t < h \leq T
+\end{aligned}$$
 
 - If $h < T$, then the recursion ends with $G_{h:h} \doteq Q_{h-1}(S_h, A_h)$.
 - If $h \geq T$, the recursion ends with $G_{T-1:h} = R_T$.
 - The resultant prediction algorithm (after combining with $n$-step Sarsa update rule) is analogous to Expected Sarsa.
 
-- Importance sampling results in high variance updates.
-  - Off-policy training is inevitably slower than on-policy training. Ways to reduce the variance:
+- Importance sampling results in high variance updates. Off-policy training is inevitably slower than on-policy training. Ways to reduce the variance include:
     1. Control Variates
     2. Adapt the step size to the observed variance (Autostep Method)
     3. Invariant updates of Karampatziakis & Langford [2010]
@@ -225,7 +230,7 @@ $$= R_{t+1} + \gamma\, \rho_{t+1}\left(G_{t+1:h} - Q_{h-1}(S_{t+1}, A_{t+1})\rig
   - Q-learning & Expected Sarsa do it for the one-step case.
   - The $n$-step case is called the **tree-backup algorithm**.
 
-- 3-step tree backup diagram:
+- **3-step tree backup** diagram:
   - 3 sample states & rewards.
   - 2 sample actions.
   - A list of unselected actions for each state.
