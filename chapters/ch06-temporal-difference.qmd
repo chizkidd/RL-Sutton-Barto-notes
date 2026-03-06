@@ -18,13 +18,18 @@ number-sections: true
 
 $$V(S_t) \leftarrow V(S_t) + \alpha\left[G_t - V(S_t)\right]$$
 
-where $G_t \equiv$ actual return following time $t$, and $\alpha \equiv$ constant step-size parameter.
+$$\begin{aligned}
+\text{where } G_t &\equiv \text{actual return following time } t \\[6pt]
+\alpha &\equiv \text{constant step-size parameter}
+\end{aligned}$$
 
 - The simplest TD method, **TD(0)**, makes the update:
 
 $$\boxed{V(S_t) \leftarrow V(S_t) + \alpha\underbrace{\left[R_{t+1} + \gamma V(S_{t+1}) - V(S_t)\right]}_{\text{TD Error}}}$$
 
-where $R_{t+1} + \gamma V(S_{t+1})$ is called the **TD target**.
+$$\begin{aligned}
+\text{where } R_{t+1} + \gamma V(S_{t+1}) &\equiv \text{the \textbf{TD target}}
+\end{aligned}$$
 
 ::: {#fig-61}
 ![](../figures/ch06-6-1-td0.png){fig-align="center"} 
@@ -52,6 +57,14 @@ Loop for each episode:
 ```
 
 - TD(0) bases its update in part on an existing estimate (bootstrapping):
+
+$$
+\begin{align*}
+v_\pi(s) &\doteq \mathbb{E}\left[G_t \mid S_t = s\right] \\
+&= \mathbb{E}_\pi\left[R_{t+1} + \gamma G_{t+1} \mid S_t = s\right] \\
+&= \mathbb{E}_\pi\left[R_{t+1} + \gamma v_\pi(S_{t+1}) \mid S_t = s\right] \\
+\end{align*}
+$$
 
 $$V_\pi(s) = \mathbb{E}_\pi\left[R_{t+1} + \gamma V_\pi(S_{t+1}) \mid S_t = s\right]$$
 
@@ -90,6 +103,20 @@ $$= \delta_t + \gamma \delta_{t+1} + \gamma^2 \delta_{t+2} + \gamma^3 \delta_{t+
 
 $$\boxed{G_t - V(S_t) = \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k}$$
 
+$$\begin{aligned}
+G_t - V(S_t) &= R_{t+1} + \gamma G_{t+1} - V(S_t) + \gamma V(S_{t+1}) - \gamma V(S_{t+1}) \\[6pt]
+&= \underbrace{R_{t+1} + \gamma V(S_{t+1}) - V(S_t)}_{\delta_t} + \gamma G_{t+1} - \gamma V(S_{t+1}) \\[6pt]
+&= \delta_t + \gamma\left(G_{t+1} - V(S_{t+1})\right) \\[6pt]
+&= \delta_t + \gamma\left(R_{t+2} + \gamma G_{t+2} - V(S_{t+1})\right) \\[6pt]
+&= \delta_t + \gamma\left(R_{t+2} + \gamma V(S_{t+2}) - V(S_{t+1}) + \gamma G_{t+2} - \gamma V(S_{t+2})\right) \\[6pt]
+&= \delta_t + \gamma\underbrace{\left(R_{t+2} + \gamma V(S_{t+2}) - V(S_{t+1})\right)}_{\delta_{t+1}} + \gamma^2\left(G_{t+2} - V(S_{t+2})\right) \\[6pt]
+&= \delta_t + \gamma \delta_{t+1} + \gamma^2\left(G_{t+2} - V(S_{t+2})\right) \\[6pt]
+&= \delta_t + \gamma \delta_{t+1} + \gamma^2\left(R_{t+3} + \gamma V(S_{t+3}) - V(S_{t+2}) + \gamma G_{t+3} - \gamma V(S_{t+3})\right) \\[6pt]
+&= \delta_t + \gamma \delta_{t+1} + \gamma^2 \delta_{t+2} + \gamma^3\left(G_{t+3} - V(S_{t+3})\right) \\[6pt]
+&\quad \vdots \\[6pt]
+&= \delta_t + \gamma \delta_{t+1} + \gamma^2 \delta_{t+2} + \gamma^3 \delta_{t+3} + \ldots + \gamma^{T-t-1} \delta_{T-1} + \gamma^{T-t}\underbrace{\left[G_T - V(S_T)\right]}_{=\, 0}
+\end{aligned}$$
+$$\boxed{G_t - V(S_t) = \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k}$$
 ---
 
 ## Advantages of TD Prediction Methods {#sec-ch06-6-2}
