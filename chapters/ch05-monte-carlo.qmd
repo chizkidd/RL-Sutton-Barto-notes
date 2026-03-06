@@ -3,44 +3,41 @@ title: "Monte Carlo Methods"
 number-sections: true
 ---
 
-> **Model-free**
-
 - Monte Carlo methods are used when we do **not** have knowledge of the transition probabilities (model of the environment) and then we must learn directly from experience **(model-free).**
 - Learning from **actual** experience is striking because it requires no prior knowledge of the environment's dynamics, yet can still attain optimal behavior.
 - **Experience**: sample sequences of states, actions, and rewards from actual/simulated interaction with an environment.
 - Monte Carlo methods are only applied to **episodic** tasks.
 - MC methods estimate the value function of an **unknown** MDP by **learning** the value function from samples instead of computing from knowledge of the MDP.
 - We use Generalized Policy Iteration (**GPI**), developed in Ch. 4, to handle the nonstationarity.
-- First consider the Prediction problem (computation of $V_\pi$ & $q_\pi$ for a fixed arbitrary policy $\pi$), then policy improvement, and finally the control problem and its solution by GPI.
+- First consider the prediction problem (computation of $V_\pi$ & $q_\pi$ for a fixed arbitrary policy $\pi$), then policy improvement, and finally the control problem and its solution by GPI.
 
 ---
 
 ## Monte Carlo Prediction {#sec-ch05-5-1}
 
-- Recall that the value of a state is the **expected cumulative future discounted reward** (expected return). An obvious way of estimating that value from experience is to simply average the returns observed after visits to that state. As more returns are observed, the average should converge to the expected value. This idea underlies all Monte Carlo methods.
+Recall that the value of a state is the **expected cumulative future discounted reward** (expected return). An obvious way of estimating that value from experience is to simply average the returns observed after visits to that state. As more returns are observed, the average should converge to the expected value. This idea underlies all Monte Carlo methods.
 
-  - MC uses the simplest possible idea: **Value = mean return**
-  - MC learns from **complete** episodes: **no bootstrapping**
-  - MC is **model-free**: no knowledge of MDP transitions/rewards
+- MC uses the simplest possible idea: **Value = mean return**
+- MC learns from **complete** episodes: **no bootstrapping**
+- MC is **model-free**: no knowledge of MDP transitions/rewards
 
-- **Goal**: Learn $V_\pi$ from episodes of experience under policy $\pi$
+- **Goal**: Learn $v_\pi$ from episodes of experience under policy $\pi$
 
 $$S_1, A_1, R_2, \ldots, S_K \sim \pi$$
 
   - Value function (expected return):
 
-$$V_\pi(s) = \mathbb{E}\left[G_t \mid S_t = s\right]$$
+$$v_\pi(s) = \mathbb{E}\left[G_t \mid S_t = s\right]$$
 
   - Return (total discounted reward):
 
 $$G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots + \gamma^{T-1} R_T$$
 
-The 2 Monte Carlo methods are **First-Visit** & **Every-Visit** MC:
-
-- **First-Visit**: estimates $V_\pi(s)$ as the average of the returns following **first** visits to $s$
-- **Every-Visit**: estimates $V_\pi(s)$ by averaging the returns following **all** visits to $s$
-- Both methods converge to $V_\pi(s)$ as the number of visits (or first visits) to $s$ goes to $\infty$
-- Every-visit MC extends more naturally to function approximation & eligibility traces
+- The 2 Monte Carlo methods are **First-Visit** & **Every-Visit** MC:
+  - **First-Visit**: estimates $v_\pi(s)$ as the average of the returns following **first** visits to $s$
+  - **Every-Visit**: estimates $v_\pi(s)$ by averaging the returns following **all** visits to $s$
+  - Both methods converge to $v_\pi(s)$ as the number of visits (or first visits) to $s$ goes to $\infty$
+  - Every-visit MC extends more naturally to function approximation & eligibility traces
 
 $$\boxed{V(S_t) \leftarrow V(S_t) + \alpha\left[G_t - V(S_t)\right]}$$
 
@@ -76,10 +73,9 @@ $$\boxed{V(S_t) \leftarrow V(S_t) + \alpha\left[G_t - V(S_t)\right]}$$
 
 - Monte Carlo estimation can be used in control to approximate optimal policies via generalized policy iteration (GPI).
 
-**GPI diagram:**
-
-- **Policy evaluation**: MC policy eval, $Q = q_\pi$
-- **Policy improvement**: $\varepsilon$-greedy policy improvement
+- **GPI diagram:**
+  - **Policy evaluation**: MC policy eval, $Q = q_\pi$
+  - **Policy improvement**: $\varepsilon$-greedy policy improvement
 
 ::: {#fig-51}
 ![](../figures/ch05-5-3-q-gpi.png){width=80% fig-align="center"} 
@@ -95,13 +91,18 @@ where $\xrightarrow{E}$ denotes a complete policy evaluation & $\xrightarrow{I}$
 
 ### Policy Improvement
 
-For $q_\pi$, the greedy policy $\forall s \in S$:
+- For $q_\pi$, the greedy policy $\forall s \in S$:
 
 $$\pi(s) \doteq \arg\max_a q_\pi(s, a)$$
 
-Policy improvement theorem applied to $\pi_k$ & $\pi_{k+1}$ for all $s \in S$:
+- Policy improvement theorem applied to $\pi_k$ & $\pi_{k+1}$ for all $s \in S$:
 
-$$q_{\pi_k}(s, \pi_{k+1}(s)) = q_{\pi_k}\!\left(s, \arg\max_a q_{\pi_k}(s,a)\right) = \max_a q_{\pi_k}(s,a) \geq q_{\pi_k}(s, \pi_k(s)) \geq V_{\pi_k}(s)$$
+$$\begin{align}
+q_{\pi_k}(s, \pi_{k+1}(s)) &= q_{\pi_k}\!\left(s, \arg\max_a\, q_{\pi_k}(s,a)\right) \\
+&= \max_a\, q_{\pi_k}(s,a) \\
+&\geq q_{\pi_k}(s, \pi_k(s)) \\
+&\geq v_{\pi_k}(s)
+\end{align}$$
 
 - The idea of GPI is to avoid the infinite number of episodes nominally required for policy evaluation. This is **value iteration**.
   - Only one iteration of iterative policy evaluation is performed between each step of policy improvement.
@@ -122,47 +123,44 @@ $$q_{\pi_k}(s, \pi_{k+1}(s)) = q_{\pi_k}\!\left(s, \arg\max_a q_{\pi_k}(s,a)\rig
     - Uses **$\varepsilon$-greedy** policy; generally **soft** policy (assign nonzero probability to each possible action): $$\pi(a|s) > 0\ \quad \forall s \in S,\ a \in A(s)$$ 
 
   - **Off-policy**: Evaluate/improve a policy different from that used to generate the data
-    - Learn about policy $\pi$ from experience sampled from $\mu$
+    - Learn about target policy $\pi$ from experience sampled from behavior policy $\mu$
 
 ### $\varepsilon$-greedy Exploration
 
-$$\pi(a|s) = \begin{cases} 1 - \varepsilon + \dfrac{\varepsilon}{|A(s)|} & \text{if greedy action} \\[6pt] \dfrac{\varepsilon}{|A(s)|} & \text{if non-greedy action} \end{cases}$$
-
----
+$$\pi(a \vert s) = \begin{array}{ll} 1 - \varepsilon + \dfrac{\varepsilon}{\vert A(s) \vert} & \text{if greedy action} \\[6pt] \dfrac{\varepsilon}{\vert A(s) \vert} & \text{if non-greedy action} \end{array}$$
 
 ### $\varepsilon$-greedy Policy Improvement
 
 - For any $\varepsilon$-soft policy $\pi$, any $\varepsilon$-greedy policy w.r.t. $q_\pi$ is guaranteed to be better than or equal to $\pi$.
-- For any $\varepsilon$-soft policy $\pi$, any $\varepsilon$-greedy policy $\pi'$ w.r.t. $q_\pi$ is an improvement: $V_{\pi'}(s) \geq V_\pi(s)$
+- For any $\varepsilon$-soft policy $\pi$, any $\varepsilon$-greedy policy $\pi'$ w.r.t. $q_\pi$ is an improvement: $v_{\pi'}(s) \geq v_\pi(s)$
 
-$$q_\pi(s, \pi'(s)) = \sum_a \pi'(a|s)\, q_\pi(s,a)$$
+$$\begin{align}
+q_{\pi}(s, \pi'(s)) &= \sum_a \pi'(a \vert s)\, q_{\pi}(s,a) \\[6pt]
+&= \frac{\varepsilon}{\vert A(s) \vert} \sum_a q_{\pi}(s,a) + (1-\varepsilon) \max_a q_{\pi}(s,a) \\[6pt]
+&\geq \frac{\varepsilon}{\vert A(s) \vert} \sum_a q_{\pi}(s,a) + (1-\varepsilon) \sum_a \frac{\pi(a \vert s) - \frac{\varepsilon}{\vert A(s) \vert}}{1-\varepsilon}\, q_{\pi}(s,a) \\[6pt]
+&= \frac{\varepsilon}{\vert A(s) \vert} \sum_a q_{\pi}(s,a) + \sum_a \pi(a \vert s)\, q_{\pi}(s,a) - \frac{\varepsilon}{\vert A(s) \vert} \sum_a q_{\pi}(s,a) \\[6pt]
+&= \sum_a \pi(a \vert s)\, q_{\pi}(s,a) \\[6pt]
+&= v_{\pi}(s)
+\end{align}$$
 
-$$= \frac{\varepsilon}{|A(s)|} \sum_a q_\pi(s,a) + (1-\varepsilon) \max_a q_\pi(s,a)$$
+- By the policy improvement theorem, $\pi' \geq \pi$ (i.e., $v_{\pi'}(s) \geq v_\pi(s)$ for all $s \in S$).
 
-$$\geq \frac{\varepsilon}{|A(s)|} \sum_a q_\pi(s,a) + (1-\varepsilon) \sum_a \frac{\pi(a|s) - \frac{\varepsilon}{|A(s)|}}{1-\varepsilon}\, q_\pi(s,a)$$
+- A policy $\pi$ is optimal among $\varepsilon$-soft policies if and only if $v_\pi = \tilde{v}_*$
+- $\tilde{v}_*$ is the unique solution to the Bellman optimality equation with altered transition probabilities:
 
-$$= \frac{\varepsilon}{|A(s)|} \sum_a q_\pi(s,a) + \sum_a \pi(a|s)\, q_\pi(s,a) - \frac{\varepsilon}{|A(s)|} \sum_a q_\pi(s,a)$$
-
-$$= \sum_a \pi(a|s)\, q_\pi(s,a)$$
-
-$$= V_\pi(s)$$
-
-By the policy improvement theorem, $\pi' \geq \pi$ (i.e., $V_{\pi'}(s) \geq V_\pi(s)$ for all $s \in S$).
-
-- A policy $\pi$ is optimal among $\varepsilon$-soft policies if and only if $V_\pi = \tilde{V}_*$
-- $\tilde{V}_*$ is the unique solution to the Bellman optimality equation with altered transition probabilities:
-
-$$\tilde{V}_*(s) = \max_a \sum_{s',r} \left[(1-\varepsilon)\,p(s',r|s,a) + \sum_{a'} \frac{\varepsilon}{|A(s)|}\, p(s',r|s,a)\right]\left[r + \gamma \tilde{V}_*(s')\right]$$
-
-$$= (1-\varepsilon) \max_a \sum_{s',r} p(s',r|s,a)\left[r + \gamma \tilde{V}_*(s')\right] + \frac{\varepsilon}{|A(s)|} \sum_a \sum_{s',r} p(s',r|s,a)\left[r + \gamma \tilde{V}_*(s')\right]$$
+$$\begin{align}
+\tilde{v}_{*}(s) &= \max_a \sum_{s',r} \left[(1-\varepsilon)\,p(s',r \vert s,a) + \sum_{a'} \frac{\varepsilon}{\vert A(s) \vert}\, p(s',r \vert s,a')\right]\left[r + \gamma \tilde{v}_{*}(s')\right] \\[8pt]
+&= (1-\varepsilon) \max_a \sum_{s',r} p(s',r \vert s,a)\left[r + \gamma \tilde{v}_{*}(s')\right] + \frac{\varepsilon}{\vert A(s) \vert} \sum_a \sum_{s',r} p(s',r \vert s,a)\left[r + \gamma \tilde{v}_{*}(s')\right]
+\end{align}$$
 
 - When equality holds and the $\varepsilon$-soft policy $\pi$ is no longer improved, then:
 
-$$V_\pi(s) = (1-\varepsilon) \max_a q_\pi(s,a) + \frac{\varepsilon}{|A(s)|} \sum_a q_\pi(s,a)$$
+$$\begin{align}
+v_{\pi}(s) &= (1-\varepsilon) \max_a q_{\pi}(s,a) + \frac{\varepsilon}{\vert A(s) \vert} \sum_a q_{\pi}(s,a) \\[8pt]
+&= (1-\varepsilon) \max_a \sum_{s',r} p(s',r \vert s,a)\left[r + \gamma v_{\pi}(s')\right] + \frac{\varepsilon}{\vert A(s) \vert} \sum_a \sum_{s',r} p(s',r \vert s,a)\left[r + \gamma v_{\pi}(s')\right]
+\end{align}$$
 
-$$= (1-\varepsilon) \max_a \sum_{s',r} p(s',r|s,a)\left[r + \gamma V_\pi(s')\right] + \frac{\varepsilon}{|A(s)|} \sum_a \sum_{s',r} p(s',r|s,a)\left[r + \gamma V_\pi(s')\right]$$
-
-- Because $\tilde{V}_*$ is the unique solution, it must be that $V_\pi = \tilde{V}_*$.
+- Because $\tilde{v}_*$ is the unique solution, it must be that $v_\pi = \tilde{v}_*$.
 
 ---
 
@@ -180,7 +178,7 @@ $$= (1-\varepsilon) \max_a \sum_{s',r} p(s',r|s,a)\left[r + \gamma V_\pi(s')\rig
 
 - Off-policy learning methods are more powerful and general than on-policy methods.
 - Let's consider the prediction problem, in which both target & behavior policies are fixed and given.
-  - **Goal**: Estimate $V_\pi$ or $q_\pi$, but all we have are episodes following another policy $b$, where $b \neq \pi$
+  - **Goal**: Estimate $v_\pi$ or $q_\pi$, but all we have are episodes following another policy $b$, where $b \neq \pi$
     - $\pi \equiv$ target policy
     - $b \equiv$ behavior policy 
 
@@ -198,26 +196,28 @@ $$\pi(a|s) > 0 \implies b(a|s) > 0$$
 
 - Given a starting state $S_t$, the probability of the subsequent state-action trajectory, $A_t, S_{t+1}, A_{t+1}, \ldots, S_T$, occurring under any policy $\pi$ is:
 
-$$\Pr\{A_t, S_{t+1}, A_{t+1}, \ldots, S_T \mid S_t,\; A_{t:T-1} \sim \pi\}$$
+$$\begin{align}
+&\Pr\{A_t, S_{t+1}, A_{t+1}, \ldots, S_T \mid S_t,\; A_{t:T-1} \sim \pi\} \\[8pt]
+&= \pi(A_t \vert S_t)\, p(S_{t+1} \vert S_t,A_t)\, \pi(A_{t+1} \vert S_{t+1}) \cdots p(S_T \vert S_{T-1},A_{T-1}) \\[8pt]
+&= \prod_{k=t}^{T-1} \pi(A_k \vert S_k)\, p(S_{k+1} \vert S_k, A_k)
+\end{align}$$
 
-$$= \pi(A_t|S_t)\, p(S_{t+1}|S_t,A_t)\, \pi(A_{t+1}|S_{t+1}) \cdots p(S_T|S_{T-1},A_{T-1})$$
-
-$$= \prod_{k=t}^{T-1} \pi(A_k|S_k)\, p(S_{k+1}|S_k, A_k)$$
-
-where $p \equiv$ state-transition probability function.
+$$\begin{aligned}
+\text{where } p &\equiv p(s', r \vert s, a) = \text{state-transition probability function}
+\end{aligned}$$
 
 - The relative probability of the trajectory under the target and behavior policies (the **importance-sampling ratio**) is:
 
 $$\boxed{\rho_{t:T-1} \doteq \frac{\prod_{k=t}^{T-1} \pi(A_k|S_k)\, p(S_{k+1}|S_k,A_k)}{\prod_{k=t}^{T-1} b(A_k|S_k)\, p(S_{k+1}|S_k,A_k)} = \prod_{k=t}^{T-1} \frac{\pi(A_k|S_k)}{b(A_k|S_k)}}$$
 
-The state transition probability functions cancel out in the numerator & denominator.
+- The state transition probability functions cancel out in the numerator & denominator.
 
 - We want to estimate the expected returns (values) under the target policy, but all we have are returns $G_t$ due to the behavior policy.
   - To address this we simply multiply expected returns from the behavior policy by the importance sampling ratio to get the value function for our target policy:
 
-$$\mathbb{E}\left[\rho_{t:T-1}\, G_t \mid S_t = s\right] = V_\pi(s)$$
+$$\mathbb{E}\left[\rho_{t:T-1}\, G_t \mid S_t = s\right] = v_\pi(s)$$
 
-- MC algorithm that averages returns from a batch of observed episodes following policy $b$ to estimate $V_\pi(s)$:
+- MC algorithm that averages returns from a batch of observed episodes following policy $b$ to estimate $v_\pi(s)$:
   - $\mathcal{T}(s) \equiv$ set of all time steps in which state $s$ is visited
   - $T(t) \equiv$ 1st time of termination following time $t$
   - $G_t \equiv$ return after $t$ up through $T(t)$
@@ -225,10 +225,10 @@ $$\mathbb{E}\left[\rho_{t:T-1}\, G_t \mid S_t = s\right] = V_\pi(s)$$
   - $\{\rho_{t:T-1}\}_{t \in \mathcal{T}(s)} \equiv$ corresponding importance-sampling ratios
 
 **Ordinary importance sampling** (unbiased):
-$$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}\, G_t}{|\mathcal{T}(s)|}$$
+$$\boxed{V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}\, G_t}{|\mathcal{T}(s)|}}$$
 
 **Weighted importance sampling** (biased):
-$$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}\, G_t}{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}}$$
+$$\boxed{V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}\, G_t}{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}}}$$
 
 
 ---
@@ -241,21 +241,22 @@ $$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}\, G_t}{\sum_{t \
 
 $$\text{NewEstimate} \leftarrow \text{OldEstimate} + \text{StepSize}\left[\text{Target} - \text{OldEstimate}\right]$$
 
-- Suppose we have a sequence of returns $G_1, G_2, \ldots, G_{n-1}$, all starting in the same state and each with a corresponding random weight $W_i$ (e.g. $W_i = \rho_{t_i:T(t_i)-1}$). We wish to form the estimate:
+- Suppose we have a sequence of returns $G_1, G_2, \ldots, G_{n-1}$, all starting in the same state and each with a corresponding random weight $W_i$ (e.g. $W_i = \rho_{t_i:T(t_i)-1}$). We wish to form the estimate, $V_n$, and keep it up-to-date as we obtain a single additional return $G_n$:
 
 $$V_n \doteq \frac{\sum_{k=1}^{n-1} W_k G_k}{\sum_{k=1}^{n-1} W_k}, \quad n \geq 2$$
-
-and keep it up-to-date as we obtain a single additional return $G_n$.
 
 - In addition to keeping track of $V_n$, we must maintain for each state the cumulative sum $C_n$ of the weights given to the first $n$ returns.
 
 - The update rule for $V_n$ is:
 
-$$V_{n+1} \doteq V_n + \frac{W_n}{C_n}\left[G_n - V_n\right], \quad n \geq 1$$
+$$\begin{aligned}
+V_{n+1} &\doteq V_n + \frac{W_n}{C_n}\left[G_n - V_n\right], \quad n \geq 1 \\[6pt]
+C_{n+1} &\doteq C_n + W_{n+1}
+\end{aligned}$$
 
-$$C_{n+1} \doteq C_n + W_{n+1}$$
-
-where $C_0 \doteq 0$ and $V_1 \to$ arbitrary.
+$$\begin{aligned}
+\text{where } C_0 \doteq 0 \text{and} $V_1 \to \text{arbitrary.}
+\end{aligned}$$
 
 ---
 
@@ -280,27 +281,30 @@ where $C_0 \doteq 0$ and $V_1 \to$ arbitrary.
 
 $$\bar{G}_{t:h} \doteq R_{t+1} + R_{t+2} + \ldots + R_h, \quad 0 \leq t \leq h \leq T$$
 
-- where "flat" $\equiv$ absence of discounting and "partial" $\equiv$ these returns do not extend all the way to termination, but instead stop at $h$, called the **horizon**
+$$\begin{aligned}
+\text{where "flat"} &\equiv \text{absence of discounting} \\[6pt]
+\text{"partial"} &\equiv \text{these returns do not extend all the way to termination,} \\
+&\quad \text{but instead stop at } h, \text{ called the \textbf{horizon}}
+\end{aligned}$$
 
 - The conventional full return $G_t$ can be viewed as a sum of flat partial returns:
 
-$$G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots + \gamma^{T-t-1} R_T$$
-
-$$= (1-\gamma) R_{t+1} + \gamma(1-\gamma)(R_{t+1} + R_{t+2}) + (1-\gamma)\gamma^2(R_{t+1} + R_{t+2} + R_{t+3})$$
-
-$$+ \ldots + (1-\gamma)\gamma^{T-t-2}(R_{t+1} + R_{t+2} + \ldots + R_{T-1}) + \gamma^{T-t-1}(R_{t+1} + \ldots + R_T)$$
-
-$$= (1-\gamma)\sum_{h=t+1}^{T-1} \gamma^{h-t-1}\, \bar{G}_{t:h} + \gamma^{T-t-1}\, \bar{G}_{t:T}$$
+$$\begin{aligned}
+G_t &= R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots + \gamma^{T-t-1} R_T \\[6pt]
+&= (1-\gamma) R_{t+1} + \gamma(1-\gamma)(R_{t+1} + R_{t+2}) + (1-\gamma)\gamma^2(R_{t+1} + R_{t+2} + R_{t+3}) \\
+&\quad + \ldots + (1-\gamma)\gamma^{T-t-2}(R_{t+1} + R_{t+2} + \ldots + R_{T-1}) + \gamma^{T-t-1}(R_{t+1} + \ldots + R_T) \\[6pt]
+&= (1-\gamma)\sum_{h=t+1}^{T-1} \gamma^{h-t-1}\, \bar{G}_{t:h} + \gamma^{T-t-1}\, \bar{G}_{t:T}
+\end{aligned}$$
 
 - Now we need to scale the flat partial returns by an importance sampling ratio that is similarly truncated:
 
 **Ordinary importance-sampling estimator:**
 
-$$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1}\, \bar{G}_{t:h} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\, \bar{G}_{t:T(t)}\right]}{|\mathcal{T}(s)|}$$
+$$\boxed{V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1}\, \bar{G}_{t:h} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\, \bar{G}_{t:T(t)}\right]}{|\mathcal{T}(s)|}}$$
 
 **Weighted importance-sampling estimator:**
 
-$$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1}\, \bar{G}_{t:h} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\, \bar{G}_{t:T(t)}\right]}{\sum_{t \in \mathcal{T}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\right]}$$
+$$\boxed{V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1}\, \bar{G}_{t:h} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\, \bar{G}_{t:T(t)}\right]}{\sum_{t \in \mathcal{T}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(t)-1} \gamma^{h-t-1}\, \rho_{t:h-1} + \gamma^{T(t)-t-1}\, \rho_{t:T(t)-1}\right]}}$$
 
 - Both estimators are called **"discounting-aware"** importance sampling estimators.
 
@@ -310,27 +314,21 @@ $$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \left[(1-\gamma)\sum_{h=t+1}^{T(
 
 - Another way to account for the structure of the return as a sum of rewards in off-policy importance sampling that may be able to reduce variance even in the absence of discounting (i.e., even if $\gamma = 1$):
 
-$$\rho_{t:T-1}\, G_t = \rho_{t:T-1}\left(R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{T-t-2} R_T\right)$$
+$$\begin{aligned}
+\rho_{t:T-1}\, G_t &= \rho_{t:T-1}\left(R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{T-t-2} R_T\right) \\[6pt]
+&= \rho_{t:T-1}\, R_{t+1} + \gamma\, \rho_{t:T-1}\, R_{t+2} + \ldots + \gamma^{T-t-1}\, \rho_{t:T-1}\, R_T \\[10pt]
+\rho_{t:T-1}\, R_{t+1} &= \frac{\pi(A_t \vert S_t)}{b(A_t \vert S_t)} \cdot \frac{\pi(A_{t+1} \vert S_{t+1})}{b(A_{t+1} \vert S_{t+1})} \cdots \frac{\pi(A_{T-1} \vert S_{T-1})}{b(A_{T-1} \vert S_{T-1})}\, R_{t+1} \\[10pt]
+\mathbb{E}\left[\frac{\pi(A_k \vert S_k)}{b(A_k \vert S_k)}\right] &\doteq \sum_a b(a \vert S_k)\, \frac{\pi(a \vert S_k)}{b(a \vert S_k)} = \sum_a \pi(a \vert S_k) = 1 \\[10pt]
+\mathbb{E}\left[\rho_{t:T-1}\, R_{t+1}\right] &= \mathbb{E}\left[\rho_{t:t}\, R_{t+1}\right] \\[6pt]
+\mathbb{E}\left[\rho_{t:T-1}\, R_{t+k}\right] &= \mathbb{E}\left[\rho_{t:t+k-1}\, R_{t+k}\right] \\[6pt]
+\mathbb{E}\left[\rho_{t:T-1}\, G_t\right] &= \mathbb{E}\left[\tilde{G}_t\right]
+\end{aligned}$$
 
-$$= \rho_{t:T-1}\, R_{t+1} + \gamma\, \rho_{t:T-1}\, R_{t+2} + \ldots + \gamma^{T-t-1}\, \rho_{t:T-1}\, R_T$$
+$$\text{where: } \quad \tilde{G}_t = \rho_{t:t}\, R_{t+1} + \gamma\, \rho_{t:t+1}\, R_{t+2} + \gamma^2\, \rho_{t:t+2}\, R_{t+3} + \ldots + \gamma^{T-t-1}\, \rho_{t:T-1}\, R_T$$
 
-$$\rho_{t:T-1}\, R_{t+1} = \frac{\pi(A_t|S_t)}{b(A_t|S_t)} \cdot \frac{\pi(A_{t+1}|S_{t+1})}{b(A_{t+1}|S_{t+1})} \cdots \frac{\pi(A_{T-1}|S_{T-1})}{b(A_{T-1}|S_{T-1})}\, R_{t+1}$$
+**Ordinary importance-sampling estimator using $\tilde{G}_t$ (lower variance expectation):**
 
-$$\mathbb{E}\left[\frac{\pi(A_k|S_k)}{b(A_k|S_k)}\right] \doteq \sum_a b(a|S_k)\, \frac{\pi(a|S_k)}{b(a|S_k)} = \sum_a \pi(a|S_k) = 1$$
-
-$$\mathbb{E}\left[\rho_{t:T-1}\, R_{t+1}\right] = \mathbb{E}\left[\rho_{t:t}\, R_{t+1}\right]$$
-
-$$\mathbb{E}\left[\rho_{t:T-1}\, R_{t+k}\right] = \mathbb{E}\left[\rho_{t:t+k-1}\, R_{t+k}\right]$$
-
-$$\mathbb{E}\left[\rho_{t:T-1}\, G_t\right] = \mathbb{E}\left[\tilde{G}_t\right] $$
-
-where:
-
-$$\tilde{G}_t = \rho_{t:t}\, R_{t+1} + \gamma\, \rho_{t:t+1}\, R_{t+2} + \gamma^2\, \rho_{t:t+2}\, R_{t+3} + \ldots + \gamma^{T-t-1}\, \rho_{t:T-1}\, R_T$$
-
-Ordinary importance-sampling estimator using $\tilde{G}_t$ (lower variance expectation):
-
-$$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \tilde{G}_t}{|\mathcal{T}(s)|}$$
+$$\boxed{V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \tilde{G}_t}{|\mathcal{T}(s)|}}$$
 
 ---
 
@@ -349,8 +347,8 @@ $$V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \tilde{G}_t}{|\mathcal{T}(s)|}$$
 - Maintaining **sufficient exploration** is an issue in MC control methods.
   - One fix is by assuming that episodes begin with state-action pairs randomly selected to cover all possibilities. These are called **exploring starts**.
 
-- **On-policy** methods utilize one policy for both action and target selection.
-- **Off-policy** methods use a different behavior policy from the deterministic target policy.
+- **On-policy methods** utilize one policy for both action and target selection.
+- **Off-policy methods** use a different behavior policy from the deterministic target policy.
 - **Off-policy prediction** refers to learning the value function of a target policy from data generated by a **different** behavior policy.
   - These learning methods are based on some form of **importance sampling,** i.e., on weighting returns by the ratio of the probabilities of taking the observed actions under the 2 different policies, thereby transforming their expectations from the **behavior policy** to the **target policy.**
     - **Ordinary importance sampling** uses a simple average of the weighted returns (unbiased estimates)

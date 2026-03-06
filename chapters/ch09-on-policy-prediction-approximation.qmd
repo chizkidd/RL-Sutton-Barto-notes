@@ -97,8 +97,7 @@ $$\eta(s) = h(s) + \gamma \sum_{\bar{s}} \eta(\bar{s}) \sum_a \pi(a \vert \bar{s
 
 $$
 \begin{aligned}
-\text{where} \\
-\gamma &= \text{discount factor}
+\text{where} \gamma &= \text{discount factor}
 \end{aligned}
 $$
 
