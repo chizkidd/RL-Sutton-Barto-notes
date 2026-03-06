@@ -94,6 +94,7 @@ G_t - V(S_t) &= R_{t+1} + \gamma G_{t+1} - V(S_t) + \gamma V(S_{t+1}) - \gamma V
 \end{aligned}$$
 
 $$\boxed{G_t - V(S_t) = \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k}$$
+
 ---
 
 ## Advantages of TD Prediction Methods {#sec-ch06-6-2}
@@ -227,7 +228,6 @@ $$R_{t+1} + \gamma Q(S_{t+1}, A') = R_{t+1} + \gamma Q\!\left(S_{t+1}, \arg\max_
 
 ```
 (α ∈ (0,1], small ε > 0)
-
 Initialize Q(s,a) for all s ∈ S⁺, a ∈ A(s), arbitrarily except that Q(terminal,·) = 0
 
 Loop for each episode:
@@ -250,6 +250,11 @@ $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\, \mathbb{E}
 
 $$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma \sum_a \pi(a|S_{t+1})\, Q(S_{t+1}, a) - Q(S_t, A_t)\right]}$$
 
+$$\boxed{\begin{aligned}
+Q(S_t, A_t) &\leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\, \mathbb{E}_\pi\left[Q(S_{t+1}, A_{t+1}) \vert S_{t+1}\right] - Q(S_t, A_t)\right] \\[6pt]
+Q(S_t, A_t) &\leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma \sum_a \pi(a \vert S_{t+1})\, Q(S_{t+1}, a) - Q(S_t, A_t)\right]
+\end{aligned}}$$
+
 - Given the next state $S_{t+1}$, this algorithm moves **deterministically** in the same direction as SARSA moves in **expectation,** hence the name **Expected SARSA**.
 - Expected SARSA eliminates the variance due to the random selection of $A_{t+1}$.
 - Given the same amount of experience, Expected SARSA generally performs better than SARSA.
@@ -266,24 +271,28 @@ $$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\left[R_{t+1} + \gamma \sum_
 - If the true values of state-action pairs $q(s,a)$ of a single state $s$ with multiple actions $a$ are all zero, i.e. $q(s,a) = 0\ \forall s, a$, but whose estimated values $Q(s,A)$ are uncertain and thus distributed some above & some below zero, then the maximum of the true values is zero, but the maximum of the estimates is positive; hence a positive bias.
 - This is called the **maximization bias**:
 
-$$q(s,a) = 0\ \forall s,a \implies \max_{s,a} q(s,a) = 0$$
+$$q(s,a) = 0 \quad \forall s,a \implies \max_{s,a} q(s,a) = 0$$
 
 $$Q(s,A) \begin{cases} \geq 0 \\ < 0 \end{cases} \implies \max_{s,a} Q(s,a) > 0$$
 
+$$\begin{aligned}
+q(s,a) = 0 \quad \forall s,a &\implies \max_{s,a} q(s,a) = 0 \\[6pt]
+Q(s,a) = \left\{ \begin{array}{l} \geq 0 \\ < 0 \end{array} \right. &\implies \max_{s,a} Q(s,a) > 0
+\end{aligned}$$
+
 - We can avoid maximization bias by learning 2 independent estimates of the value function $Q_1(a), Q_2(a)$, in which we could then:
-  - Use one estimate, e.g. $Q_1$, to determine the maximizing action: $A^* = \arg\max_a Q_1(a)$
-  - Then use the other, $Q_2$, to estimate its value: $Q_2(A^*) = Q_2(\arg\max_a Q_1(a))$
+  - Use one estimate, e.g. $Q_1$, to determine the maximizing action: $\quad A^* = \arg\max_a Q_1(a)$
+  - Then use the other, $Q_2$, to estimate its value: $\quad Q_2(A^*) = Q_2(\arg\max_a Q_1(a))$
 - This idea is called **Double Learning**.
   - It doubles the memory requirements, but does not increase the amount of computation per step.
 - The Q-value estimate is unbiased in the sense that $\mathbb{E}\left[Q_2(A^*)\right] = q(A^*)$.
 
-- Double Learning for Q-learning $\Rightarrow$ Double Q-learning
+- Double Learning for Q-learning is called **Double Q-learning.**
 
 ### Double Q-learning Pseudocode** for estimating $Q_1 \approx Q_2 \approx q_*$
 
 ```
 (α ∈ (0,1], small ε > 0)
-
 Initialize Q_1(s,a) & Q_2(s,a) for all s ∈ S⁺, a ∈ A(s) s.t. Q(T,·) = 0
 
 Loop for each episode:
@@ -327,5 +336,5 @@ $$\boxed{Q_1(S_t, A_t) \leftarrow Q_1(S_t, A_t) + \alpha\left[R_{t+1} + \gamma\,
   - **Q-learning** (off-policy)
   - **Expected Sarsa** (off-policy)
 
-  $\Rightarrow$ PROs: great simplicity, single equations that can be easily implemented
+  $\Rightarrow$ **_PROs:_** great simplicity, single equations that can be easily implemented
 - The TD methods used here in this chapter should be rightly called **one-step, tabular, model-free** TD methods.
