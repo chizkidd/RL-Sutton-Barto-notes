@@ -31,7 +31,7 @@ Backup diagrams for n-step methods
 - The $n$-step return looks like:
 
 $$\begin{aligned}
-G_t^{(n)} = G_{t:t+n} &\equiv \text{the return from time step } t \text{ to } t+n \\[10pt]
+G_t^{(n)} &= G_{t:t+n} \equiv \text{the return from time step } t \text{ to } t+n \\[10pt]
 n=1\ (\text{TD(0)}): \quad G_t^{(1)} &= R_{t+1} + \gamma V_t(S_{t+1}) \\[6pt]
 n=2: \quad G_t^{(2)} &= R_{t+1} + \gamma R_{t+2} + \gamma^2 V_{t+1}(S_{t+2}) \\[6pt]
 &\quad \vdots \\[6pt]
