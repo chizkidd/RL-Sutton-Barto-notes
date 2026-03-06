@@ -260,15 +260,17 @@ The 3-step tree-backup update
 
 - The one-step return (target) is the same as that of Expected Sarsa:
 
-$$G_{t:t+n} = G_t^{(n)}$$
-
-$$G_t^{(1)} \doteq R_{t+1} + \gamma \sum_a \pi(a|S_{t+1})\, Q_t(S_{t+1}, a) \quad \text{for } t < T-1$$
+$$\begin{aligned}
+G_{t:t+n} &= G_t^{(n)} \\[6pt]
+G_t^{(1)} &\doteq R_{t+1} + \gamma \sum_a \pi(a \vert S_{t+1})\, Q_t(S_{t+1}, a), \quad \text{for } t < T-1
+\end{aligned}$$
 
 - The two-step tree-backup return is, for $t < T-2$:
 
-$$G_t^{(2)} \doteq R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a|S_{t+1})\, Q_{t+1}(S_{t+1}, a) + \gamma\pi(A_{t+1}|S_{t+1})\left(R_{t+2} + \gamma \sum_a \pi(a|S_{t+2})\, Q_{t+1}(S_{t+2}, a)\right)$$
-
-$$= R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a|S_{t+1})\, Q_{t+1}(S_{t+1}, a) + \gamma\pi(A_{t+1}|S_{t+2})\, G_{t+1:t+2}$$
+$$\begin{aligned}
+G_t^{(2)} &\doteq R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a \vert S_{t+1})\, Q_{t+1}(S_{t+1}, a) + \gamma\pi(A_{t+1} \vert S_{t+1})\left(R_{t+2} + \gamma \sum_a \pi(a \vert S_{t+2})\, Q_{t+1}(S_{t+2}, a)\right) \\[6pt]
+&= R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a \vert S_{t+1})\, Q_{t+1}(S_{t+1}, a) + \gamma\pi(A_{t+1} \vert S_{t+2})\, G_{t+1:t+2}
+\end{aligned}$$
 
 
 
@@ -276,15 +278,15 @@ $$= R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a|S_{t+1})\, Q_{t+1}(S_{t+1}, a) 
 
 $$\boxed{G_t^{(n)} \doteq R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a|S_{t+1})\, Q_{t+n-1}(S_{t+1}, a) + \gamma\pi(A_{t+1}|S_{t+2})\, G_{t+1:t+n}}$$
 
-becomes one-step tree-backup return when $n=1$ and $G_{T-1:t+n} = R_T$.
+    - becomes one-step tree-backup return when $n=1$ and $G_{T-1:t+n} = R_T$.
 
 - We can use $G_t^{(n)}$ in the Q-update from $n$-step Sarsa, for $0 \leq t < T$:
 
 $$\boxed{Q_{t+n}(S_t, A_t) \leftarrow Q_{t+n-1}(S_t, A_t) + \alpha\left[G_t^{(n)} - Q_{t+n-1}(S_t, A_t)\right]}$$
 
-while the values of all other state-action pairs remain unchanged:
+    - while the values of all other state-action pairs remain unchanged:
 
-$$Q_{t+n}(s,a) = Q_{t+n-1}(s,a) \quad \forall s, a \text{ s.t. } s \neq S_t \text{ or } a \neq A_t$$
+$$Q_{t+n}(s,a) = Q_{t+n-1}(s,a) \quad \forall s, a \quad \text{ s.t. } \quad s \neq S_t \text{ or } a \neq A_t$$
 
 ---
 
@@ -311,19 +313,19 @@ Backup diagram for different kinds of n-step Q updates
     - $\sigma = 0 \Rightarrow$ pure expectation with no sampling
   - The random variable $\sigma_t$ might be set as a function of the state, or state-action pair, at time $t$.
 
-- This algorithm is called **$n$-step $Q(\sigma)$**.
+- This algorithm is called $\mathbf{n}$**-step** $\mathbf{Q}(\boldsymbol{\sigma})$.
 
 - For the equations, first the tree-backup $n$-step return is expressed in terms of the horizon $h = t+n$ and the expected approximate value $\bar{V}$:
 
-$$G_{t:h} = R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a|S_{t+1})\, Q_{h-1}(S_{t+1}, a) + \gamma\pi(A_{t+1}|S_{t+1})\, G_{t+1:h}$$
-
-$$= R_{t+1} + \gamma \bar{V}_{h-1}(S_{t+1}) - \gamma\pi(A_{t+1}|S_{t+1})\, Q_{h-1}(S_{t+1}, A_{t+1}) + \gamma\pi(A_{t+1}|S_{t+1})\, G_{t+1:h}$$
-
-$$= R_{t+1} + \gamma\pi(A_{t+1}|S_{t+1})\left[G_{t+1:h} - Q_{h-1}(S_{t+1}, A_{t+1})\right] + \gamma \bar{V}_{h-1}(S_{t+1})$$
+$$\begin{aligned}
+G_{t:h} &= R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a \vert S_{t+1})\, Q_{h-1}(S_{t+1}, a) + \gamma\pi(A_{t+1} \vert S_{t+1})\, G_{t+1:h} \\[6pt]
+&= R_{t+1} + \gamma \bar{V}_{h-1}(S_{t+1}) - \gamma\pi(A_{t+1} \vert S_{t+1})\, Q_{h-1}(S_{t+1}, A_{t+1}) + \gamma\pi(A_{t+1} \vert S_{t+1})\, G_{t+1:h} \\[6pt]
+&= R_{t+1} + \gamma\pi(A_{t+1} \vert S_{t+1})\left[G_{t+1:h} - Q_{h-1}(S_{t+1}, A_{t+1})\right] + \gamma \bar{V}_{h-1}(S_{t+1})
+\end{aligned}$$
 
 - After which it is exactly like the $n$-step return for Sarsa with control variates except with the action probability $\pi(A_{t+1}|S_{t+1})$ substituted for the importance sampling ratio $\rho_{t+1}$. For $Q(\sigma)$, we slide linearly between these 2 cases, $\forall\, t < h \leq T$:
 
-$$G_{t:h} \doteq R_{t+1} + \gamma\left(\sigma_{t+1}\rho_{t+1} + (1-\sigma_{t+1})\pi(A_{t+1}|S_{t+1})\right)\left(G_{t+1:h} - Q_{h-1}(S_{t+1}, A_{t+1})\right) + \gamma \bar{V}_{h-1}(S_{t+1})$$
+$\boxed{G_{t:h} \doteq R_{t+1} + \gamma\left(\sigma_{t+1}\rho_{t+1} + (1-\sigma_{t+1})\pi(A_{t+1}|S_{t+1})\right)\left(G_{t+1:h} - Q_{h-1}(S_{t+1}, A_{t+1})\right) + \gamma \bar{V}_{h-1}(S_{t+1})}$$
 
 - The recursion ends with $G_{h:h} = 0$ if $h < T$ or $G_{T-1:T} = R_T$ if $h = T$.
 - Now we can plug the new defined return into the $n$-step Sarsa update w/o importance sampling (handled already in $G_{t:h}$).
@@ -335,7 +337,7 @@ $$G_{t:h} \doteq R_{t+1} + \gamma\left(\sigma_{t+1}\rho_{t+1} + (1-\sigma_{t+1})
 - There exist a range of TD learning methods that lie in between the one-step TD (TD(0)) methods and Monte Carlo methods. These are **$n$-step methods.**
 - These methods involve an intermediate amount of bootstrapping and are important because they will typically perform better than either extreme.
 - $n$-step methods look ahead to the next $n$ rewards, states, and actions.
-- The 2 **4-step backup diagrams** below together summarize most of the methods introduced: 
+- The two **4-step backup diagrams** below together summarize most of the methods introduced: 
   - **$n$-step TD with importance sampling** 
   - **$n$-step $Q(\sigma)$** which generalizes **Expected Sarsa & Q-learning.**
 
@@ -347,9 +349,9 @@ Backup diagram for 4-step TD & 4-step Q update
 :::
 
 - **Limitations of $n$-step methods:**
-  - $n$ time step delay before updating.
-  - More computation per time step than previously covered methods.
-  - Require more memory to record the states, actions, rewards, and sometimes other variables over the last $n$ time steps than the one-step methods.
+  - $n$ time step **delay** before updating.
+  - **More computation** per time step than previously covered methods.
+  - Require **more memory** to record the states, actions, rewards, and sometimes other variables over the last $n$ time steps than the one-step methods.
 
 - In Chapter 12, we'll learn how multi-step TD methods can be implemented with minimal memory and computational complexity using **eligibility traces.**
 - $n$-step methods, while being quite complex, are conceptually clear. Hence the development of two $n$-step off-policy learning approaches based on:
