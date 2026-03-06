@@ -79,30 +79,6 @@ $$\text{MC error} = \sum_t \text{TD error}$$
 
 Let $\delta_t \doteq R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$ (the TD error). Then:
 
-$$G_t - V(S_t) = R_{t+1} + \gamma G_{t+1} - V(S_t) + \gamma V(S_{t+1}) - \gamma V(S_{t+1})$$
-
-$$= \underbrace{R_{t+1} + \gamma V(S_{t+1}) - V(S_t)}_{\delta_t} + \gamma G_{t+1} - \gamma V(S_{t+1})$$
-
-$$= \delta_t + \gamma\left(G_{t+1} - V(S_{t+1})\right)$$
-
-$$= \delta_t + \gamma\left(R_{t+2} + \gamma G_{t+2} - V(S_{t+1})\right)$$
-
-$$= \delta_t + \gamma\left(R_{t+2} + \gamma V(S_{t+2}) - V(S_{t+1}) + \gamma G_{t+2} - \gamma V(S_{t+2})\right)$$
-
-$$= \delta_t + \gamma\underbrace{\left(R_{t+2} + \gamma V(S_{t+2}) - V(S_{t+1})\right)}_{\delta_{t+1}} + \gamma^2\left(G_{t+2} - V(S_{t+2})\right)$$
-
-$$= \delta_t + \gamma \delta_{t+1} + \gamma^2\left(G_{t+2} - V(S_{t+2})\right)$$
-
-$$= \delta_t + \gamma \delta_{t+1} + \gamma^2\left(R_{t+3} + \gamma V(S_{t+3}) - V(S_{t+2}) + \gamma G_{t+3} - \gamma V(S_{t+3})\right)$$
-
-$$= \delta_t + \gamma \delta_{t+1} + \gamma^2 \delta_{t+2} + \gamma^3\left(G_{t+3} - V(S_{t+3})\right)$$
-
-$$\vdots$$
-
-$$= \delta_t + \gamma \delta_{t+1} + \gamma^2 \delta_{t+2} + \gamma^3 \delta_{t+3} + \ldots + \gamma^{T-t-1} \delta_{T-1} + \gamma^{T-t}\underbrace{\left[G_T - V(S_T)\right]}_{=\, 0}$$
-
-$$\boxed{G_t - V(S_t) = \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k}$$
-
 $$\begin{aligned}
 G_t - V(S_t) &= R_{t+1} + \gamma G_{t+1} - V(S_t) + \gamma V(S_{t+1}) - \gamma V(S_{t+1}) \\[6pt]
 &= \underbrace{R_{t+1} + \gamma V(S_{t+1}) - V(S_t)}_{\delta_t} + \gamma G_{t+1} - \gamma V(S_{t+1}) \\[6pt]
@@ -116,6 +92,7 @@ G_t - V(S_t) &= R_{t+1} + \gamma G_{t+1} - V(S_t) + \gamma V(S_{t+1}) - \gamma V
 &\quad \vdots \\[6pt]
 &= \delta_t + \gamma \delta_{t+1} + \gamma^2 \delta_{t+2} + \gamma^3 \delta_{t+3} + \ldots + \gamma^{T-t-1} \delta_{T-1} + \gamma^{T-t}\underbrace{\left[G_T - V(S_T)\right]}_{=\, 0}
 \end{aligned}$$
+
 $$\boxed{G_t - V(S_t) = \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k}$$
 ---
 
@@ -126,7 +103,7 @@ $$\boxed{G_t - V(S_t) = \sum_{k=t}^{T-1} \gamma^{k-t}\, \delta_k}$$
   - **before:** TD can learn online, incrementally, while MC must wait until the episode ends when the return is known.
   - **without:** TD can learn from incomplete sequences/episodes while MC only learns from complete sequences. 
   - TD works in continuing (non-terminating) environments while MC only works for episodic/terminating environments.
-- TD(0) converges to $V_\pi(s)$ for a fixed policy $\pi$, but not always for general function approximation.
+- TD(0) converges to $v_\pi(s)$ for a fixed policy $\pi$, but not always for general function approximation.
 - TD methods are usually **more efficient** than MC methods (constant $\alpha$) on stochastic tasks; they converge faster.
 - TD methods have **low variance**, while MC methods have **high variance**.
 
@@ -168,11 +145,10 @@ Backup diagram for SARSA
 - As in all on-policy methods, we continually estimate $q_\pi$ for the behavior policy $\pi$ & simultaneously update the policy $\pi$ greedily w.r.t. $q_\pi$.
 - The convergence properties of the SARSA algorithm depend on the nature of the policy's dependence on $Q$. For example, one could use $\varepsilon$-greedy / $\varepsilon$-soft policies.
 
-**Goal**: - Use TD in the control loop 
-
-- apply TD to $Q(s,a)$, 
-- use $\varepsilon$-greedy policy improvement, 
-- update with every time-step.
+- **Goal**: Use TD in the control loop 
+  - apply TD to $Q(s,a)$, 
+  - use $\varepsilon$-greedy policy improvement, 
+  - update with every time-step.
 
 ::: {#fig-64}
 ![](../figures/ch06-6-4-policy-iteration.png){fig-align="center"} 
@@ -180,11 +156,11 @@ Backup diagram for SARSA
 SARSA control
 :::
 
-Every time step:
-- **Policy Evaluation:** SARSA, $Q \approx q_\pi$
-- **Policy Improvement:** $\varepsilon$-greedy
-
 > **Sarsa backup diagram**: from state-action pair $(S, A)$ through reward $R$ to next state $S'$ and next action $A'$.
+
+- Every time step:
+  - **Policy Evaluation:** SARSA, $Q \approx q_\pi$
+  - **Policy Improvement:** $\varepsilon$-greedy
 
 ### SARSA (On-policy TD Control) Pseudocode for estimating $Q \approx q_0$
 
@@ -209,7 +185,7 @@ Loop for each episode:
 
 $$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\Big[\underbrace{R_{t+1} + \gamma \max_{a'} Q(S_{t+1}, a')}_{\text{Q-learning target}} - Q(S_t, A_t)\Big]}$$
 
-- Here, the learned action-value function $Q$ directly approximates $q_*$, the optimal value function, independent of the policy being followed (off-policy). $V_*$ can be learned with a **1-step lookahead.**
+- Here, the learned action-value function $Q$ directly approximates $q_*$, the optimal value function, independent of the policy being followed (off-policy). $v_*$ can be learned with a **1-step lookahead.**
 - Q-learning is off-policy so it updates the value function **greedily** directly while updating/exploring the other actions with the **$\varepsilon$-greedy** policy.
   - This simplifies the analysis of the algorithm & enables early convergence proofs.
   - Under the **GLIE** assumption (all state-action pairs continue to be updated) and following a **stochastic approximation theory** variant on the sequence of $\alpha$, $Q$ has been shown to converge with probability 1 to $q_*$:
@@ -239,9 +215,9 @@ $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\Big[\underbrace{R_{t+1} + \gamma Q
 ### Off-policy Control with Q-learning
 
 - We improve both policies (target & behavior):
-  - Improve target policy $\pi$ greedily w.r.t. $Q(s,a)$: 
+  - Improve target policy $\pi$ **greedily** w.r.t. $Q(s,a)$: 
   $$\pi(S_{t+1}) = \arg\max_{a'} Q(S_{t+1}, a')$$
-  - Improve behavior policy $\mu$ $\varepsilon$-greedily w.r.t. $Q(s,a)$
+  - Improve behavior policy $\mu$ $\boldsymbol{\varepsilon}$**-greedily** w.r.t. $Q(s,a)$
 
 - The Q-learning target then simplifies:
 
