@@ -256,15 +256,15 @@ $$\boxed{Q(s,a) \leftarrow Q(s,a) + \alpha\left[R + \gamma \max_{a'} Q(S', a') -
 
   - For large $b$, error drops exponentially fast early for sample updates, allowing broad updates across many $(s,a)$ pairs in the same time as one expected update:
 
-$$\text{error} = \sqrt{\frac{b-1}{bt}}$$
+    $$\text{error} = \sqrt{\frac{b-1}{bt}}$$
 
   - For large $b$: $\text{error} \approx \sqrt{\frac{1}{t}}$, $\therefore \lim_{t \to \infty} \sqrt{\frac{1}{t}} \to 0$.
 
-$$b=1,\ \text{error} = 0 \text{ for } t \geq 1$$
-
-$$b=2,\ \text{error} = \frac{1}{\sqrt{2t}} \implies \text{error}(t=1) \approx 0.707,\ \text{error}(t=2) = 0.5$$
-
-$$b=100,\ \text{error} \approx \frac{1}{\sqrt{t}} \implies \text{error}(t=1) \approx 0.995,\ \text{error}(t=10) \approx 0.316,\ \text{error}(t=100) \approx 0.1$$
+$$\begin{aligned}
+b=1:& \quad \text{error} = 0 \quad \text{for } t \geq 1 \\[6pt]
+b=2:& \quad \text{error} = \frac{1}{\sqrt{2t}} \implies \text{error}(t=1) \approx 0.707,\ \text{error}(t=2) = 0.5 \\[6pt]
+b=100:& \quad \text{error} \approx \frac{1}{\sqrt{t}} \implies \text{error}(t=1) \approx 0.995,\ \text{error}(t=10) \approx 0.316,\ \text{error}(t=100) \approx 0.1
+\end{aligned}$$
 
 - Pros of sample updates:
   - **Breadth vs depth**: cover more state space per unit computation.
@@ -589,8 +589,16 @@ $$\Rightarrow \text{total: } O\!\left(n \cdot (d + L)\right) \text{ for } n \tex
 
 ### Pros & Cons of MCTS
 
-- **Pros**: anytime algorithm, asymmetric tree growth, no domain heuristic required, handles high branching factors.
-- **Cons**: high computational cost, may miss deep forced sequences, random rollouts that are weak in tactical domains, finite simulations miss long-term consequences.
+- **Pros**: 
+    - anytime algorithm, 
+    - asymmetric tree growth, 
+    - no domain heuristic required, 
+    - handles high branching factors.
+- **Cons**: 
+    - high computational cost, 
+    - may miss deep forced sequences, 
+    - random rollouts that are weak in tactical domains, 
+    - finite simulations miss long-term consequences.
 
 ---
 
