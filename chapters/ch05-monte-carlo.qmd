@@ -255,7 +255,7 @@ C_{n+1} &\doteq C_n + W_{n+1}
 \end{aligned}$$
 
 $$\begin{aligned}
-\text{where } C_0 \doteq 0 \text{and} V_1 \to \text{arbitrary.}
+\text{where } C_0 \doteq 0 \text{ and } V_1 \to \text{arbitrary.}
 \end{aligned}$$
 
 ---
