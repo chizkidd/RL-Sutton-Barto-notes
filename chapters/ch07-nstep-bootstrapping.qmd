@@ -45,7 +45,7 @@ n=\infty\ (\text{MC}): \quad G_t^{(\infty)} &= R_{t+1} + \gamma R_{t+2} + \ldots
 
 $$\boxed{G_t^{(n)} = R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{n-1} R_{t+n} + \gamma^n V_{t+n-1}(S_{t+n}),}$$
 
-$$\forall n, t \text{ s.t. } \quad n \geq 1 \text{ and } 0 \leq t \leq T-n$$
+$$\forall n, t \quad \text{ s.t. } \quad n \geq 1 \text{ and } 0 \leq t \leq T-n$$
 
 - All $n$-step returns can be considered approximations to the full return, truncated after $n$ steps and then corrected for the remaining missing terms by $V_{t+n-1}(S_{t+n})$.
 - If the $n$-step return extends to or beyond termination, then all the missing terms are taken as zero, and the $n$-step return becomes the ordinary full return:
@@ -175,19 +175,18 @@ $$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\, \rho_{t+1:t+n-1}\left[G_t
 ## Per-decision Methods with Control Variates {#sec-ch07-7-4}
 
 - The multi-step off-policy methods presented in section 7.3 are simple and conceptually clear but not very efficient and dramatically increase variance.
+
 - A more sophisticated approach would be using per-decision importance sampling.
 
-  1. The ordinary $n$-step return can be written recursively. For the $n$-steps ending at horizon $h$, the $n$-step return can be written:
+    1. The ordinary $n$-step return can be written recursively. For the $n$-steps ending at horizon $h$, the $n$-step return can be written:
 
-$$G_{t:h} = R_{t+1} + \gamma G_{t+1:h}, \quad t < h < T$$
+        $$G_{t:h} = R_{t+1} + \gamma G_{t+1:h}, \quad t < h < T$$
 
-$$\begin{aligned}
-\text{where } G_{h:h} &\doteq V_{h-1}(S_h)
-\end{aligned}$$
+        $$\begin{aligned}\text{where } G_{h:h} &\doteq V_{h-1}(S_h)\end{aligned}$$
 
-  2. Consider the effect of following a behavior policy $b$ that is not the same as the target policy $\pi$. All of the resulting experiences, including the first reward $R_{t+1}$ and the next state $S_{t+1}$, must be weighted by the importance sampling ratio for time $t$:
+    2. Consider the effect of following a behavior policy $b$ that is not the same as the target policy $\pi$. All of the resulting experiences, including the first reward $R_{t+1}$ and the next state $S_{t+1}$, must be weighted by the importance sampling ratio for time $t$:
 
-$$\rho_t = \frac{\pi(A_t|S_t)}{b(A_t|S_t)}$$
+        $$\rho_t = \frac{\pi(A_t \vert S_t)}{b(A_t \vert S_t)}$$
 
 - A simple approach would be to weight the RHS ($R_{t+1} + \gamma G_{t+1:h}$) by $\rho_t$, but a more sophisticated approach would be to use an off-policy definition of the $n$-step return ending at horizon $h$:
 
@@ -278,13 +277,13 @@ G_t^{(2)} &\doteq R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a \vert S_{t+1})\, 
 
 $$\boxed{G_t^{(n)} \doteq R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a|S_{t+1})\, Q_{t+n-1}(S_{t+1}, a) + \gamma\pi(A_{t+1}|S_{t+2})\, G_{t+1:t+n}}$$
 
-    - becomes one-step tree-backup return when $n=1$ and $G_{T-1:t+n} = R_T$.
+- becomes one-step tree-backup return when $n=1$ and $G_{T-1:t+n} = R_T$.
 
 - We can use $G_t^{(n)}$ in the Q-update from $n$-step Sarsa, for $0 \leq t < T$:
 
 $$\boxed{Q_{t+n}(S_t, A_t) \leftarrow Q_{t+n-1}(S_t, A_t) + \alpha\left[G_t^{(n)} - Q_{t+n-1}(S_t, A_t)\right]}$$
 
-    - while the values of all other state-action pairs remain unchanged:
+- while the values of all other state-action pairs remain unchanged:
 
 $$Q_{t+n}(s,a) = Q_{t+n-1}(s,a) \quad \forall s, a \quad \text{ s.t. } \quad s \neq S_t \text{ or } a \neq A_t$$
 
@@ -325,7 +324,7 @@ G_{t:h} &= R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a \vert S_{t+1})\, Q_{h-1}
 
 - After which it is exactly like the $n$-step return for Sarsa with control variates except with the action probability $\pi(A_{t+1}|S_{t+1})$ substituted for the importance sampling ratio $\rho_{t+1}$. For $Q(\sigma)$, we slide linearly between these 2 cases, $\forall\, t < h \leq T$:
 
-$\boxed{G_{t:h} \doteq R_{t+1} + \gamma\left(\sigma_{t+1}\rho_{t+1} + (1-\sigma_{t+1})\pi(A_{t+1}|S_{t+1})\right)\left(G_{t+1:h} - Q_{h-1}(S_{t+1}, A_{t+1})\right) + \gamma \bar{V}_{h-1}(S_{t+1})}$$
+$$\boxed{G_{t:h} \doteq R_{t+1} + \gamma\left(\sigma_{t+1}\rho_{t+1} + (1-\sigma_{t+1})\pi(A_{t+1}|S_{t+1})\right)\left(G_{t+1:h} - Q_{h-1}(S_{t+1}, A_{t+1})\right) + \gamma \bar{V}_{h-1}(S_{t+1})}$$
 
 - The recursion ends with $G_{h:h} = 0$ if $h < T$ or $G_{T-1:T} = R_T$ if $h = T$.
 - Now we can plug the new defined return into the $n$-step Sarsa update w/o importance sampling (handled already in $G_{t:h}$).
