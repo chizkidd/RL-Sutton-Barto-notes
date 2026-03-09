@@ -45,44 +45,63 @@ These notes are meant to accompany the textbook, not replace it. They are most u
 | $\pi$ | Policy |
 | $\pi(a \mid s)$ | Probability of taking action $a$ in state $s$ under policy $\pi$ |
 | $\pi_{*}$ | Optimal policy |
+| $b(a \mid s)$ | Behavior policy |
 | $v_{\pi}(s)$ | State-value function under policy $\pi$ |
 | $q_{\pi}(s,a)$ | Action-value function under policy $\pi$ |
 | $v_{*}(s)$ | Optimal state-value function |
 | $q_{*}(s,a)$ | Optimal action-value function |
+| $V(s)$ | Estimated state-value |
+| $Q(s,a)$ | Estimated action-value |
+| $\hat{v}(s, \mathbf{w})$ | Approximate state-value function parameterized by $\mathbf{w}$ |
+| $\hat{q}(s, a, \mathbf{w})$ | Approximate action-value function parameterized by $\mathbf{w}$ |
 | $G_t$ | Return (cumulative discounted reward) at time $t$ |
 | $G_{t:h}$ | Truncated return from $t$ to horizon $h$ |
+| $G_{t:t+n}$ | $n$-step return from $t$ |
 | $\gamma$ | Discount factor, $\gamma \in [0,1]$ |
 | $\alpha$ | Step size (learning rate) |
+| $\beta$ | Secondary step-size parameter (GTD2/TDC) |
 | $\varepsilon$ | Exploration parameter ($\varepsilon$-greedy) |
-| $\delta_t$ | TD error at time $t$ |
-| $\rho_{t:h}$ | Importance sampling ratio from $t$ to $h$ |
-| $b(a \mid s)$ | Behavior policy |
 | $n$ | Number of steps in $n$-step methods |
-| $Q(s,a)$ | Estimated action-value |
-| $V(s)$ | Estimated state-value |
-| $\hat{v}(s, \mathbf{w})$ | Approximate value function parameterized by $\mathbf{w}$ |
+| $d$ | Dimension of weight vector $\mathbf{w}$ |
 | $\mathbf{w}$ | Weight vector for function approximation, $\mathbf{w} \in \mathbb{R}^d$ |
+| $\mathbf{w}_{\text{TD}}$ | TD fixed point, $\mathbf{w}_{\text{TD}} = A^{-1}\mathbf{b}$ |
+| $\mathbf{v}$ | Secondary weight vector (GTD2/TDC cascade) |
 | $\nabla \hat{v}(s, \mathbf{w})$ | Gradient of $\hat{v}$ w.r.t. $\mathbf{w}$ |
 | $\mathbf{x}(s)$ | Feature vector representing state $s$ |
+| $\mathbf{x}(s,a)$ | Feature vector representing state-action pair $(s,a)$ |
 | $x_i(s)$ | $i$-th component of feature vector, $x_i : S \to \mathbb{R}$ |
-| $\mu(s)$ | On-policy state distribution |
-| $\overline{VE}(\mathbf{w})$ | Mean square value error |
-| $\eta(s)$ | Expected number of time steps spent in state $s$ per episode |
+| $\delta_t$ | TD error at time $t$ |
+| $\bar{\delta}_\mathbf{w}(s)$ | Bellman error at state $s$ |
 | $U_t$ | Update target at time $t$ |
+| $\rho_{t:h}$ | Importance sampling ratio from $t$ to $h$ |
+| $\mu(s)$ | On-policy state distribution |
+| $\mu_\pi(s)$ | Steady-state distribution under policy $\pi$ |
+| $r(\pi)$ | Average reward under policy $\pi$ |
+| $\bar{R}_t$ | Estimate of average reward $r(\pi)$ at time $t$ |
+| $\mathcal{I}_t$ | Interest at time $t$, $\mathcal{I}_t \in [0,1]$ |
+| $M_t$ | Emphasis at time $t$ (Emphatic-TD) |
+| $\overline{\text{VE}}(\mathbf{w})$ | Mean Squared Value Error |
+| $\overline{\text{BE}}(\mathbf{w})$ | Mean Squared Bellman Error |
+| $\overline{\text{PBE}}(\mathbf{w})$ | Mean Squared Projected Bellman Error |
+| $\overline{\text{TDE}}(\mathbf{w})$ | Mean Squared TD Error |
+| $\overline{\text{RE}}(\mathbf{w})$ | Mean Squared Return Error |
+| $\Pi$ | Projection operator onto the representable subspace |
+| $B_\pi$ | Bellman operator, $B_\pi : \mathbb{R}^{|S|} \to \mathbb{R}^{|S|}$ |
+| $\mathbf{B}$ | Diagonal matrix with $\mu(s)$ on the diagonal, $\vert S \vert \times \vert S \vert$ |
+| $\mathbf{X}$ | Feature matrix, $\vert S \vert \times d$, rows are $\mathbf{x}(s)^T$ |
+| $A$ | Matrix $\mathbb{E}[\mathbf{x}_t(\mathbf{x}_t - \gamma \mathbf{x}_{t+1})^T] \in \mathbb{R}^{d \times d}$ (linear TD) |
+| $\mathbf{b}$ | Vector $\mathbb{E}[R_{t+1} \mathbf{x}_t] \in \mathbb{R}^d$ (linear TD) |
+| $\eta(s)$ | Expected number of time steps spent in state $s$ per episode |
 | $h(s)$ | Probability that an episode begins in state $s$ |
-| $b$ | Branching factor |
 | $\tau$ | Elapsed time since a state-action pair was last visited (Dyna-Q+) |
 | $k$ | Small bonus constant in Dyna-Q+ |
+| $b$ | Branching factor |
 | $N(s,a)$ | Visit count for state-action pair $(s,a)$ (MCTS) |
 | $W(s,a)$ | Total reward accumulated through $(s,a)$ (MCTS) |
 | $c$ | Exploration constant in UCT, typically $\sqrt{2}$ |
-| $d$ | Dimension of weight vector $\mathbf{w}$ |
-| $\mathbb{E}_{\pi}[\cdot]$ | Expectation under policy $\pi$ |
 | $p(s', r \mid s, a)$ | Transition probability |
 | $\hat{p}(s', r \mid s, a)$ | Estimated/model transition probability |
-| $A$ | Matrix $\mathbb{E}[\mathbf{x}_t(\mathbf{x}_t - \gamma \mathbf{x}_{t+1})^T] \in \mathbb{R}^{d \times d}$ (linear TD) |
-| $\mathbf{b}$ | Vector $\mathbb{E}[R_{t+1} \mathbf{x}_t] \in \mathbb{R}^d$ (linear TD) |
-| $\mathbf{w}_{\text{TD}}$ | TD fixed point, $\mathbf{w}_{\text{TD}} = A^{-1}\mathbf{b}$ |
+| $\mathbb{E}_{\pi}[\cdot]$ | Expectation under policy $\pi$ |
 
 ## Reference
 
