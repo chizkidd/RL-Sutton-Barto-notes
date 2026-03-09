@@ -50,9 +50,9 @@ $$
 $$
 
 - The lack of use of importance sampling in Expected Sarsa is an unclear choice since we might want to weight different state-action pairs **differently** once they all contribute to the same overall approximation. This issue can only be properly resolved by more thorough understanding of the **theory of function approximation** in RL.
-- In the multi-step generalizations of the algorithms, both the state-value and action-value algorithms involve importance sampling. For example, the $n$-step off-policy, semi-gradient $\mathbf{n}$**-step Sarsa** update is:
+- In the multi-step generalizations of the algorithms, both the state-value and action-value algorithms involve importance sampling. For example, the off-policy, semi-gradient $\mathbf{n}$**-step Sarsa** update is:
 
-$$\boxed{\\mathbf{w}_{t+n} \doteq \mathbf{w}_{t+n-1} + \alpha \rho_{t+1} \cdots \rho_{t+n}\!\left[G_{t:t+n} - \hat{q}(S_t, A_t, \mathbf{w}_{t+n-1})\right] \nabla \hat{q}(S_t, A_t, \mathbf{w}_{t+n-1})}$$
+$$\boxed{\mathbf{w}_{t+n} \doteq \mathbf{w}_{t+n-1} + \alpha \rho_{t+1} \cdots \rho_{t+n}\!\left[G_{t:t+n} - \hat{q}(S_t, A_t, \mathbf{w}_{t+n-1})\right] \nabla \hat{q}(S_t, A_t, \mathbf{w}_{t+n-1})}$$
 
 $$
 \begin{aligned}
@@ -63,9 +63,9 @@ $$
 
 $$\text{where } \rho_k = 1 \hspace{0.5em} \text{ for } k \geq T \quad \text{and} \quad G_{t:t+n} = G_t \hspace{0.5em} \text{ if } t+n \geq T$$
 
-- The off-policy, semi-gradient **$n$-step backup tree** (no importance sampling) algorithm is:
+- The off-policy, semi-gradient $\mathbf{n}$**-step backup tree** (no importance sampling) algorithm is:
 
-$$\mathbf{w}_{t+n} \doteq \mathbf{w}_{t+n-1} + \alpha\!\left[G_{t:t+n} - \hat{q}(S_t, A_t, \mathbf{w}_{t+n-1})\right] \nabla \hat{q}(S_t, A_t, \mathbf{w}_{t+n-1})$$
+$$\boxed{\mathbf{w}_{t+n} \doteq \mathbf{w}_{t+n-1} + \alpha\!\left[G_{t:t+n} - \hat{q}(S_t, A_t, \mathbf{w}_{t+n-1})\right] \nabla \hat{q}(S_t, A_t, \mathbf{w}_{t+n-1})}$$
 
 $$G_{t:t+n} \doteq \hat{q}(S_t, A_t, \mathbf{w}_{t+n}) + \sum_{k=t}^{t+n-1} \delta_k \prod_{i=t+1}^{k} \gamma \pi(A_i \vert S_i)$$
 
