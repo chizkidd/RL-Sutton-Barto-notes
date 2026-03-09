@@ -1,0 +1,190 @@
+---
+title: "On-Policy Control with Approximation"
+number-sections: true
+---
+
+- Let's dive into the control problem now with parametric approximation of the action-value function $\hat{q}(s, a, \mathbf{w}) \approx q_{*}(s, a)$, where $\mathbf{w} \in \mathbb{R}^d$ is a **finite-dimensional weight vector.**
+- We'll focus on **semi-gradient Sarsa**, the natural extension of semi-gradient TD(0) to action values and to on-policy control.
+- We'll look at this extension in both the episodic and continuing case.
+- We'll look at $n$-step linear Sarsa.
+
+---
+
+## 10.1 Episodic Semi-gradient Control {#sec-ch10-10-1}
+
+- The extension of the semi-gradient prediction methods of Chapter 9 to action values is straightforward.
+- It is the approximate action-value function, $\hat{q} \approx q_\pi$, that is represented as a parametrized functional form with weight vector $\mathbf{w}$.
+- Before, the training examples had the form $S_t \mapsto U_t$; now the examples have the form $S_t, A_t \mapsto U_t$.
+- The update target $U_t$ can be any approximation of $q_\pi(S_t, A_t)$, including the usual backed-up values such as the full Monte Carlo (MC) return $G_t$ or any $n$-step Sarsa return $G_{t:t+n}$.
+- The general gradient-descent update for action-value prediction is:
+
+$$\mathbf{w}_{t+1} \doteq \mathbf{w}_t + \alpha\!\left[U_t - \hat{q}(S_t, A_t, \mathbf{w}_t)\right] \nabla \hat{q}(S_t, A_t, \mathbf{w}_t)$$
+
+- The update for the one-step Sarsa method is:
+
+$$\boxed{\mathbf{w}_{t+1} \doteq \mathbf{w}_t + \alpha\!\left[R_{t+1} + \gamma \hat{q}(S_{t+1}, A_{t+1}, \mathbf{w}_t) - \hat{q}(S_t, A_t, \mathbf{w}_t)\right] \nabla \hat{q}(S_t, A_t, \mathbf{w}_t)}$$
+
+- This method is called **episodic semi-gradient one-step Sarsa**. For a constant policy, this method converges in the same way that TD(0) does with the same kind of error bound.
+- **Control** = action-value prediction + policy improvement & action selection:
+
+$$\boxed{a, S_{t+1} \longrightarrow \hat{q}(S_{t+1}, a, \mathbf{w}_t) \longrightarrow A^*_{t+1} = \arg\max_a \hat{q}(S_{t+1}, a, \mathbf{w}_t) \longrightarrow \varepsilon\text{-greedy policy improvement} \longrightarrow \varepsilon\text{-greedy action selection}}$$
+
+- Linear function approximation for the action-value function is:
+
+$$\hat{q}(s, a, \mathbf{w}) \doteq \mathbf{w}^T \mathbf{x}(s, a) = \sum_{i=1}^{d} w_i \cdot x_i(s, a)$$
+
+---
+
+## 10.2 Semi-gradient $n$-step Sarsa {#sec-ch10-10-2}
+
+- We use an $n$-step return as the update target for episodic semi-gradient $n$-step Sarsa. The $n$-step return generalizes from its tabular form to a function approximation form:
+
+$$G_{t:t+n} \doteq R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{n-1} R_{t+n} + \gamma^n \hat{q}(S_{t+n}, A_{t+n}, \mathbf{w}_{t+n-1}), \quad t+n < T$$
+
+$$\text{with } G_{t:t+n} \doteq G_t \text{ if } t+n \geq T$$
+
+- The $n$-step update equation is:
+
+$$\boxed{\mathbf{w}_{t+n} \doteq \mathbf{w}_{t+n-1} + \alpha\!\left[G_{t:t+n} - \hat{q}(S_t, A_t, \mathbf{w}_{t+n-1})\right] \nabla \hat{q}(S_t, A_t, \mathbf{w}_{t+n-1}), \quad 0 \leq t < T}$$
+
+- Performance is best if an intermediate level of bootstrapping is used ($n > 1$).
+
+---
+
+## 10.3 Average Reward: A New Problem Setting for Continuing Tasks {#sec-ch10-10-3}
+
+- Average reward applies to continuing problems for goal formulation in MDPs.
+- Average reward uses **no discounting**; the agent has the same level of care for immediate and delayed rewards.
+- Average reward setting is more commonly considered in dynamic programming and less commonly in reinforcement learning (RL).
+- The discounted setting is problematic with function approximation, hence the need for average reward to replace it.
+- In the average-reward setting, the quality of a policy $\pi$ is defined as the average rate of reward, or simply **average reward**, while following that policy, denoted as $r(\pi)$:
+
+$$
+\begin{align*}
+r(\pi) &\doteq \lim_{h \to \infty} \frac{1}{h} \sum_{t=1}^{h} \mathbb{E}\!\left[R_t \mid S_0, A_{0:t-1} \sim \pi\right] \\
+&= \lim_{t \to \infty} \mathbb{E}\!\left[R_t \mid S_0, A_{0:t-1} \sim \pi\right] \\
+&= \sum_s \mu_\pi(s) \sum_a \pi(a \vert s) \sum_{s', r} p(s', r \vert s, a)\, r
+\end{align*}
+$$
+
+- The expectations in the above equations are conditioned on the initial state $S_0$, and on the subsequent actions $A_0, A_1, \ldots, A_{t-1}$, being taken according to $\pi$.
+- The 2nd and 3rd equations above hold if the MDP is **ergodic**, i.e., if the steady-state distribution exists and is independent of the starting state $S_0$:
+
+$$\mu_\pi(s) \doteq \lim_{t \to \infty} \Pr\!\left\{S_t = s \mid A_{0:t-1} \sim \pi\right\}$$
+
+- In an ergodic MDP, the starting state can have only a temporary effect, but in the long run the expectation of being in a state depends only on the policy and the MDP transition probabilities.
+- Ergodicity is sufficient but not necessary to guarantee the existence of the limit in the $r(\pi)$ equation above.
+- It may be adequate practically to simply order policies according to their average reward per time step, otherwise called the **return rate**.
+- All policies that reach the maximal value of $r(\pi)$ are optimal.
+- The steady-state distribution $\mu_\pi$ is the special distribution under which, if you select actions according to $\pi$, you remain in the same distribution, i.e., for which:
+
+$$\sum_s \mu_\pi(s) \sum_a \pi(a \vert s)\, p(s' \vert s, a) = \mu_\pi(s')$$
+
+- In the average-reward setting, returns are defined in terms of differences between rewards and the average reward; this is called the **differential return**:
+
+$$G_t \doteq R_{t+1} - r(\pi) + R_{t+2} - r(\pi) + R_{t+3} - r(\pi) + \ldots$$
+
+- The corresponding value functions for the differential return are known as **differential value functions**:
+
+$$
+\begin{aligned}
+v_\pi(s) &\doteq \mathbb{E}_\pi\!\left[G_t \mid S_t = s\right] \\
+q_\pi(s, a) &\doteq \mathbb{E}_\pi\!\left[G_t \mid S_t = s, A_t = a\right]
+\end{aligned}
+$$
+
+- Differential value functions also have Bellman equations:
+
+$$
+\begin{aligned}
+v_\pi(s) &= \sum_a \pi(a \vert s) \sum_{r, s'} p(s', r \vert s, a)\!\left[r - r(\pi) + v_\pi(s')\right] \\[6pt]
+q_\pi(s, a) &= \sum_{r, s'} p(s', r \vert s, a)\!\left[r - r(\pi) + \sum_{a'} \pi(a' \vert s')\, q_\pi(s', a')\right] \\[6pt]
+v_{*}(s) &= \max_a \sum_{r, s'} p(s', r \vert s, a)\!\left[r - \max_\pi r(\pi) + v_{*}(s)\right] \\[6pt]
+q_{*}(s, a) &= \sum_{r, s'} p(s', r \vert s, a)\!\left[r - \max_\pi r(\pi) + \max_{a'} q_{*}(s', a')\right]
+\end{aligned}
+$$
+
+- The differential form of the 2 TD errors:
+
+$$
+\begin{aligned}
+\delta_t &\doteq R_{t+1} - \bar{R}_t + \hat{v}(S_{t+1}, \mathbf{w}_t) - \hat{v}(S_t, \mathbf{w}_t) \\
+\delta_t &\doteq R_{t+1} - \bar{R}_t + \hat{q}(S_{t+1}, A_{t+1}, \mathbf{w}_t) - \hat{q}(S_t, A_t, \mathbf{w}_t)
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\text{where} \quad \bar{R}_t &= \text{average reward } r(\pi) \text{ estimate at time } t
+\end{aligned}
+$$
+
+- Most of the algorithms covered so far don't change for the average-reward setting. For example, the semi-gradient Sarsa average-reward version is the same as the regular version except with the differential version of the TD error:
+
+$$\mathbf{w}_{t+1} \doteq \mathbf{w}_t + \alpha\, \delta_t \nabla \hat{q}(S_t, A_t, \mathbf{w}_t)$$
+
+---
+
+## 10.4 Deprecating the Discounted Setting {#sec-ch10-10-4}
+
+- For the tabular case, the continuing, discounted problem formulation is useful, but in the approximate case, is this problem formulation necessary?
+- Should we use the discounted reward or average reward in continuing tasks?
+- It turns out that the average of the discounted return is proportional to the average reward.
+- The ordering of all policies in the average discounted return setting would be exactly the same as in the average-reward setting.
+- This idea of the **futility of discounting in continuing problems** can be proven by the **symmetry argument.** 
+  - Let's choose an objective that saves discounting by summing discounted values over the distribution with which states occur under the policy (where $v^\gamma_\pi \equiv$ discounted value function):
+
+    $$
+    \begin{align*}
+    J(\pi) &= \sum_s \mu_\pi(s)\, v^\gamma_\pi(s) \\
+    &= \sum_s \mu_\pi(s) \sum_a \pi(a \vert s) \sum_{s'} \sum_r p(s', r \vert s, a)\!\left[r + \gamma v^\gamma_\pi(s')\right] \\
+    &= r(\pi) + \sum_s \mu_\pi(s) \sum_a \pi(a \vert s) \sum_{s'} \sum_r p(s', r \vert s, a)\, \gamma v^\gamma_\pi(s') \\
+    &= r(\pi) + \gamma \sum_{s'} v^\gamma_\pi(s') \sum_s \mu_\pi(s) \sum_a \pi(a \vert s)\, p(s' \vert s, a) \\
+    &= r(\pi) + \gamma \sum_{s'} v^\gamma_\pi(s')\, \mu_\pi(s') \\
+    &= r(\pi) + \gamma J(\pi) \\
+    &= r(\pi) + \gamma\!\left(r(\pi) + \gamma J(\pi)\right) \\
+    &= r(\pi) + \gamma r(\pi) + \gamma^2 J(\pi) \\
+    &= r(\pi) + \gamma r(\pi) + \gamma^2 r(\pi) + \gamma^3 r(\pi) + \gamma^4 r(\pi) + \ldots \\
+    &= r(\pi)\!\left[1 + \gamma + \gamma^2 + \gamma^3 + \ldots\right]
+    \end{align*}
+    $$
+
+    $$\boxed{J(\pi) = \left(\frac{1}{1-\gamma}\right) r(\pi)}$$
+
+    - _The proposed discounted objective orders policies identically to the undiscounted (average reward) objective._
+    - _The discount rate $\gamma$ does not influence the ordering._
+
+- The root cause of the difficulties with the discounted control setting is that with function approximation we have lost the policy improvement theorem.
+- Now if we change the policy to improve the discounted value of one state, we are no longer guaranteed to have improved the overall policy.
+
+---
+
+## 10.5 Differential Semi-gradient $n$-step Sarsa {#sec-ch10-10-5}
+
+- We need an $n$-step version of the TD error in order to generalize to $n$-step bootstrapping.
+- Let's generalize the $n$-step return to its differential form, with function approximation:
+
+$$\boxed{G_{t:t+n} \doteq R_{t+1} - \bar{R}_{t+n-1} + \ldots + R_{t+n} - \bar{R}_{t+n-1} + \hat{q}(S_{t+n}, A_{t+n}, \mathbf{w}_{t+n-1})}$$
+
+$$
+\begin{aligned}
+\text{where} \quad \bar{R} &\equiv \text{an estimate of } r(\pi),\quad n \geq 1\ \&\ t+n < T \\
+G_{t:t+n} &\doteq G_t \quad \text{ if } t+n \geq T
+\end{aligned}
+$$
+
+- The $n$-step TD error is:
+
+$$\delta_t \doteq G_{t:t+n} - \hat{q}(S_t, A_t, \mathbf{w})$$
+
+---
+
+## 10.6 Summary {#sec-ch10-10-6}
+
+- Extended parametrized function approximation & semi-gradient descent to control.
+- The extension is immediate for the episodic case, but dependent on a new problem formulation based on maximizing the **average reward** setting per time step, for the continuing case.
+- The discounted formulation cannot be carried over to control in the presence of approximations.
+- Most policies cannot be represented by a value function in the approximate case.
+- The scalar average reward $r(\pi)$ provides an effective way of ranking the remaining arbitrary policies.
+- The average reward formulation involves new **differential** versions of value functions, Bellman equations, and TD errors, but all of these parallel the old ones and the conceptual changes are small.
+- The average reward setting has a new parallel set of differential algorithms.
