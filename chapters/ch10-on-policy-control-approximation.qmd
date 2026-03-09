@@ -149,7 +149,7 @@ $$\mathbf{w}_{t+1} \doteq \mathbf{w}_t + \alpha\, \delta_t \nabla \hat{q}(S_t, A
     \end{align*}
     $$
 
-    $$\boxed{J(\pi) = \left(\frac{1}{1-\gamma}\right) r(\pi)}$$
+    $$\hspace{-6cm} \boxed{J(\pi) = \left(\frac{1}{1-\gamma}\right) r(\pi)}$$
 
     - _The proposed discounted objective orders policies identically to the undiscounted (average reward) objective._
     - _The discount rate $\gamma$ does not influence the ordering._
