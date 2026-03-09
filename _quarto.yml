@@ -27,6 +27,7 @@ book:
         - chapters/ch08-planning-learning.qmd
         - chapters/ch09-on-policy-prediction-approximation.qmd
         - chapters/ch10-on-policy-control-approximation.qmd
+        - chapters/ch11-off-policy-methods-approximation.qmd
 
 format:
   html:

@@ -69,7 +69,11 @@ s' &= \text{preceding state}
 \end{aligned}
 $$
 
-> ***Balance Equation:*** the probability of being in state $s$ equals the sum over all ways of arriving in $s$ from any previous state $s'$ under policy $\pi$.
+<!-- > ***Balance Equation:*** the probability of being in state $s$ equals the sum over all ways of arriving in $s$ from any previous state $s'$ under policy $\pi$. -->
+
+::: {.callout-note title="Balance Equation"}
+The probability of being in state $s$ equals the sum over all ways of arriving in $s$ from any previous state $s'$ under policy $\pi$.
+:::
 
 2. **Episodic tasks**: it depends on how the initial states of episodes are chosen:
 
@@ -84,7 +88,11 @@ h(s) &= \text{probability that an episode begins in each state } s \\
 \end{aligned}
 $$
 
-> ***Visitation Equation:*** the expected number of visits to state $s$ equals the probability of starting in state $s$ plus the expected number of visits to all preceding states $s'$ that transition into $s$ under policy $\pi$.
+<!-- > ***Visitation Equation:*** the expected number of visits to state $s$ equals the probability of starting in state $s$ plus the expected number of visits to all preceding states $s'$ that transition into $s$ under policy $\pi$. -->
+
+::: {.callout-note title="Visitation Equation"}
+The expected number of visits to state $s$ equals the probability of starting in state $s$ plus the expected number of visits to all preceding states $s'$ that transition into $s$ under policy $\pi$.
+:::
 
 - This system of equations can be solved for the expected number of visits $\eta(s)$.
 - The on-policy distribution is the fraction of time spent in each state, normalized to sum to 1:
