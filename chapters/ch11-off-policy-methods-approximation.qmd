@@ -11,7 +11,7 @@ number-sections: true
 
 ---
 
-## 11.1 Semi-gradient Methods {#sec-ch11-11-1}
+## Semi-gradient Methods {#sec-ch11-11-1}
 
 - Let's discuss the extension of previous off-policy methods to function approximation as semi-gradient methods.
 - This is how we find the update target (or change it) to address the first challenge.
@@ -73,7 +73,7 @@ $$\text{where } \delta_t \text{ is the Expected Sarsa TD error defined earlier i
 
 ---
 
-## 11.2 Examples of Off-Policy Divergence {#sec-ch11-11-2}
+## Examples of Off-Policy Divergence {#sec-ch11-11-2}
 
 - Now let's discuss the 2nd off-policy function approximation challenge.
 - We'll look at some instructive counterexamples where the semi-gradient algorithm diverges.
@@ -134,7 +134,8 @@ Baird's Counterexample.
 >**Baird's Counterexample:** Episodic 7-state, 2-action MDP.
 
 - **Assumptions/knowns:**
-  - $b(\text{dashed}\,\vert\,\cdot) = 6/7$, $\quad b(\text{solid}\,\vert\,\cdot) = 1/7$
+  - $b(\text{dashed}\,\vert\,\cdot) = 6/7$
+  - $b(\text{solid}\,\vert\,\cdot) = 1/7$
   - $\pi(a\,\vert\,\cdot) = \pi(\text{solid}\,\vert\,\cdot) = 1$
   - $R = 0$ (on all transitions)
   - $\gamma = 0.99$
@@ -172,8 +173,8 @@ Tsitsiklis & Van Roy's Counterexample.
 
 $$
 \begin{align*}
-w_{k+1} &= \arg\min_{w \in \mathbb{R}} \sum_{s \in S} \left(\hat{v}(s, w) - \mathbb{E}_\pi\!\left[R_{t+1} + \gamma \hat{v}(S_{t+1}, w_k) \mid S_t = s\right]\right)^2 \\
-&= \arg\min_{w \in \mathbb{R}} \left(w - \gamma \cdot 2w_k\right)^2 + \left(2w - (1 - \varepsilon)\gamma \cdot 2w_k\right)^2 \\
+w_{k+1} &= \arg\min_{w \in \mathbb{R}} \sum_{s \in S} \left(\hat{v}(s, w) - \mathbb{E}_\pi\!\left[R_{t+1} + \gamma \hat{v}(S_{t+1}, w_k) \mid S_t = s\right]\right)^2 \\[6pt]
+&= \arg\min_{w \in \mathbb{R}} \left(w - \gamma \cdot 2w_k\right)^2 + \left(2w - (1 - \varepsilon)\gamma \cdot 2w_k\right)^2 \\[6pt]
 &= \left(\frac{6 - 4\varepsilon}{5}\right) \gamma w_k
 \end{align*}
 $$
@@ -192,7 +193,7 @@ $$
 
 ---
 
-## 11.3 The Deadly Triad {#sec-ch11-11-3}
+## The Deadly Triad {#sec-ch11-11-3}
 
 - The danger of instability and divergence arises when we combine these 3 elements, which make up the **deadly triad**:
   - Function approximation
@@ -207,7 +208,7 @@ $$
 
 ---
 
-## 11.4 Linear Value-Function Geometry {#sec-ch11-11-4}
+## Linear Value-Function Geometry {#sec-ch11-11-4}
 
 - To better understand the stability challenge of off-policy learning, let's think about value-function approximation **more abstractly and independently** of how learning is done.
 - Let's consider the case with 3 states $S = \{s_1, s_2, s_3\}$ and 2 parameters $\mathbf{w} = (w_1, w_2)^T$.
@@ -218,7 +219,7 @@ $$
   - We need to perform a projection operation.
   - TD methods present other solutions.
 
-::: {#fig-113}
+::: {#fig-114}
 ![](../figures/ch11-11-4-linear-value-func-approx-geometry.png){fig-align="center"} 
 
 The Geometry of Linear Value-Function Approximation.
@@ -297,7 +298,7 @@ $$\overline{\text{PBE}}(\mathbf{w}) = \lVert \Pi\, \delta_\mathbf{w} \rVert_\mu^
 
 ---
 
-## 11.5 Gradient Descent in the Bellman Error {#sec-ch11-11-5}
+## Gradient Descent in the Bellman Error {#sec-ch11-11-5}
 
 - Let's apply the approach of SGD in dealing with the challenge of stability in off-policy learning.
 
@@ -357,7 +358,7 @@ $$
 
 ---
 
-## 11.6 The Bellman Error is Not Learnable {#sec-ch11-11-6}
+## The Bellman Error is Not Learnable {#sec-ch11-11-6}
 
 - The Bellman error is not learnable from the observed sequence of feature vectors, actions, and rewards.
 - Since the Bellman error objective cannot be learned from the observable data, this is the strongest reason not to seek it.
@@ -365,7 +366,7 @@ $$
 
 ### Example 1
 
-::: {#fig-114}
+::: {#fig-115}
 ![](../figures/ch11-11-6-example1.png){fig-align="center"} 
 
 Value Error (VE) Learnability Counterexample
@@ -395,7 +396,7 @@ $$
 
 ### Example 2
 
-::: {#fig-115}
+::: {#fig-116}
 ![](../figures/ch11-11-6-example2.png){fig-align="center"} 
 
 Bellman Error (BE) Learnability Counterexample
@@ -408,7 +409,7 @@ Bellman Error (BE) Learnability Counterexample
 - Other bootstrapping objectives, like $\overline{\text{PBE}}$ and $\overline{\text{TDE}}$, are learnable from data and yield optimal solutions different from each other and that of $\overline{\text{BE}}$.
 - $\overline{\text{BE}}$ is limited to model-based settings, therefore $\overline{\text{PBE}}$ is preferred.
 
-::: {#fig-116}
+::: {#fig-117}
 ![](../figures/ch11-11-6-causal-relationships-mdps-datadistr-errors.png){fig-align="center"} 
 
 Casual Relationships among the data distribution, MDPs & various objectives
@@ -418,7 +419,7 @@ Casual Relationships among the data distribution, MDPs & various objectives
 
 ---
 
-## 11.7 Gradient-TD Methods {#sec-ch11-11-7}
+## Gradient-TD Methods {#sec-ch11-11-7}
 
 - Let's consider SGD methods for minimizing the $\overline{\text{PBE}}$.
 - True SGD methods, **Gradient-TD methods**, have robust convergence properties even under off-policy training and nonlinear function approximation.
@@ -530,7 +531,7 @@ $$
 
 ---
 
-## 11.8 Emphatic-TD Methods {#sec-ch11-11-8}
+## Emphatic-TD Methods {#sec-ch11-11-8}
 
 - Let's explore a major strategy for obtaining a cheap and efficient off-policy learning method with function approximation.
 - Recall that linear semi-gradient TD methods are stable when trained under the on-policy distribution .
@@ -560,7 +561,7 @@ $$
 
 ---
 
-## 11.9 Reducing Variance {#sec-ch11-11-9}
+## Reducing Variance {#sec-ch11-11-9}
 
 - Off-policy learning is inherently of greater variance than on-policy learning.
 - The raison d'être of off-policy learning is to enable generalization to the vast number of related-but-not-identical policies.
@@ -587,7 +588,7 @@ $$
 
 ---
 
-## 11.10 Summary {#sec-ch11-11-10}
+## Summary {#sec-ch11-11-10}
 
 - Off-policy learning poses a challenge that requires creating stable and efficient learning algorithms.
 - Tabular Q-learning makes off-policy learning seem easy, as does its generalizations to Expected Sarsa and tree backup.
