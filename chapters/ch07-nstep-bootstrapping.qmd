@@ -59,7 +59,7 @@ $$G_{t:t+n} = G_t^{(n)} \doteq G_t \quad \text{if } t+n \geq T$$
 
   - while the values of all other states remain unchanged:
 
-    $$V_{t+n}(s) = V_{t+n-1}(s) \quad \forall s \neq S_t$$
+    $$V_{t+n}(s) = V_{t+n-1}(s), \quad \forall s \neq S_t$$
 
   - This algorithm is the **$n$-step TD**:
 

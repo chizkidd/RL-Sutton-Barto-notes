@@ -481,7 +481,7 @@ $$\text{total cost} = O\left(|A(s)| \cdot n \cdot L\right)$$
 
 ### 1. Selection
 - Starting at the root node, a tree policy based on the action values attached to the edges of the tree traverses the tree to select a leaf node.
-- Traverse tree using tree policy (typically **UCT**):
+- Traverse tree using tree policy (typically Upper Confidence bounds for Trees, **UCT**):
 
 $$\boxed{\text{UCT}(s,a) = \underbrace{\frac{W(s,a)}{N(s,a)}}_{\text{exploitation}} + c\underbrace{\sqrt{\frac{\ln(N(s))}{N(s,a)}}}_{\text{exploration}} = Q(s,a) + c\sqrt{\frac{\ln(N(s))}{N(s,a)}}}$$
 
@@ -575,7 +575,7 @@ while node ≠ null:
   - Selection: $O(d)$, 
   - Expansion: $O(1)$, 
   - Simulation: $O(L)$, 
-  - Backup; $O(d)$ 
+  - Backup: $O(d)$ 
 
 $$\Rightarrow \text{total: } O\!\left(n \cdot (d + L)\right) \text{ for } n \text{ simulations}$$
 

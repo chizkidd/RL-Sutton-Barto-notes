@@ -3,10 +3,10 @@ title: "On-Policy Prediction with Approximation"
 number-sections: true
 ---
 
-- Study of **function approximation** in RL by considering its use in estimating the state-value function from on-policy data, i.e. in approximating $V_\pi$ from experience generated using a known policy $\pi$.
+- Study of **function approximation** in RL by considering its use in estimating the state-value function from on-policy data, i.e. in approximating $v_\pi$ from experience generated using a known policy $\pi$.
 - The approximate value function is represented as a parameterized functional form with **weight vector** $\mathbf{w} \in \mathbb{R}^d$:
 
-$$\hat{v}(s, \mathbf{w}) \approx V_\pi(s)$$
+$$\hat{v}(s, \mathbf{w}) \approx v_\pi(s)$$
 
 - The function above is for the approximate value of state $s$ given weight vector $\mathbf{w}$.
 - $\hat{v}$ might be a linear function, a multi-layer artificial neural network, or a decision tree.
@@ -48,9 +48,9 @@ $$
 
 $$\mu(s) \geq 0, \quad \sum_s \mu(s) = 1$$
 
-- Weighting the error in a state $s$, the difference between the approximate value $\hat{v}(s, \mathbf{w})$ and the true value $V_\pi(s)$, over the state space by $\mu$ leads to obtaining a natural objective function called the **mean squared value error**, denoted by $\overline{\text{VE}}$:
+- Weighting the error in a state $s$, the difference between the approximate value $\hat{v}(s, \mathbf{w})$ and the true value $v_\pi(s)$, over the state space by $\mu$ leads to obtaining a natural objective function called the **mean squared value error**, denoted by $\overline{\text{VE}}$:
 
-$$\boxed{\overline{\text{VE}}(\mathbf{w}) \doteq \sum_{s \in S} \mu(s) \left[V_\pi(s) - \hat{v}(s, \mathbf{w})\right]^2}$$
+$$\boxed{\overline{\text{VE}}(\mathbf{w}) \doteq \sum_{s \in S} \mu(s) \left[v_\pi(s) - \hat{v}(s, \mathbf{w})\right]^2}$$
 
 - $\sqrt{\overline{\text{VE}}}$ tells us roughly how much the approximate values differ from the true values.
 - Often $\mu$ is chosen to be the fraction of time spent in $s$, called the **on-policy distribution** under on-policy training.
@@ -134,9 +134,9 @@ $$\mathbf{w} \doteq (w_1, w_2, w_3, \ldots, w_d)^T$$
 
 - In SGD, we update the weight vector at each time step by moving it in the direction that minimises the error most quickly for the example shown:
 
-$$\mathbf{w}_{t+1} \doteq \mathbf{w}_t - \frac{1}{2}\alpha \nabla\!\left[V_\pi(S_t) - \hat{v}(S_t, \mathbf{w}_t)\right]^2$$
+$$\mathbf{w}_{t+1} \doteq \mathbf{w}_t - \frac{1}{2}\alpha \nabla\!\left[v_\pi(S_t) - \hat{v}(S_t, \mathbf{w}_t)\right]^2$$
 
-$$\boxed{\mathbf{w}_{t+1} = \mathbf{w}_t + \alpha\!\left[V_\pi(S_t) - \hat{v}(S_t, \mathbf{w}_t)\right] \nabla \hat{v}(S_t, \mathbf{w}_t)}$$
+$$\boxed{\mathbf{w}_{t+1} = \mathbf{w}_t + \alpha\!\left[v_\pi(S_t) - \hat{v}(S_t, \mathbf{w}_t)\right] \nabla \hat{v}(S_t, \mathbf{w}_t)}$$
 
 $$
 \begin{aligned}
@@ -157,12 +157,12 @@ $$\nabla f(\mathbf{w}) \doteq \left(\frac{\partial f(\mathbf{w})}{\partial w_1},
 
 ### True Value Estimates
 
-- When the true value function $V_\pi(S_t)$ is unknown, we can approximate it by substituting $U_t$ in place of $V_\pi(S_t)$.
+- When the true value function $v_\pi(S_t)$ is unknown, we can approximate it by substituting $U_t$ in place of $v_\pi(S_t)$.
 - This yields the following general SGD method for state-value prediction:
 
 $$\boxed{\mathbf{w}_{t+1} \doteq \mathbf{w}_t + \alpha\!\left[U_t - \hat{v}(S_t, \mathbf{w}_t)\right] \nabla \hat{v}(S_t, \mathbf{w}_t)}$$
 
-- If $U_t$ is an ***unbiased*** estimate, that is, if $\mathbb{E}[U_t \vert S_t = s] = V_\pi(s)$ for each $t$, then $\mathbf{w}_t$ is guaranteed to converge to a local optimum under the usual stochastic approximation conditions for decreasing $\alpha$.
+- If $U_t$ is an ***unbiased*** estimate, that is, if $\mathbb{E}[U_t \vert S_t = s] = v_\pi(s)$ for each $t$, then $\mathbf{w}_t$ is guaranteed to converge to a local optimum under the usual stochastic approximation conditions for decreasing $\alpha$.
 - An example of an unbiased estimator is the **Monte Carlo** estimate for state $S_t$:
 
 $$U_t = G_t$$
