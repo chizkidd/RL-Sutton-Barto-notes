@@ -141,6 +141,8 @@ $$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\Big[\underbrace{R_{t+1} + \
 Backup diagram for SARSA
 :::
 
+> **Sarsa backup diagram**: from state-action pair $(S, A)$ through reward $R$ to next state $S'$ and next action $A'$.
+
 - As in all on-policy methods, we continually estimate $q_\pi$ for the behavior policy $\pi$ & simultaneously update the policy $\pi$ greedily w.r.t. $q_\pi$.
 - The convergence properties of the SARSA algorithm depend on the nature of the policy's dependence on $Q$. For example, one could use $\varepsilon$-greedy / $\varepsilon$-soft policies.
 
@@ -154,8 +156,6 @@ Backup diagram for SARSA
 
 SARSA control
 :::
-
-> **Sarsa backup diagram**: from state-action pair $(S, A)$ through reward $R$ to next state $S'$ and next action $A'$.
 
 - Every time step:
   - **Policy Evaluation:** SARSA, $Q \approx q_\pi$

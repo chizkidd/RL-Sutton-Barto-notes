@@ -577,7 +577,7 @@ $$
   - Successive ratios are uncorrelated, so their products are always 1 in expected value, but they can be of high variance.
   - These ratios multiply the step size in SGD methods, so their high variance is problematic for SGD because of the occasional huge steps.
 
-- How can we alleviate the effects of high variance via small step-size settings enough to ensure the expected step taken by SGD is small? Some approaches:
+- How can we alleviate the effects of high variance via small step-size settings that are enough to ensure the expected step taken by SGD is small? Some approaches:
   - Momentum
   - Polyak-Ruppert averaging
   - Methods for adaptively setting separate step sizes for different components of the parameter vector

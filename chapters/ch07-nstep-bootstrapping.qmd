@@ -55,15 +55,15 @@ $$G_{t:t+n} = G_t^{(n)} \doteq G_t \quad \text{if } t+n \geq T$$
 - $n$-step returns for $n > 1$ involve future rewards and states that are not available at the transition time from $t \to t+1$. Hence the $n$-step return cannot be used until after it has seen $R_{t+n}$ and computed $V_{t+n-1}$ when they are both available at time $t+n$.
   - The natural state-value learning algorithm for using $n$-step returns is thus:
 
-$$V_{t+n}(S_t) \doteq V_{t+n-1}(S_t) + \alpha\left[G_t^{(n)} - V_{t+n-1}(S_t)\right], \quad 0 \leq t < T$$
+    $$V_{t+n}(S_t) \doteq V_{t+n-1}(S_t) + \alpha\left[G_t^{(n)} - V_{t+n-1}(S_t)\right], \quad 0 \leq t < T$$
 
   - while the values of all other states remain unchanged:
 
-$$V_{t+n}(s) = V_{t+n-1}(s) \quad \forall s \neq S_t$$
+    $$V_{t+n}(s) = V_{t+n-1}(s) \quad \forall s \neq S_t$$
 
   - This algorithm is the **$n$-step TD**:
 
-$$\boxed{V(S_t) \leftarrow V(S_t) + \alpha\left[G_t^{(n)} - V(S_t)\right]}$$
+    $$\boxed{V(S_t) \leftarrow V(S_t) + \alpha\left[G_t^{(n)} - V(S_t)\right]}$$
 
 - The $n$-step return uses the value function $V_{t+n-1}$ to correct for the missing rewards beyond $R_{t+n}$. An important property of $n$-step returns is that their expectation is guaranteed to be a better estimate of $v_\pi$ than $V_{t+n-1}$ is in a worst-state sense. This is called the **error reduction property**. Using this property, all $n$-step TD methods converge to the correct predictions:
 
@@ -275,9 +275,9 @@ G_t^{(2)} &\doteq R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a \vert S_{t+1})\, 
 
 - The $n$-step tree-backup return is, $\text{for } t < T-1,\ n \geq 2$:
 
-$$\boxed{G_t^{(n)} \doteq R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a|S_{t+1})\, Q_{t+n-1}(S_{t+1}, a) + \gamma\pi(A_{t+1}|S_{t+2})\, G_{t+1:t+n}}$$
+    $$\boxed{G_t^{(n)} \doteq R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a|S_{t+1})\, Q_{t+n-1}(S_{t+1}, a) + \gamma\pi(A_{t+1}|S_{t+2})\, G_{t+1:t+n}}$$
 
-- becomes one-step tree-backup return when $n=1$ and $G_{T-1:t+n} = R_T$.
+    - becomes one-step tree-backup return when $n=1$ and $G_{T-1:t+n} = R_T$.
 
 - We can use $G_t^{(n)}$ in the Q-update from $n$-step Sarsa, for $0 \leq t < T$:
 

@@ -214,8 +214,8 @@ Backup diagrams for all the one-step updates covered so far
 | $q_*(s,a)$ | $q$-value iteration | Q-learning |
 
 - We have considered many value function updates. If we focus on one-step updates, they vary along 3 binary dimensions:
-  - Whether they update state values or action values.
-  - Whether they estimate the value for the optimal policy or for an arbitrary given policy.
+  - Whether they update **state values** or **action values.**
+  - Whether they estimate the value for the **optimal policy** or for an **arbitrary given policy.**
   - Whether the updates are **expected updates** (consider all possible events that might happen) or **sample updates** (consider a single sample of what might happen).
 - These 3 binary dimensions give rise to 8 cases, 7 of which are shown in the figure above. The 8th case does not seem to correspond to any useful update.
 
@@ -258,13 +258,13 @@ $$\boxed{Q(s,a) \leftarrow Q(s,a) + \alpha\left[R + \gamma \max_{a'} Q(S', a') -
 
     $$\text{error} = \sqrt{\frac{b-1}{bt}}$$
 
-  - For large $b$: $\text{error} \approx \sqrt{\frac{1}{t}}$, $\therefore \lim_{t \to \infty} \sqrt{\frac{1}{t}} \to 0$.
+  - For large $b$: $\quad \text{error} \approx \sqrt{\frac{1}{t}}$, $\therefore \lim_{t \to \infty} \sqrt{\frac{1}{t}} \to 0$.
 
-$$\begin{aligned}
-b=1:& \quad \text{error} = 0 \quad \text{for } t \geq 1 \\[6pt]
-b=2:& \quad \text{error} = \frac{1}{\sqrt{2t}} \implies \text{error}(t=1) \approx 0.707,\ \text{error}(t=2) = 0.5 \\[6pt]
-b=100:& \quad \text{error} \approx \frac{1}{\sqrt{t}} \implies \text{error}(t=1) \approx 0.995,\ \text{error}(t=10) \approx 0.316,\ \text{error}(t=100) \approx 0.1
-\end{aligned}$$
+    $$\begin{aligned}
+    b=1:& \quad \text{error} = 0 \quad \text{for } t \geq 1 \\[6pt]
+    b=2:& \quad \text{error} = \frac{1}{\sqrt{2t}} \implies \text{error}(t=1) \approx 0.707,\ \text{error}(t=2) = 0.5 \\[6pt]
+    b=100:& \quad \text{error} \approx \frac{1}{\sqrt{t}} \implies \text{error}(t=1) \approx 0.995,\ \text{error}(t=10) \approx 0.316,\ \text{error}(t=100) \approx 0.1
+    \end{aligned}$$
 
 - Pros of sample updates:
   - **Breadth vs depth**: cover more state space per unit computation.
@@ -452,7 +452,7 @@ Heuristic search
 
 ### Computational Complexity (quite expensive due to many full episodes)
 
-- Per decision $\Rightarrow:
+- Per decision $\Rightarrow$:
   - $|A(s)|$ = number of actions to evaluate, 
   - $n$ = rollouts per action, 
   - $L$ = average episode length.
