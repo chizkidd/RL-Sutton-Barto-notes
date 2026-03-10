@@ -208,8 +208,8 @@ Backup diagrams for all the one-step updates covered so far
 
 | Value estimated | Expected updates (DP) | Sample updates (one-step TD) |
 |---|---|---|
-| $V_\pi(s)$ | Policy evaluation<br>(full branching over actions & next states) | TD(0)<br>(single sampled transition) |
-| $V_*(s)$ | Value iteration (max over actions, full branching) | — |
+| $v_\pi(s)$ | Policy evaluation<br>(full branching over actions & next states) | TD(0)<br>(single sampled transition) |
+| $v_*(s)$ | Value iteration (max over actions, full branching) | — |
 | $q_\pi(s,a)$ | $q$-policy evaluation | Sarsa |
 | $q_*(s,a)$ | $q$-value iteration | Q-learning |
 
@@ -428,7 +428,7 @@ Heuristic search
    - Full tree expansion: $O(b^K)$ where $b$ = branching factor.
    - With pruning/selection: $O(f(b, K))$ where $f < b^K$.
 3. **Memory**: $O(bK)$ with depth-first implementation.
-4. **Backed-up value interpretation**: $V_{\text{tree}}(s)$ estimates the $K$-step optimal value starting from $s$.
+4. **Backed-up value interpretation**: $v_{\text{tree}}(s)$ estimates the $K$-step optimal value starting from $s$.
 
 ---
 
