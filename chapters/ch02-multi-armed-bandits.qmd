@@ -178,7 +178,7 @@ $$
 
 ### Pros & Cons
 - (+) It is **effective on stationary problems,** but not a general approach
-- (-) It is **not good for nonstationary problem**s** because its drive for exploration is inherently temporary.
+- (-) It is **not good for nonstationary problems** because its drive for exploration is inherently temporary.
 
 ---
 
@@ -215,9 +215,9 @@ $c$ determining the confidence level.
 
 ### Pros & Cons
 - (+) UCB usually performs better than $\varepsilon$-greedy 
-- (-) UCB is more difficult than $\varepsilon$-greedy to extend beyond bandits to the more general RL settings
-- (-) Difficulty in dealing with nonstationary problems
-- (-) Difficulty in dealing with large state spaces (especially function approximation)
+- (-) UCB is more difficult than $\varepsilon$-greedy to **extend beyond bandits** to the more general RL settings
+- (-) Difficulty in dealing with **nonstationary problems**
+- (-) Difficulty in dealing with **large state spaces** (especially function approximation)
 
 ---
 
@@ -311,9 +311,11 @@ $$
 
 $$\Rightarrow \boxed{H_{t+1}(a) = H_t(a) + \alpha(R_t - \bar{R}_t)\left(\mathbb{1}_{a=A_t} - \pi_t(a)\right)} \quad \text{for all } a$$
 
+---
+
 **Prove** $\dfrac{\partial \pi_t(x)}{\partial H_t(a)} = \pi_t(x)\left[\mathbb{1}_{a=x} - \pi_t(a)\right]$:
 
-- Using the quotient rule: $\dfrac{\partial}{\partial z}\left[\dfrac{f(z)}{g(z)}\right] = \dfrac{f'(z)g(z) - f(z)g'(z)}{g(z)^2}$:
+Using the quotient rule: $\dfrac{\partial}{\partial z}\left[\dfrac{f(z)}{g(z)}\right] = \dfrac{f'(z)g(z) - f(z)g'(z)}{g(z)^2}$:
 
 $$
 \begin{align*}

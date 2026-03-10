@@ -10,7 +10,7 @@ number-sections: true
 
 ---
 
-## 10.1 Episodic Semi-gradient Control {#sec-ch10-10-1}
+## Episodic Semi-gradient Control {#sec-ch10-10-1}
 
 - The extension of the semi-gradient prediction methods of Chapter 9 to action values is straightforward.
 - It is the approximate action-value function, $\hat{q} \approx q_\pi$, that is represented as a parametrized functional form with weight vector $\mathbf{w}$.
@@ -35,7 +35,7 @@ $$\hat{q}(s, a, \mathbf{w}) \doteq \mathbf{w}^T \mathbf{x}(s, a) = \sum_{i=1}^{d
 
 ---
 
-## 10.2 Semi-gradient $n$-step Sarsa {#sec-ch10-10-2}
+## Semi-gradient $n$-step Sarsa {#sec-ch10-10-2}
 
 - We use an $n$-step return as the update target for episodic semi-gradient $n$-step Sarsa. The $n$-step return generalizes from its tabular form to a function approximation form:
 
@@ -51,7 +51,7 @@ $$\boxed{\mathbf{w}_{t+n} \doteq \mathbf{w}_{t+n-1} + \alpha\!\left[G_{t:t+n} - 
 
 ---
 
-## 10.3 Average Reward: A New Problem Setting for Continuing Tasks {#sec-ch10-10-3}
+## Average Reward: A New Problem Setting for Continuing Tasks {#sec-ch10-10-3}
 
 - Average reward applies to continuing problems for goal formulation in MDPs.
 - Average reward uses **no discounting**; the agent has the same level of care for immediate and delayed rewards.
@@ -125,7 +125,7 @@ $$\mathbf{w}_{t+1} \doteq \mathbf{w}_t + \alpha\, \delta_t \nabla \hat{q}(S_t, A
 
 ---
 
-## 10.4 Deprecating the Discounted Setting {#sec-ch10-10-4}
+## Deprecating the Discounted Setting {#sec-ch10-10-4}
 
 - For the tabular case, the continuing, discounted problem formulation is useful, but in the approximate case, is this problem formulation necessary?
 - Should we use the discounted reward or average reward in continuing tasks?
@@ -159,7 +159,7 @@ $$\mathbf{w}_{t+1} \doteq \mathbf{w}_t + \alpha\, \delta_t \nabla \hat{q}(S_t, A
 
 ---
 
-## 10.5 Differential Semi-gradient $n$-step Sarsa {#sec-ch10-10-5}
+## Differential Semi-gradient $n$-step Sarsa {#sec-ch10-10-5}
 
 - We need an $n$-step version of the TD error in order to generalize to $n$-step bootstrapping.
 - Let's generalize the $n$-step return to its differential form, with function approximation:
@@ -179,7 +179,7 @@ $$\delta_t \doteq G_{t:t+n} - \hat{q}(S_t, A_t, \mathbf{w})$$
 
 ---
 
-## 10.6 Summary {#sec-ch10-10-6}
+## Summary {#sec-ch10-10-6}
 
 - Extended parametrized function approximation & semi-gradient descent to control.
 - The extension is immediate for the episodic case, but dependent on a new problem formulation based on maximizing the **average reward** setting per time step, for the continuing case.

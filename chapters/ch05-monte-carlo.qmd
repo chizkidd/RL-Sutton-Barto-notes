@@ -23,15 +23,15 @@ Recall that the value of a state is the **expected cumulative future discounted 
 
 - **Goal**: Learn $v_\pi$ from episodes of experience under policy $\pi$
 
-$$S_1, A_1, R_2, \ldots, S_K \sim \pi$$
+    $$S_1, A_1, R_2, \ldots, S_K \sim \pi$$
 
   - Value function (expected return):
 
-$$v_\pi(s) = \mathbb{E}\left[G_t \mid S_t = s\right]$$
+    $$v_\pi(s) = \mathbb{E}\left[G_t \mid S_t = s\right]$$
 
   - Return (total discounted reward):
 
-$$G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots + \gamma^{T-1} R_T$$
+    $$G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots + \gamma^{T-1} R_T$$
 
 - The 2 Monte Carlo methods are **First-Visit** & **Every-Visit** MC:
   - **First-Visit**: estimates $v_\pi(s)$ as the average of the returns following **first** visits to $s$
@@ -85,9 +85,9 @@ Generalized Policy Iteration
 
 - In GPI, one maintains both an approximate policy and an approximate value function.
 
-$$\pi_0 \xrightarrow{E} q_{\pi_0} \xrightarrow{I} \pi_1 \xrightarrow{E} q_{\pi_1} \xrightarrow{I} \pi_2 \xrightarrow{E} \ldots \xrightarrow{I} \pi_* \xrightarrow{E} q_{\pi_*}$$
+  $$\pi_0 \xrightarrow{E} q_{\pi_0} \xrightarrow{I} \pi_1 \xrightarrow{E} q_{\pi_1} \xrightarrow{I} \pi_2 \xrightarrow{E} \ldots \xrightarrow{I} \pi_* \xrightarrow{E} q_{\pi_*}$$
 
-where $\xrightarrow{E}$ denotes a complete policy evaluation & $\xrightarrow{I}$ denotes a complete policy improvement.
+  where $\xrightarrow{E}$ denotes a complete policy evaluation & $\xrightarrow{I}$ denotes a complete policy improvement.
 
 ### Policy Improvement
 

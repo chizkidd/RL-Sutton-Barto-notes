@@ -108,15 +108,14 @@ v_\pi(s) &\leq q_\pi(s, \pi'(s)) \\
 &\leq \mathbb{E}_{\pi'}\left[R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \gamma^3 R_{t+4} + \ldots \mid S_t = s\right] \\
 &= \mathbb{E}_{\pi'}\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t = s\right] \\
 &= \mathbb{E}_{\pi'}\left[G_t \mid S_t = s\right] \\
-&= v_{\pi'}(s)
+&= v_{\pi'}(s) \\
+\therefore \quad v_\pi(s) &\leq v_{\pi'}(s)
 \end{align*}
 $$
 
-$$\therefore\quad v_\pi(s) \leq v_{\pi'}(s)$$
-
 - If improvements stop: $q_\pi(s, \pi'(s)) = \max_{a \in A} q_\pi(s,a) = q_\pi(s, \pi(s)) = v_\pi(s)$
 - Then the Bellman optimality equation has been satisfied: $v_\pi(s) = \max_{a \in A} q_\pi(s,a)$
-- Therefore $v_\pi(s) = v_*(s)\ \forall s \in S$, so $\pi$ is an optimal policy.
+- Therefore $v_\pi(s) = v_*(s),\ \forall s \in S$, so $\pi$ is an optimal policy.
 - Essentially, if $v_\pi(s) = v_{\pi'}(s)$ then $v_{\pi'}(s)$ must be $v_{*}(s)$ & both $\pi(s)$ and $\pi'(s)$ are optimal policies.
 - Policy improvement thus must give a **strictly better** policy except when the original policy is already optimal.
 
@@ -131,9 +130,9 @@ $$\therefore\quad v_\pi(s) \leq v_{\pi'}(s)$$
   3. Evaluate new policy $\pi'$ to obtain new value function $v_{\pi'}$
   4. Repeat until $\pi'$ converges to the optimal policy $\pi^{*}$ (only for finite MDPs)
 
-$$\pi_0 \xrightarrow{E} V_{\pi_0} \xrightarrow{I} \pi_1 \xrightarrow{E} v_{\pi_1} \xrightarrow{I} \pi_2 \xrightarrow{E} \ldots \xrightarrow{I} \pi_* \xrightarrow{E} V_*$$
+    $$\pi_0 \xrightarrow{E} V_{\pi_0} \xrightarrow{I} \pi_1 \xrightarrow{E} v_{\pi_1} \xrightarrow{I} \pi_2 \xrightarrow{E} \ldots \xrightarrow{I} \pi_* \xrightarrow{E} V_*$$
 
-where $\xrightarrow{E}$ denotes a policy evaluation ($v_\pi(s) = \mathbb{E}_\pi\left[G_t \mid S_t = s\right]$) and $\xrightarrow{I}$ denotes a policy improvement ($\pi' = \text{greedy}(v_\pi)$).
+    where $\xrightarrow{E}$ denotes a policy evaluation ($v_\pi(s) = \mathbb{E}_\pi\left[G_t \mid S_t = s\right]$) and $\xrightarrow{I}$ denotes a policy improvement ($\pi' = \text{greedy}(v_\pi)$).
 
 <!-- $$V_\pi(s) = \mathbb{E}_\pi\left[G_t \mid S_t = s\right] \qquad \pi' = \text{greedy}(V_\pi)$$ -->
 
