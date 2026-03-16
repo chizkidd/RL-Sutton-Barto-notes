@@ -99,28 +99,6 @@ tbody {
   }
 }
 
-/* -- Dark mode table fixes --------------------------------- */
-[data-bs-theme=dark] {
-  table {
-    thead {
-      background-color: rgba(255, 255, 255, 0.05);
-      
-      th {
-        color: #ffffff !important;
-        font-weight: 700 !important;
-        border-bottom-color: rgba(255, 255, 255, 0.3) !important;
-      }
-    }
-    
-    tbody {
-      td {
-        color: rgba(255, 255, 255, 0.87);
-        border-bottom-color: rgba(255, 255, 255, 0.1);
-      }
-    }
-  }
-}
-
 /* -- SVG figures ------------------------------------------- */
 img[src$=".svg"] {
   max-width: 100%;
@@ -145,4 +123,23 @@ img[src$=".svg"] {
 
 [data-bs-theme=dark] pre {
   border-left-color: #7eb8d4;
+}
+
+/* Dark mode table fixes */
+[data-bs-theme=dark] table thead {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-bs-theme=dark] table thead th {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-bs-theme=dark] table tbody td {
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+[data-bs-theme=dark] table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
