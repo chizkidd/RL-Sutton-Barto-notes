@@ -28,6 +28,7 @@ book:
         - chapters/ch09-on-policy-prediction-approximation.qmd
         - chapters/ch10-on-policy-control-approximation.qmd
         - chapters/ch11-off-policy-methods-approximation.qmd
+        - chapters/ch12-eligibility-traces.qmd
 
 format:
   html:

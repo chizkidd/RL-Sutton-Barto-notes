@@ -22,7 +22,7 @@ The notes cover the core ideas, equations, and algorithms from each chapter, tra
 | 9 | On-policy Prediction with Approximation | ✓ |
 | 10 | On-policy Control with Approximation | ✓ |
 | 11 | Off-policy Methods with Approximation | ✓ | 
-| 12 | Eligibility Traces | _pending_ | 
+| 12 | Eligibility Traces | ✓ | 
 | 13 | Policy Gradient Methods | _pending_ | 
 
 ## How to Read These Notes
@@ -57,36 +57,55 @@ These notes are meant to accompany the textbook, not replace it. They are most u
 | $G_t$ | Return (cumulative discounted reward) at time $t$ |
 | $G_{t:h}$ | Truncated return from $t$ to horizon $h$ |
 | $G_{t:t+n}$ | $n$-step return from $t$ |
+| $G_t^\lambda$ | $\lambda$-return at time $t$ |
+| $G_t^{\lambda s}$ | State-based $\lambda$-return (bootstraps from state values) |
+| $G_t^{\lambda a}$ | Action-based $\lambda$-return (bootstraps from action values) |
+| $G_{t:h}^\lambda$ | Truncated $\lambda$-return from $t$ to horizon $h$ |
+| $\lambda$ | Trace-decay parameter, $\lambda \in [0,1]$ |
+| $\lambda_t$ | Variable trace-decay / termination function, $\lambda_t \doteq \lambda(S_t, A_t)$ |
 | $\gamma$ | Discount factor, $\gamma \in [0,1]$ |
+| $\gamma_t$ | Variable discount factor, $\gamma_t \doteq \gamma(S_t)$ |
 | $\alpha$ | Step size (learning rate) |
 | $\beta$ | Secondary step-size parameter (GTD2/TDC) |
 | $\varepsilon$ | Exploration parameter ($\varepsilon$-greedy) |
 | $n$ | Number of steps in $n$-step methods |
+| $h$ | Horizon (truncation point in TTD($\lambda$)) |
 | $d$ | Dimension of weight vector $\mathbf{w}$ |
 | $\mathbf{w}$ | Weight vector for function approximation, $\mathbf{w} \in \mathbb{R}^d$ |
+| $\mathbf{w}_t^h$ | Weight vector at time $t$ in sequence up to horizon $h$ (online $\lambda$-return) |
 | $\mathbf{w}_{\text{TD}}$ | TD fixed point, $\mathbf{w}_{\text{TD}} = A^{-1}\mathbf{b}$ |
-| $\mathbf{v}$ | Secondary weight vector (GTD2/TDC cascade) |
+| $\mathbf{v}$ | Secondary weight vector (Gradient-TD cascade) |
 | $\nabla \hat{v}(s, \mathbf{w})$ | Gradient of $\hat{v}$ w.r.t. $\mathbf{w}$ |
 | $\mathbf{x}(s)$ | Feature vector representing state $s$ |
 | $\mathbf{x}(s,a)$ | Feature vector representing state-action pair $(s,a)$ |
 | $x_i(s)$ | $i$-th component of feature vector, $x_i : S \to \mathbb{R}$ |
+| $\bar{\mathbf{x}}_t$ | Average feature vector for $S_t$ under the target policy (GQ($\lambda$)) |
+| $\mathbf{z}_t$ | Eligibility trace vector at time $t$, $\mathbf{z}_t \in \mathbb{R}^d$ |
+| $\mathbf{z}_t^b$ | Accumulating eligibility trace for behavior policy (HTD($\lambda$)) |
+| $\mathbf{F}_t$ | Forgetting/fading matrix, $\mathbf{F}_t \doteq \mathbf{I} - \alpha \mathbf{x}_t \mathbf{x}_t^T$ |
+| $\mathbf{a}_t$ | Auxiliary memory vector in dutch trace MC derivation |
 | $\delta_t$ | TD error at time $t$ |
+| $\delta_t^s$ | State-based TD error (off-policy traces) |
+| $\delta_t^a$ | Action-based / expected TD error (off-policy traces) |
 | $\bar{\delta}_\mathbf{w}(s)$ | Bellman error at state $s$ |
 | $U_t$ | Update target at time $t$ |
+| $\rho_t$ | Per-step importance sampling ratio, $\rho_t = \frac{\pi(A_t \vert S_t)}{b(A_t \vert S_t)}$ |
 | $\rho_{t:h}$ | Importance sampling ratio from $t$ to $h$ |
 | $\mu(s)$ | On-policy state distribution |
 | $\mu_\pi(s)$ | Steady-state distribution under policy $\pi$ |
 | $r(\pi)$ | Average reward under policy $\pi$ |
 | $\bar{R}_t$ | Estimate of average reward $r(\pi)$ at time $t$ |
-| $\mathcal{I}_t$ | Interest at time $t$, $\mathcal{I}_t \in [0,1]$ |
-| $M_t$ | Emphasis at time $t$ (Emphatic-TD) |
+| $\mathcal{I}_t$ | Interest at time $t$, $\mathcal{I}_t \geq 0$ |
+| $F_t$ | Followon trace at time $t$ (Emphatic-TD($\lambda$)), $F_t \geq 0$ |
+| $M_t$ | Emphasis at time $t$ (Emphatic-TD($\lambda$)), $M_t \geq 0$ |
+| $\bar{V}_t(s)$ | Expected approximate value of state $s$ under target policy $\pi$ |
 | $\overline{\text{VE}}(\mathbf{w})$ | Mean Squared Value Error |
 | $\overline{\text{BE}}(\mathbf{w})$ | Mean Squared Bellman Error |
 | $\overline{\text{PBE}}(\mathbf{w})$ | Mean Squared Projected Bellman Error |
 | $\overline{\text{TDE}}(\mathbf{w})$ | Mean Squared TD Error |
 | $\overline{\text{RE}}(\mathbf{w})$ | Mean Squared Return Error |
 | $\Pi$ | Projection operator onto the representable subspace |
-| $B_\pi$ | Bellman operator, $B_\pi : \mathbb{R}^{|S|} \to \mathbb{R}^{|S|}$ |
+| $B_\pi$ | Bellman operator, $B_\pi : \mathbb{R}^{\vert S \vert} \to \mathbb{R}^{\vert S \vert}$ |
 | $\mathbf{B}$ | Diagonal matrix with $\mu(s)$ on the diagonal, $\vert S \vert \times \vert S \vert$ |
 | $\mathbf{X}$ | Feature matrix, $\vert S \vert \times d$, rows are $\mathbf{x}(s)^T$ |
 | $A$ | Matrix $\mathbb{E}[\mathbf{x}_t(\mathbf{x}_t - \gamma \mathbf{x}_{t+1})^T] \in \mathbb{R}^{d \times d}$ (linear TD) |
