@@ -76,7 +76,7 @@ table {
 }
 
 thead {
-  background-color: #f0f4f8;
+  /* No hardcoded background — let flatly/darkly each provide theirs */
 }
 
 /* -- SVG figures ------------------------------------------- */
@@ -97,10 +97,6 @@ img[src$=".svg"] {
   border-bottom-color: #3a4a5a;
 }
 
-[data-bs-theme=dark] thead {
-  background-color: #2a3a4a;
-  color: #e0e8f0;
-}
 
 [data-bs-theme=dark] h3 {
   color: #7eb8d4;
