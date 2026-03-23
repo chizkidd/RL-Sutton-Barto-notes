@@ -23,9 +23,9 @@ $$
 - There exists an **Exploration-Exploitation tradeoff**
 
 ::: {.callout-note title="Multi-Armed Bandit"}
-A multi-armed bandit is a tuple $\tuple{A, R}$ 
+A multi-armed bandit is a tuple $\langle A, R \rangle$ 
 where $A$ is a known set of $m$ actions or **"arms"** and 
-$R^a_{(r)}$ is an unknown probability distribution over rewards
+$R^a(r)$ is an unknown probability distribution over rewards
 :::
 ---
 
