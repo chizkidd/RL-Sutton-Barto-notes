@@ -22,10 +22,10 @@ $$
 - **Exploration**: selecting one of the nongreedy actions
 - There exists an **Exploration-Exploitation tradeoff**
 
-::: {.callout-note tip="Multi-Armed Bandit"}
-In my understanding, a multi-armed bandit is a tuple $\tuple{A, R}$ 
+::: {.callout-note title="Multi-Armed Bandit"}
+A multi-armed bandit is a tuple $\tuple{A, R}$ 
 where $A$ is a known set of $m$ actions or **"arms"** and 
-$R^a_(r)$ is an unknown probability distribution over rewards
+$R^a_{(r)}$ is an unknown probability distribution over rewards
 :::
 ---
 
@@ -182,10 +182,10 @@ $$
   - This technique for encouraging exploration is called **optimistic initial values** (focuses on initial conditions)
 
 
-::: {.callout-note tip="Optimistic Initialization"}
-_**Assume the best action-value, until proven otherwise.**_<br><br>
-I think that basically **optmistic init.** encourages _systematic exploration 
-early on but can still lock onto suboptimal action._
+::: {.callout-note title="Optimistic Initialization"}
+_**Assume the best action-value initially, until proven otherwise.**_
+Basically **optimistic initialization** encourages systematic exploration 
+early on but can still lock onto suboptimal action.
 :::
 
 ### Pros & Cons
