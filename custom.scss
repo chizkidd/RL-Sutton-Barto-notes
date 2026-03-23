@@ -47,6 +47,18 @@ pre {
 .callout {
   border-radius: 6px;
   margin: 1.5em 0;
+  border-left-width: 4px; /* Make border more prominent */
+}
+
+.callout-header {
+  font-weight: 700 !important; /* Bold the header */
+  font-size: 1.05em !important; /* Slightly larger header */
+  padding: 0.5em 0.75em !important;
+}
+
+.callout-body {
+  font-size: 0.95em; /* Ensure body text is readable */
+  padding: 0.75em !important;
 }
 
 .callout.callout-style-default.callout-note {
@@ -56,28 +68,46 @@ pre {
 .callout.callout-style-default.callout-note .callout-header {
   background-color: #dbeafe !important;
   color: #1e40af !important;
+  font-weight: 700 !important; /* Extra emphasis for note headers */
 }
 
 .callout.callout-style-default.callout-tip {
-  border-left-color: #2a9d8f !important;
+  // border-left-color: #2a9d8f !important;
+  border-left-color: #21b747 !important;
+}
+
+.callout.callout-style-default.callout-tip .callout-header {
+  font-weight: 700 !important;
 }
 
 .callout.callout-style-default.callout-important {
   border-left-color: #e76f51 !important;
 }
 
+.callout.callout-style-default.callout-important .callout-header {
+  font-weight: 700 !important;
+}
+
 .callout.callout-style-default.callout-warning {
   border-left-color: #e9c46a !important;
 }
 
+.callout.callout-style-default.callout-warning .callout-header {
+  font-weight: 700 !important;
+}
+
+/* -- Dark mode callout adjustments --------------------- */
+[data-bs-theme=dark] .callout-header {
+  font-weight: 700 !important;
+}
 /* -- Tables ------------------------------------------------- */
 table {
   font-size: 0.92em;
 }
 
-thead {
-  /* No hardcoded background — let flatly/darkly each provide theirs */
-}
+// thead {
+//   /* No hardcoded background — let flatly/darkly each provide theirs */
+// }
 
 /* -- SVG figures ------------------------------------------- */
 img[src$=".svg"] {

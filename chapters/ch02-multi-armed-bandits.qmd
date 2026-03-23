@@ -22,6 +22,11 @@ $$
 - **Exploration**: selecting one of the nongreedy actions
 - There exists an **Exploration-Exploitation tradeoff**
 
+::: {.callout-note tip="Multi-Armed Bandit"}
+In my understanding, a multi-armed bandit is a tuple $\tuple{A, R}$ 
+where $A$ is a known set of $m$ actions or **"arms"** and 
+$R^a_(r)$ is an unknown probability distribution over rewards
+:::
 ---
 
 ## Action-value Methods {#sec-ch02-2-2}
@@ -175,6 +180,13 @@ $$
 - For example, in a 10-armed bandit testbed if we set $Q_{1}(a) = +5$ instead of $0$, we encourage exploration even in the greeedy case. 
   - The agent will almost always be disappointed with its current samples action-values because they are less than the initial action-value estimate of $+5$, therefore it will continue to explore until the action-values converge.
   - This technique for encouraging exploration is called **optimistic initial values** (focuses on initial conditions)
+
+
+::: {.callout-note tip="Optimistic Initialization"}
+_**Assume the best action-value, until proven otherwise.**_<br><br>
+I think that basically **optmistic init.** encourages _systematic exploration 
+early on but can still lock onto suboptimal action._
+:::
 
 ### Pros & Cons
 - (+) It is **effective on stationary problems,** but not a general approach

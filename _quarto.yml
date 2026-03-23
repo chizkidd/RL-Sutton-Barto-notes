@@ -50,6 +50,9 @@ format:
     linestretch: 1.7
     smooth-scroll: true
     fig-align: center
-    html-math-method: katex
+    html-math-method:
+      method: katex
+      macros:
+        "\\tuple": "{\\langle #1 \\rangle}" 
 
 bibliography: references.bib
