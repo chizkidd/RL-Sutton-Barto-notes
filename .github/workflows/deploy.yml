@@ -24,8 +24,12 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      - name: Install TinyTeX
+        run: |
+          quarto install tool tinytex
+
       - name: Render Book
-        run: quarto render
+        run: quarto render --to all
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

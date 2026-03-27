@@ -54,5 +54,9 @@ format:
     smooth-scroll: true
     fig-align: center
     html-math-method: katex
+  pdf:
+    output-file: "RL-Sutton-Barto-notes.pdf"
+  epub:
+    output-file: "RL-Sutton-Barto-notes.epub"
 
 bibliography: references.bib
