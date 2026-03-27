@@ -135,3 +135,40 @@ img[src$=".svg"] {
 [data-bs-theme=dark] pre {
   border-left-color: #7eb8d4;
 }
+
+/* ------------------- Coverage table----------------------------*/
+.coverage-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5em;
+
+  th {
+    background-color: #f8f9fa;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    color: #666;
+    border-bottom: 2px solid #dee2e6;
+  }
+
+  td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  /* Style for the Status column */
+  .status-cell {
+    text-align: center;
+    font-weight: 600;
+    
+    &.done {
+      color: #28a745; /* Success Green */
+    }
+    
+    &.pending {
+      color: #6c757d; /* Muted Gray */
+      font-style: italic;
+      font-size: 0.9em;
+    }
+  }
+}
