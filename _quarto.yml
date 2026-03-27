@@ -15,9 +15,8 @@ book:
   sidebar:
     style: docked
     background: light
-  front-matter:
-    - index.qmd
   chapters:
+    - index.qmd
     - part: "Part I — Tabular Solution Methods"
       chapters:
         - chapters/ch01-introduction.qmd
@@ -44,6 +43,7 @@ format:
     toc-depth: 3
     toc-title: "On this page"
     number-depth: 2
+    number-offset: [-1]
     code-fold: false
     highlight-style: github
     mainfont: "Georgia, serif"
