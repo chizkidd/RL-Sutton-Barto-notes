@@ -42,7 +42,6 @@ format:
     toc: true
     toc-depth: 3
     toc-title: "On this page"
-    number-sections: true
     number-depth: 2
     code-fold: false
     highlight-style: github
