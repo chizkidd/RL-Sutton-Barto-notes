@@ -174,7 +174,7 @@ $$\boxed{Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha\, \rho_{t+1:t+n-1}\left[G_t
 
 ## Per-decision Methods with Control Variates {#sec-ch07-7-4}
 
-- The multi-step off-policy methods presented in [section 7.3](https://chizkidd.github.io/RL-Sutton-Barto-notes/chapters/ch07-nstep-bootstrapping.html#sec-ch07-7-3) are simple and conceptually clear but not very efficient and dramatically increase variance.
+- The multi-step off-policy methods presented in [section 7.3](#sec-ch07-7-3) are simple and conceptually clear but not very efficient and dramatically increase variance.
 
 - A more sophisticated approach would be using per-decision importance sampling.
 
