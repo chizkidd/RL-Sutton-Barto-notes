@@ -40,8 +40,10 @@ These notes are meant to accompany the textbook, not replace it. They are most u
 
 ## Key Notation
 
+::: {.coverage-table}
+
 | Symbol | Meaning |
-|---|---|
+|:---:|:---:|
 | $s, s'$ | State, next state |
 | $a, a'$ | Action, next action |
 | $r, R$ | Reward |
@@ -126,6 +128,9 @@ These notes are meant to accompany the textbook, not replace it. They are most u
 | $p(s', r \mid s, a)$ | Transition probability |
 | $\hat{p}(s', r \mid s, a)$ | Estimated/model transition probability |
 | $\mathbb{E}_{\pi}[\cdot]$ | Expectation under policy $\pi$ |
+
+:::
+
 
 ## Reference
 
