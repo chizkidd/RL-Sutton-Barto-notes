@@ -235,7 +235,7 @@ $$\boxed{V(s) \doteq \frac{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}\, G_t}{\s
 
 ## Incremental Implementation {#sec-ch05-5-6}
 
-- Monte Carlo prediction methods can be implemented incrementally, on an episode-by-episode basis like the way we did in Chapter 2 (Section 2.4).
+- Monte Carlo prediction methods can be implemented incrementally, on an episode-by-episode basis like the way we did in Chapter 2 ([Section 2.4](https://chizkidd.github.io/RL-Sutton-Barto-notes/chapters/ch02-multi-armed-bandits.html#sec-ch02-2-4)).
 
 - General form:
 
