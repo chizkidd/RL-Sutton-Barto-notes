@@ -15,7 +15,9 @@ book:
     style: docked
     background: light
   chapters:
-    - index.qmd
+    - part: "Preface"
+      chapters:
+        - index.qmd
     - part: "Part I — Tabular Solution Methods"
       chapters:
         - chapters/ch01-introduction.qmd
