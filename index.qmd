@@ -11,7 +11,7 @@ The notes cover the core ideas, equations, and algorithms from each chapter, tra
 
 | Chapter | Topic | Status |
 |---|---|---|
-| 1 | Introduction to RL | _pending_ |
+| 1 | Introduction to RL | ✓ |
 | 2 | Multi-Armed Bandits | ✓ |
 | 3 | Finite Markov Decision Processes | ✓ |
 | 4 | Dynamic Programming | ✓ |

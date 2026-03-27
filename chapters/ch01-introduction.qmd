@@ -1,0 +1,240 @@
+---
+title: "Introduction"
+number-sections: true
+---
+
+## Reinforcement Learning {#sec-ch01-1-1}
+
+Reinforcement learning (RL) is about learning **what to do** so as to maximize a numerical reward signal (how to map situations to actions). Unlike supervised learning, the agent isn't told which actions to take; it has to figure that out by trying things and seeing what happens. Two things make this distinctly hard: you have to search by trial and error, and rewards can be delayed; an action taken now might not pay off until much later.
+
+RL is simultaneously a **problem**, a **class of solution methods**, and a **field of study**. Keeping these three separate matters a lot. Confusing the problem with the method is a surprisingly common source of muddy thinking.
+
+Formally, RL is framed as the optimal control of an **incompletely-known Markov Decision Process (MDP)**. The full formalization comes in [Chapter 3](ch03-finite-mdps.qmd), but the core idea is to capture the essentials of an agent interacting with its environment over time to achieve a goal (sensation, action, and goal) in their simplest meaningful forms.
+
+### How RL Differs from Other ML Paradigms
+
+- **Supervised learning** learns from labeled examples provided by an external supervisor. It's powerful, but in interactive settings you often can't get correct labeled examples for every situation the agent might face.
+- **Unsupervised learning** finds hidden structure in unlabeled data. RL isn't trying to find structure, instead it's trying to maximize a reward signal. The two are genuinely different objectives.
+- RL is therefore a **third paradigm**, distinct from both.
+
+### The Exploration-Exploitation Tradeoff
+
+One of the central tensions in RL that doesn't really arise in supervised or unsupervised learning is the tradeoff between:
+
+- **Exploitation:** doing what you already know works, to rack up reward now.
+- **Exploration:** trying new things, to potentially discover something better.
+
+You can't do only one. Exploit too greedily and you'll miss better options. Explore too randomly and you waste time on things that don't pay off. Balancing the two has been studied for decades and remains an open problem.
+
+### The Complete Agent View
+
+RL explicitly considers the **whole problem** of a goal-directed agent in an uncertain environment and not just isolated subproblems. Many ML approaches study useful pieces (supervised learning, planning, modeling) without asking how those pieces fit together in a real agent making real-time decisions. RL starts from the complete picture and works inward.
+
+A "complete agent" doesn't have to mean a robot or organism, it could be a component inside a larger system, like a battery monitor inside a robot's control stack. The RL framework is general enough to cover both.
+
+### Connections Beyond Engineering
+
+RL sits at the intersection of several fields:
+
+- It addresses the classical **curse of dimensionality** from operations research and control theory through function approximation.
+- It has deep ties to **psychology and neuroscience**: many core RL algorithms were inspired by biological learning, and RL has in turn produced influential models of animal learning and the brain's reward system (covered in Chapters 14 & 15).
+- More broadly, RL is part of a trend in AI focusing back towards **simple, general principles** (search, learning, decision making) rather than the "vast bag of special-case tricks" view that dominated parts of the field in earlier decades.
+
+---
+
+## Examples {#sec-ch01-1-2}
+
+The best way to get an intuition for what RL actually covers is through examples:
+
+- A **chess player** decides on a move, weighing plans, counterplans, and immediate intuitions about which positions look promising.
+- An **adaptive controller** tunes a petroleum refinery's parameters in real time, optimizing the yield/cost/quality tradeoff without rigidly following engineer-set points.
+- A **gazelle calf** struggles to stand minutes after birth and is running at 20 mph half an hour later.
+- A **mobile robot** decides whether to keep searching for trash or head back to its recharging station, based on battery level and past experience finding the charger.
+- **Phil makes breakfast.** Even this mundane task involves a complex web of subgoals, conditional actions, eye movements, object manipulation, and real-time judgment calls; all in service of a goal Phil may not even be consciously tracking.
+
+What do these have in common? A few things that are easy to miss because they're so fundamental:
+
+- There's always an **active agent** making decisions in an environment, under uncertainty, toward a goal.
+- Actions have **consequences that extend into the future**, they change the state of the environment, which changes what options are available later.
+- Good decisions require **foresight**: accounting for indirect and delayed effects, not just immediate outcomes.
+- The environment can't be fully predicted, so the agent has to **keep sensing and adapting**. Phil has to watch the milk as he pours it.
+- Goals are **explicit and measurable**: the chess player knows if they won, the robot knows when the battery dies, Phil knows if breakfast was good.
+- Critically, all these agents **improve with experience**: the chess player sharpens intuition, the gazelle gets more efficient, Phil streamlines his morning routine.
+
+Prior knowledge (from evolution, design, or past experience) shapes what's easy to learn, but interaction with the environment is what lets the agent adapt to the specifics of its current task.
+
+---
+
+## Elements of Reinforcement Learning {#sec-ch01-1-3}
+
+Beyond the agent and environment, every RL system has four core elements: three required, one optional.
+
+### Policy
+
+The policy is the agent's **behavioral rulebook**, a mapping from states to actions. It can be as simple as a lookup table or as complex as a deep neural network running a search process. Policies can be deterministic or stochastic (assigning probabilities to actions). The policy alone is sufficient to fully determine an agent's behavior; it's the heart of the system.
+
+### Reward Signal
+
+The reward signal defines the **goal**. At each timestep, the environment hands the agent a single number which is the reward. The agent's only objective is to maximize cumulative reward over time. Rewards are the immediate, raw signal of what's good or bad, analogous to pleasure and pain in biological systems. If an action leads to low reward, the policy should change. Rewards can also be stochastic.
+
+### Value Function
+
+While rewards capture what's good **right now**, values capture what's good **in the long run**. The value of a state is the total reward an agent can expect to accumulate from that state onward. A state with a low immediate reward can still be highly valuable if it tends to lead to high-reward states down the line and vice versa.
+
+The analogy: rewards are like pleasure and pain (immediate, visceral); values are like a more considered, farsighted judgment of how good a situation really is.
+
+Rewards are primary. No rewards, no values. But when it comes to actually making decisions, **values are what matter**. We want actions that lead to high-value states, not just high immediate reward. The catch: rewards are given directly by the environment, but values have to be estimated and constantly re-estimated from experience. Efficient value estimation is arguably the most important insight from six decades of RL research.
+
+### Model (Optional)
+
+A model mimics the environment. Given a state and action, it predicts the next state and reward. Models enable **planning**: reasoning about future situations before actually experiencing them. Methods that use models are called **model-based**; those that don't are **model-free** (pure trial and error). [Chapter 8](ch08-planning-learning.qmd) covers systems that do both simultaneously: learning from experience, building a model, and using that model to plan.
+
+Modern RL spans the full spectrum from raw trial-and-error to high-level deliberate planning.
+
+---
+
+## Limitations and Scope {#sec-ch01-1-4}
+
+### The Role of State
+
+RL leans heavily on the concept of **state**: it's the input to the policy and value function, and both input and output of the model. Informally, state is whatever information is available to the agent about its environment at a given time. The formal definition comes in [Chapter 3](ch03-finite-mdps.qmd) via MDPs.
+
+This book takes state as given, we assume some preprocessing system produces the state signal, and we don't tackle the question of how to construct, change, or learn it (except briefly in Section 17.3). This isn't because state representation is unimportant, it's very important, but because the focus here is on the **decision-making problem**: what action to take given whatever state signal you have.
+
+### Value Functions vs. Evolutionary Methods
+
+Most methods in this book are built around estimating value functions, but that's not the only way to solve RL problems. **Evolutionary methods** involve genetic algorithms, genetic programming, simulated annealing, and similar optimization approaches. They never estimate value functions at all. Instead they:
+
+- Run multiple static policies, each interacting with its own environment instance over an extended period.
+- Keep the policies that earned the most reward, plus random variations of them.
+- Repeat, generation after generation; analogous to biological evolution producing skilled behavior without any within-lifetime learning.
+
+Evolutionary methods can work well when the policy space is small, when good policies are easy to stumble upon, or when the agent can't fully sense the environment state. But they have a fundamental limitation: **they don't learn from individual interactions**. They ignore which states were visited, which actions were taken, and what the consequences were; all information that can make search dramatically more efficient.
+
+Methods that do learn from individual interactions can exploit the structure of the RL problem in ways evolutionary methods simply can't. While evolution and learning naturally complement each other, this book focuses on methods that learn online through interaction, and evolutionary methods on their own don't qualify.
+
+---
+
+## An Extended Example: Tic-Tac-Toe {#sec-ch01-1-5}
+
+Tic-tac-toe is a useful teaching example precisely because it's simple enough to reason about clearly, yet rich enough to expose the real differences between RL and other approaches.
+
+The setup: we're playing against an imperfect opponent, one who sometimes makes mistakes. Draws and losses are equally bad. How do we build a player that finds and exploits those imperfections?
+
+### Why Classical Methods Fall Short
+
+- **Minimax** (game theory): assumes the opponent plays optimally. If our opponent is imperfect, minimax leaves wins on the table.
+- **Dynamic programming**: can find an optimal strategy against any opponent, but requires a complete model of that opponent upfront (probabilities for every move in every state). We usually don't have that.
+- **Learning the opponent model first, then applying DP**: closer, but now you're essentially doing RL anyway.
+
+### The Evolutionary Approach
+
+An evolutionary method would search the space of policies directly: try many different "always do X in state Y" rulebooks, keep the ones that win most, generate variations, repeat. It can work, but it's wasteful: it only uses the final win/loss outcome of each game. Everything that happened during the game (which moves were critical, which states were visited) gets ignored. Credit is assigned to all moves equally, even ones that had nothing to do with the outcome.
+
+### The Value Function Approach
+
+Here's how RL handles it:
+
+1. Build a table with one entry per board state, the estimated probability of winning from that state. This is the **value function**.
+2. Initialize terminal states correctly: 1.0 for already-won states, 0 for already-lost or drawn states, 0.5 for everything else.
+3. Play games. At each turn, look up the values of all states reachable by our possible moves and usually pick the one with the highest value (**greedy**). Occasionally pick randomly instead (**exploratory move**).
+4. After each greedy move, **back up** the value: nudge the value of the state we just left toward the value of the state we just entered:
+
+$$V(S_t) \leftarrow V(S_t) + \alpha\!\left[V(S_{t+1}) - V(S_t)\right]$$
+
+$$
+\begin{aligned}
+\text{where} \\
+\alpha &> 0 \equiv \text{step-size parameter (learning rate)} \\
+V(S_t) &\equiv \text{estimated probability of winning from state } S_t \\
+V(S_{t+1}) - V(S_t) &\equiv \text{temporal-difference error}
+\end{aligned}
+$$
+
+This is called a **temporal-difference (TD) update**, the update is driven by the difference between value estimates at two successive timesteps.
+
+With a properly decaying step size, this converges to the true winning probabilities against any fixed opponent, and the resulting policy is optimal against that opponent. With a non-zero step size, it can even adapt to opponents that gradually change their play.
+
+### What This Example Shows
+
+- **Value function methods beat evolutionary methods** at exploiting what happens during a game. Individual states and moves can be evaluated and credited, not just the final outcome.
+- The RL player naturally develops **multi-step planning** behavior (setting traps for shortsighted opponents) without an explicit search or a model of the opponent. Foresight emerges from learning.
+- **Exploration vs. exploitation** is built in: mostly greedy, occasionally random.
+
+### What Tic-Tac-Toe Doesn't Capture (But RL Handles Anyway)
+
+Tic-tac-toe is deliberately simple. RL is much more general:
+
+- **Continuous problems**: no discrete episodes, rewards can come at any time.
+- **Huge or infinite state spaces**: Tesauro's TD-Gammon combined this exact algorithm with a neural network to master backgammon (~$10^{20}$ states), eventually surpassing the world's best human players ([Section 16.1](ch16-applications-case-studies.qmd#sec-ch16-16-1)). Generalization from experience through function approximation is what makes this possible.
+- **Partial observability**: RL works even when the agent can't see the full state.
+- **No model required**: the tic-tac-toe player has no model of its opponent whatsoever and still learns to beat it. Model-free methods are often simpler, more robust when accurate models are hard to build, and important building blocks for model-based methods.
+- **Prior knowledge**: RL doesn't require starting from scratch, prior information can be incorporated in many ways ([Sections 9.5](ch09-on-policy-prediction-approximation.qmd#sec-ch09-9-5), 13.1, 17.4).
+- **Hierarchical learning**: RL can operate at multiple levels simultaneously, where each "action" at a higher level is itself a complex problem-solving procedure.
+
+---
+
+## Summary {#sec-ch01-1-6}
+
+Reinforcement learning is a computational approach to goal-directed learning and decision making, distinguished from other approaches by its emphasis on learning through **direct interaction with an environment**, without needing labeled examples or a complete environment model.
+
+The formal backbone is the **Markov Decision Process (MDP)** framework, which defines the agent-environment interaction in terms of states, actions, and rewards. MDPs capture the essentials of the AI problem cleanly: cause and effect, uncertainty, and explicit goals.
+
+The central concept is the **value function**: a way of judging states not by their immediate reward but by the long-term reward they tend to lead to. Value functions enable efficient search through the space of policies, which is what separates most RL methods from evolutionary approaches that evaluate entire policies wholesale and ignore what happens along the way.
+
+In short:
+
+- **Agent** learns from interaction, not supervision.
+- **MDP** formalizes the problem.
+- **Value functions** make the search tractable.
+
+---
+
+## Early History of Reinforcement Learning {#sec-ch01-1-7}
+
+Modern reinforcement learning grew from three independent threads that developed over decades before converging in the late 1980s.
+
+### Thread 1: Trial-and-Error Learning
+
+The idea that behavior is shaped by its consequences goes back to the 1850s, but **Edward Thorndike** gave it its clearest early statement in his **Law of Effect** (1911): actions followed by satisfaction become more likely; actions followed by discomfort become less likely. The greater the satisfaction or discomfort, the stronger the effect. This became the foundation for Clark Hull's learning theories and B.F. Skinner's experimental methods. The term "reinforcement" itself entered the picture via Pavlov's 1927 work on conditioned reflexes.
+
+**Alan Turing** (1948) was among the first to propose implementing this principle in a machine: a "pleasure-pain system" that made tentative decisions and made them permanent on reward or cancelled them on punishment. A wave of ingenious electro-mechanical machines followed:
+
+- Thomas Ross (1933): a maze-solving machine with switch memory
+- W. Grey Walter (1951): a learning "mechanical tortoise"
+- Claude Shannon (1952): Theseus, a maze-running mouse
+- Marvin Minsky (1954): analog SNARCs (Stochastic Neural-Analog Reinforcement Calculators), modeled on synaptic connections
+
+In the 1960s, **Donald Michie** built MENACE, a tic-tac-toe learner made of matchboxes and colored beads, and later BOXES, a reinforcement learning controller that balanced a pole on a cart using only a failure signal. Pole-balancing became a landmark RL benchmark. **Minsky's "Steps Toward Artificial Intelligence"** (1961) articulated the **credit assignment problem**: how do you distribute credit for success across the many decisions that led to it? This remains a central question in RL.
+
+Research into genuine trial-and-error learning quieted in the 1960s-70s, partly due to confusion with supervised learning. Many researchers using "reward and punishment" language were actually studying supervised learning systems (Rosenblatt, Widrow & Hoff). **Harry Klopf** (1972, 1975, 1982) revived the thread by arguing that hedonic, goal-seeking behavior (the drive to control the environment toward desired ends) was being lost as the field drifted toward supervised learning. His influence directly shaped the early work of Barto and Sutton.
+
+### Thread 2: Optimal Control and Dynamic Programming
+
+In the mid-1950s, **Richard Bellman** formalized the problem of designing a controller to optimize a dynamical system's behavior over time. His key contributions:
+
+- The **Bellman equation**: a functional equation defining optimal value
+- **Dynamic programming (DP)**: the class of methods for solving it
+- **Markov Decision Processes (MDPs)**: the discrete stochastic version of optimal control
+
+**Ronald Howard** (1960) added policy iteration. Together, these became the theoretical backbone of modern RL.
+
+DP is still considered the only general method for stochastic optimal control, but it suffers from Bellman's own **"curse of dimensionality"** where computational cost grows exponentially with the number of state variables. For a long time, DP was seen as an offline, model-dependent computation with little connection to learning. That perception changed slowly, with Werbos (1987) being an early advocate for integrating DP with learning, and **Chris Watkins (1989)** finally completing the integration through Q-learning.
+
+### Thread 3: Temporal-Difference Learning
+
+Temporal-difference (TD) methods are driven by the difference between successive estimates of the same quantity, like the updating step in the tic-tac-toe example. This thread has roots in the psychology of **secondary reinforcement**: a neutral stimulus paired with a primary reward comes to itself predict and signal reward.
+
+- **Arthur Samuel** (1959) was the first to implement a TD-like idea computationally, in his checkers-playing program, though he didn't connect it to animal learning or to Bellman's work.
+- **Minsky** (1961) later drew the connection to secondary reinforcement.
+- **Sutton** (1978) formalized TD learning and linked it to animal conditioning models.
+- **Sutton and Barto** (1981) produced an influential psychological model of classical conditioning based on TD.
+
+### Convergence
+
+By 1981, Barto, Sutton, and Anderson had combined TD learning with trial-and-error learning in the **actor-critic architecture**, applied to Michie and Chambers's pole-balancing task. Sutton (1988) generalized TD learning as a standalone prediction method and introduced the **TD($\lambda$)** algorithm. Watkins's **Q-learning** (1989) brought all three threads fully together.
+
+The field then accelerated rapidly:
+
+- **TD-Gammon** (Tesauro, 1992), backgammon at superhuman level using TD + neural networks, brought wide attention to RL.
+- Neuroscience found a striking parallel between TD algorithms and the behavior of **dopamine-producing neurons** in the brain (Montague, Dayan & Sejnowski, 1996; Schultz, Dayan & Montague, 1997), launching a productive dialogue between RL and neuroscience covered in [Chapter 15](ch15-neuroscience.qmd).
