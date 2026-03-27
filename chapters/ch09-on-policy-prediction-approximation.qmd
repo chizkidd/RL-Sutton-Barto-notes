@@ -407,7 +407,7 @@ $$\boxed{x_i(s) \doteq \exp\!\left(-\frac{\lVert s - c_i \rVert^2}{2\sigma_i^2}\
 - So far:
   - The theory of stochastic approximation gives us conditions on a slowly decreasing step-size sequence that are sufficient to guarantee convergence, but these tend to result in learning that is **too slow.**
   - The sample-average classical method $\alpha_t = \frac{1}{t}$ is **not appropriate** for TD methods, for nonstationary problems, or for any function approximation method.
-  - For linear methods, there are recursive least-square methods that set an optimal matrix step size which can be extended to LSTD methods (seen in [Section 9.8](https://chizkidd.github.io/RL-Sutton-Barto-notes/chapters/ch09-on-policy-prediction-approximation.html#sec-ch09-9-8)), but these require $O(d^2)$ step-size parameters, or $d$ times more parameters than we are learning. Therefore, it is inappropriate for function approximation.
+  - For linear methods, there are recursive least-square methods that set an optimal matrix step size which can be extended to LSTD methods (seen in [Section 9.8](#sec-ch09-9-8)), but these require $O(d^2)$ step-size parameters, or $d$ times more parameters than we are learning. Therefore, it is inappropriate for function approximation.
 
 - A good rule of thumb for setting the step-size parameter of linear SGD models is:
 
@@ -554,7 +554,7 @@ g(s') &= \text{target for state } s' \text{ in a stored example}
 \end{aligned}
 $$
 
-- A common kernel is the Gaussian Radial Basis Function (RBF) discussed earlier in [Section 9.5.5.](https://chizkidd.github.io/RL-Sutton-Barto-notes/chapters/ch09-on-policy-prediction-approximation.html#sec-ch09-9-5-5)
+- A common kernel is the Gaussian Radial Basis Function (RBF) discussed earlier in [Section 9.5.5.](#sec-ch09-9-5-5)
 - Kernel regression with RBF differs from linear-based RBF in 2 ways:
   - It is **memory-based** $\Rightarrow$ RBFs are centered on the states of the stored examples.
   - It is **non-parametric** $\Rightarrow$ no parameters to learn.
