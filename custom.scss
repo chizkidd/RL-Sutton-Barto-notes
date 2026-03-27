@@ -121,11 +121,6 @@ img[src$=".svg"] {
   font-size: 0.9em;
 }
 
-/* Preface: suppress chapter number in sidebar */
-#quarto-sidebar a[href="index.html"] .chapter-number {
-  display: none;
-}
-
 /* -- Dark mode overrides ----------------------------------- */
 /* h2 separator and h3 accent color for dark bundle */
 [data-bs-theme=dark] h2 {
