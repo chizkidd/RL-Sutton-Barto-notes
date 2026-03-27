@@ -36,7 +36,6 @@ book:
 
 format:
   html:
-    number-offset: [-1, 0]
     theme:
       light: [flatly, custom.scss]
       dark: [darkly, custom.scss]
