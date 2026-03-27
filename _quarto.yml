@@ -11,13 +11,12 @@ book:
   repo-url: https://github.com/chizkidd/RL-Sutton-Barto-notes
   repo-actions: [issue]
   search: true
+  page-navigation: true
   sidebar:
     style: docked
     background: light
   chapters:
-    - part: "Preface"
-      chapters:
-        - index.qmd
+    - index.qmd
     - part: "Part I — Tabular Solution Methods"
       chapters:
         - chapters/ch01-introduction.qmd
@@ -37,6 +36,7 @@ book:
 
 format:
   html:
+    number-offset: [-1, 0]
     theme:
       light: [flatly, custom.scss]
       dark: [darkly, custom.scss]
