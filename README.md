@@ -10,7 +10,7 @@ Personal study notes from *Reinforcement Learning: An Introduction* (Sutton & Ba
 
 | Chapter | Topic | Status |
 |---|---|---|
-| 1 | Introduction to RL | _pending_ |
+| 1 | Introduction to RL | ✓ |
 | 2 | Multi-Armed Bandits | ✓ |
 | 3 | Finite Markov Decision Processes | ✓ |
 | 4 | Dynamic Programming | ✓ |
