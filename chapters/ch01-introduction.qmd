@@ -166,7 +166,7 @@ With a properly decaying step size, this converges to the true winning probabili
 Tic-tac-toe is deliberately simple. RL is much more general:
 
 - **Continuous problems**: no discrete episodes, rewards can come at any time.
-- **Huge or infinite state spaces**: Tesauro's TD-Gammon combined this exact algorithm with a neural network to master backgammon (~$10^{20}$ states), eventually surpassing the world's best human players ([Section 16.1](ch16-applications-case-studies.qmd#sec-ch16-16-1)). Generalization from experience through function approximation is what makes this possible.
+- **Huge or infinite state spaces**: Tesauro's TD-Gammon combined this exact algorithm with a neural network to master backgammon (~$10^{20}$ states), eventually surpassing the world's best human players (Section 16.1). Generalization from experience through function approximation is what makes this possible.
 - **Partial observability**: RL works even when the agent can't see the full state.
 - **No model required**: the tic-tac-toe player has no model of its opponent whatsoever and still learns to beat it. Model-free methods are often simpler, more robust when accurate models are hard to build, and important building blocks for model-based methods.
 - **Prior knowledge**: RL doesn't require starting from scratch, prior information can be incorporated in many ways ([Sections 9.5](ch09-on-policy-prediction-approximation.qmd#sec-ch09-9-5), 13.1, 17.4).
@@ -237,4 +237,4 @@ By 1981, Barto, Sutton, and Anderson had combined TD learning with trial-and-err
 The field then accelerated rapidly:
 
 - **TD-Gammon** (Tesauro, 1992), backgammon at superhuman level using TD + neural networks, brought wide attention to RL.
-- Neuroscience found a striking parallel between TD algorithms and the behavior of **dopamine-producing neurons** in the brain (Montague, Dayan & Sejnowski, 1996; Schultz, Dayan & Montague, 1997), launching a productive dialogue between RL and neuroscience covered in [Chapter 15](ch15-neuroscience.qmd).
+- Neuroscience found a striking parallel between TD algorithms and the behavior of **dopamine-producing neurons** in the brain (Montague, Dayan & Sejnowski, 1996; Schultz, Dayan & Montague, 1997), launching a productive dialogue between RL and neuroscience covered in Chapter 15.
