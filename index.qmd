@@ -1,6 +1,13 @@
 ---
 title: "Preface"
 number-sections: false
+include-in-header:
+  - text: |
+      <style>
+      h1.unlisted {
+        display: none;
+      }
+      </style>
 ---
 
 # Preface {.unnumbered .unlisted}
