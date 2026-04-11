@@ -21,7 +21,7 @@ book:
     - text: "---"  # Add a separator
     - part: "Part I — Tabular Solution Methods"
       chapters:
-        - chapters/ch01-introduction.qmd
+        # - chapters/ch01-introduction.qmd
         - chapters/ch02-multi-armed-bandits.qmd
         - chapters/ch03-finite-mdps.qmd
         - chapters/ch04-dynamic-programming.qmd
