@@ -1,9 +1,8 @@
 ---
 title: "Preface"
-number-sections: false
 ---
 
-# {.unnumbered .unlisted}
+# Preface {.unnumbered .unlisted}
 
 These are personal study notes from *Reinforcement Learning: An Introduction* by Richard S. Sutton and Andrew G. Barto (2nd Edition, MIT Press, 2018).
 
