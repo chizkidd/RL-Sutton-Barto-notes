@@ -1,7 +1,6 @@
 ---
 title: "Overview"
 number-sections: false
-number-offset: [0]
 ---
 
 <!-- # Preface {.unnumbered} -->
