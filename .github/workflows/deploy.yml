@@ -24,7 +24,7 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:
-          version: latest
+          version: "1.5.57"
 
       - name: Render Book
         run: quarto render
