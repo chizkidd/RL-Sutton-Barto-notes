@@ -16,11 +16,16 @@ book:
   sidebar:
     style: docked
     background: light
+  page-footer:
+    left: |
+      Preface
+    right: |
+      [Home](index.html)
   chapters:
-    - index.qmd
-    - text: "---"  # Add a separator
+    - text: "---"
     - part: "Part I — Tabular Solution Methods"
       chapters:
+        - chapters/ch01-introduction.qmd
         - chapters/ch01-introduction.qmd
         - chapters/ch02-multi-armed-bandits.qmd
         - chapters/ch03-finite-mdps.qmd
