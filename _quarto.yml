@@ -10,7 +10,7 @@ book:
   date-format: "MMMM YYYY"
   repo-url: https://github.com/chizkidd/RL-Sutton-Barto-notes
   repo-actions: [issue]
-  downloads: [pdf, epub]
+  # downloads: [pdf, epub]
   search: true
   page-navigation: true
   sidebar:
@@ -45,6 +45,7 @@ format:
     toc-title: "On this page"
     number-depth: 2
     number-sections: true
+    number-offset: 1
     code-fold: false
     highlight-style: github
     mainfont: "Georgia, serif"
