@@ -17,6 +17,7 @@ book:
     style: docked
     background: light
   chapters:
+    - index.qmd
     - text: "---"  # Add a separator
     - part: "Part I — Tabular Solution Methods"
       chapters:
