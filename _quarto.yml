@@ -16,8 +16,6 @@ book:
   sidebar:
     style: docked
     background: light
-  front-matter:
-    - index.qmd
   chapters:
     - text: "---"  # Add a separator
     - part: "Part I — Tabular Solution Methods"
