@@ -1,5 +1,6 @@
 ---
 title: "Preface"
+number-sections: false
 ---
 
 These are personal study notes from *Reinforcement Learning: An Introduction* by Richard S. Sutton and Andrew G. Barto (2nd Edition, MIT Press, 2018).
@@ -13,7 +14,7 @@ The notes cover the core ideas, equations, and algorithms from each chapter, tra
 
 | Chapter | Topic | Status |
 |:---:|:---|:---:|
-| 1 | Introduction to RL | [✓]{.status-cell .done} |
+| 1 | Introduction to RL | [pending]{.status-cell .pending} |
 | 2 | Multi-Armed Bandits | [✓]{.status-cell .done} |
 | 3 | Finite Markov Decision Processes | [✓]{.status-cell .done} |
 | 4 | Dynamic Programming | [✓]{.status-cell .done} |
