@@ -46,7 +46,6 @@ format:
     toc-title: "On this page"
     number-depth: 2
     number-sections: true
-    number-offset: 1
     code-fold: false
     highlight-style: github
     mainfont: "Georgia, serif"

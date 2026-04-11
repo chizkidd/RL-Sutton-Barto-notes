@@ -1,5 +1,6 @@
 ---
 title: "Introduction"
+number: 1
 number-sections: true
 ---
 
