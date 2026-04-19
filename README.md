@@ -1,3 +1,5 @@
+![visitor badge](https://visitor-badge.laobi.icu/badge?page_id=chizkidd.RL-Sutton-Barto-notes)
+
 # RL Notes — Sutton & Barto
 
 Personal study notes from *Reinforcement Learning: An Introduction* (Sutton & Barto, 2nd Ed.), built as a Quarto book and deployed to GitHub Pages.
