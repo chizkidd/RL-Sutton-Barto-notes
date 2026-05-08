@@ -183,34 +183,21 @@ body.right-sidebar-hidden #quarto-margin-sidebar {
 
 /* -- Content width expansion -------------------------------- */
 
-/* Fill the full flex space next to the nav sidebar */
-#quarto-content {
-  flex: 1 1 auto !important;
+/* When right sidebar is hidden, extend main to fill the vacated
+   margin-sidebar column. Uses the named grid lines Quarto already
+   defines, so no grid-template override is needed. */
+body.right-sidebar-hidden main.content {
+  grid-column: body-content-start / screen-end-inset !important;
 }
 
-/* Override the grid template so the body-content column is 1fr
-   (fills all space) and the margin sidebar gets a fixed 220px slot.
-   Named lines are collapsed to match Quarto's own naming convention. */
-#quarto-content.page-columns {
-  grid-template-columns:
-    [screen-start] 1.5em
-    [screen-start-inset page-start page-start-inset body-start-outset
-     body-start body-content-start] 1fr
-    [body-content-end body-end body-end-outset] 220px
-    [page-end page-end-inset screen-end-inset] 1.5em
-    [screen-end] !important;
+/* When left sidebar is hidden, extend main leftward too */
+body.left-sidebar-hidden main.content {
+  grid-column: screen-start-inset / body-content-end !important;
 }
 
-/* When right sidebar is hidden, collapse its 220px column so
-   the 1fr content column absorbs the full available width. */
-body.right-sidebar-hidden #quarto-content.page-columns {
-  grid-template-columns:
-    [screen-start] 1.5em
-    [screen-start-inset page-start page-start-inset body-start-outset
-     body-start body-content-start] 1fr
-    [body-content-end body-end body-end-outset page-end page-end-inset
-     screen-end-inset] 1.5em
-    [screen-end] !important;
+/* Both hidden — span almost the full grid width */
+body.left-sidebar-hidden.right-sidebar-hidden main.content {
+  grid-column: screen-start-inset / screen-end-inset !important;
 }
 
 /* -- Dark mode overrides ----------------------------------- */
