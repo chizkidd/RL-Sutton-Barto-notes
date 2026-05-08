@@ -121,6 +121,66 @@ img[src$=".svg"] {
   font-size: 0.9em;
 }
 
+/* -- Sidebar toggle buttons -------------------------------- */
+.sidebar-toggle-btn {
+  position: fixed;
+  top: 50vh;
+  transform: translateY(-50%);
+  z-index: 1100;
+  width: 20px;
+  height: 52px;
+  padding: 0;
+  border: none;
+  background: $primary;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.55;
+  transition: left 0.28s ease, right 0.28s ease, opacity 0.2s;
+
+  &:hover { opacity: 1; }
+  &.left-toggle  { border-radius: 0 6px 6px 0; }
+  &.right-toggle { border-radius: 6px 0 0 6px; }
+}
+
+[data-bs-theme=dark] .sidebar-toggle-btn {
+  background: #3a6b9e;
+}
+
+/* -- Left sidebar collapse --------------------------------- */
+#quarto-sidebar {
+  overflow: hidden;
+  transition: max-width 0.28s ease, min-width 0.28s ease,
+              padding 0.28s ease, opacity 0.28s ease;
+}
+
+body.left-sidebar-hidden #quarto-sidebar {
+  max-width: 0 !important;
+  min-width: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  opacity: 0;
+}
+
+/* -- Right sidebar collapse -------------------------------- */
+#quarto-margin-sidebar {
+  overflow: hidden;
+  transition: max-width 0.28s ease, min-width 0.28s ease,
+              padding 0.28s ease, opacity 0.28s ease;
+}
+
+body.right-sidebar-hidden #quarto-margin-sidebar {
+  max-width: 0 !important;
+  min-width: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  opacity: 0;
+}
+
 /* -- Dark mode overrides ----------------------------------- */
 /* h2 separator and h3 accent color for dark bundle */
 [data-bs-theme=dark] h2 {

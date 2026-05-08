@@ -55,6 +55,7 @@ format:
     fontsize: 1.05em
     linestretch: 1.7
     smooth-scroll: true
+    include-after-body: sidebar-toggle.html
     fig-align: center
     html-math-method: katex
 
