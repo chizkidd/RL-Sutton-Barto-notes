@@ -181,6 +181,38 @@ body.right-sidebar-hidden #quarto-margin-sidebar {
   opacity: 0;
 }
 
+/* -- Content width expansion -------------------------------- */
+
+/* Fill the full flex space next to the nav sidebar */
+#quarto-content {
+  flex: 1 1 auto !important;
+}
+
+/* Override the grid template so the body-content column is 1fr
+   (fills all space) and the margin sidebar gets a fixed 220px slot.
+   Named lines are collapsed to match Quarto's own naming convention. */
+#quarto-content.page-columns {
+  grid-template-columns:
+    [screen-start] 1.5em
+    [screen-start-inset page-start page-start-inset body-start-outset
+     body-start body-content-start] 1fr
+    [body-content-end body-end body-end-outset] 220px
+    [page-end page-end-inset screen-end-inset] 1.5em
+    [screen-end] !important;
+}
+
+/* When right sidebar is hidden, collapse its 220px column so
+   the 1fr content column absorbs the full available width. */
+body.right-sidebar-hidden #quarto-content.page-columns {
+  grid-template-columns:
+    [screen-start] 1.5em
+    [screen-start-inset page-start page-start-inset body-start-outset
+     body-start body-content-start] 1fr
+    [body-content-end body-end body-end-outset page-end page-end-inset
+     screen-end-inset] 1.5em
+    [screen-end] !important;
+}
+
 /* -- Dark mode overrides ----------------------------------- */
 /* h2 separator and h3 accent color for dark bundle */
 [data-bs-theme=dark] h2 {
