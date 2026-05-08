@@ -168,7 +168,7 @@ $$\boxed{\boldsymbol{\theta}_{t+1} \doteq \boldsymbol{\theta}_t + \alpha G_t \fr
   - The update ensures a balancing act (lower impact) of frequently selected actions with lower returns.
 - REINFORCE has good convergence properties but may be of high variance and slow learning as a MC method.
 
-### REINFORCE: Monte Carlo Policy Gradient Control (Episodic) for $\pi_*$
+#### REINFORCE: Monte Carlo Policy Gradient Control (Episodic) for $\pi_*$
 
 $$
 \boxed{
@@ -205,7 +205,7 @@ $$\boxed{\boldsymbol{\theta}_{t+1} \doteq \boldsymbol{\theta}_t + \alpha \!\left
 - One natural choice for the baseline is an estimate of the state value $\hat{v}(S_t, \mathbf{w})$.
 - Since REINFORCE is a Monte Carlo method for learning the policy parameter $\boldsymbol{\theta}$, it's natural to also use a Monte Carlo method to learn the state-value weights $\mathbf{w}$.
 
-### REINFORCE with Baseline (Episodic), for estimating $\pi_{\boldsymbol{\theta}} \approx \pi_*$
+#### REINFORCE with Baseline (Episodic), for estimating $\pi_{\boldsymbol{\theta}} \approx \pi_*$
 
 $$
 \boxed{
@@ -257,7 +257,7 @@ $$
 - **PROS:** simple, fully online & incremental.
 - It is analogous to TD(0), Sarsa(0) & Q-learning.
 
-### One-Step Actor-Critic (Episodic), for estimating $\pi_{\boldsymbol{\theta}} \approx \pi_*$
+#### One-Step Actor-Critic (Episodic), for estimating $\pi_{\boldsymbol{\theta}} \approx \pi_*$
 
 $$
 \boxed{
@@ -286,7 +286,7 @@ $$
 - We replace the one-step return $G_{t:t+1}$ by $G_{t:t+n}$ or $G_t^\lambda$ respectively for either $n$-step or $\lambda$-return.
 - The backward view of the $\lambda$-return algorithm uses **eligibility traces** for the actor and the critic.
 
-### Actor-Critic with Eligibility Traces (Episodic), for estimating $\pi_{\boldsymbol{\theta}} \approx \pi_*$
+#### Actor-Critic with Eligibility Traces (Episodic), for estimating $\pi_{\boldsymbol{\theta}} \approx \pi_*$
 
 $$
 \boxed{
