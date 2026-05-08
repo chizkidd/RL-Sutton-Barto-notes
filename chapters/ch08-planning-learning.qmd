@@ -534,64 +534,32 @@ Monte-Carlo Tree Search (MCTS)
 
 ### Pseudocode: MCTS
 
-**Main loop:**
- 
 $$
 \boxed{
 \begin{aligned}
 &\textbf{Initialize: } \text{root} = \text{current state } S_0 \\
-&\textbf{for } i = 1 \textbf{ to } \text{num\_simulations:} \\
-&\quad \text{node} \leftarrow \text{Selection}(\text{root}) \\
-&\quad \text{node} \leftarrow \text{Expansion}(\text{node}) \\
-&\quad \Delta \leftarrow \text{Simulation}(\text{node}) \\
-&\quad \text{Backup}(\text{node}, \Delta) \\
+&\textbf{for } i = 1 \textbf{ to } \text{num\_simulations:} \\[6pt]
+&\quad \triangleright\ \textbf{Selection} \\
+&\quad \text{node} \leftarrow \text{root} \\
+&\quad \textbf{While } \text{node is fully expanded and non-terminal:} \\
+&\qquad \text{node} \leftarrow \arg\max_{a} \!\left[\frac{W(\text{node},a)}{N(\text{node},a)} + c\sqrt{\frac{\ln N(\text{node})}{N(\text{node},a)}}\right] \\[6pt]
+&\quad \triangleright\ \textbf{Expansion} \\
+&\quad \textbf{If } \text{node is non-terminal and not fully expanded:} \\
+&\qquad \text{Select unvisited action } a' \in \mathcal{A}(S) \setminus \{\text{visited actions}\} \\
+&\qquad \text{Create child node } S' \sim p(\cdot \vert S, a') \text{ and add to tree} \\
+&\qquad \text{node} \leftarrow S' \\[6pt]
+&\quad \triangleright\ \textbf{Simulation} \\
+&\quad S \leftarrow \text{node};\quad G \leftarrow 0;\quad t \leftarrow 0 \\
+&\quad \textbf{While } S \text{ is non-terminal:} \\
+&\qquad a \sim \Pi_{\text{default}}(\cdot \vert S) \\
+&\qquad r, S' \sim p(\cdot \vert S, a) \\
+&\qquad G \leftarrow G + \gamma^t r;\quad S \leftarrow S';\quad t \leftarrow t + 1 \\[6pt]
+&\quad \triangleright\ \textbf{Backup} \\
+&\quad \textbf{While } \text{node} \neq \text{null:} \\
+&\qquad N(\text{node}) \leftarrow N(\text{node}) + 1 \\
+&\qquad W(\text{node}) \leftarrow W(\text{node}) + G \\
+&\qquad \text{node} \leftarrow \text{node.parent} \\[6pt]
 &\textbf{return } \arg\max_a N(S_0, a)
-\end{aligned}
-}
-$$
- 
-**Expansion:**
- 
-$$
-\boxed{
-\begin{aligned}
-&\textbf{If } \text{non-terminal leaf reached:} \\
-&\quad \text{Select unvisited action } a' \in \mathcal{A}(S) \setminus \{\text{visited actions}\} \\
-&\quad \text{Create child node } S' \sim p(\cdot \vert S, a') \\
-&\quad \text{Add to tree} \\
-&\quad \textbf{return } S'
-\end{aligned}
-}
-$$
- 
-**Simulation:**
- 
-$$
-\boxed{
-\begin{aligned}
-&S \leftarrow \text{expanded\_node} \\
-&G \leftarrow 0 \\
-&t \leftarrow 0 \\
-&\textbf{While } S \text{ is non-terminal:} \\
-&\quad a \sim \Pi_{\text{default}}(\cdot \vert S) \\
-&\quad r, S' \sim p(\cdot \vert S, a) \\
-&\quad G \leftarrow G + \gamma^t r \\
-&\quad S \leftarrow S' \\
-&\quad t \leftarrow t + 1 \\
-&\textbf{return } G
-\end{aligned}
-}
-$$
- 
-**Backup:**
- 
-$$
-\boxed{
-\begin{aligned}
-&\textbf{While } \text{node} \neq \text{null:} \\
-&\quad N(\text{node}) \leftarrow N(\text{node}) + 1 \\
-&\quad W(\text{node}) \leftarrow W(\text{node}) + \Delta \\
-&\quad \text{node} \leftarrow \text{node.parent}
 \end{aligned}
 }
 $$
