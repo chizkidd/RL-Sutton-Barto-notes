@@ -26,7 +26,7 @@ The notes cover the core ideas, equations, and algorithms from each chapter, tra
 | 10 | On-policy Control with Approximation | [✓]{.status-cell .done} |
 | 11 | Off-policy Methods with Approximation | [✓]{.status-cell .done} |
 | 12 | Eligibility Traces | [✓]{.status-cell .done} |
-| 13 | Policy Gradient Methods | [pending]{.status-cell .pending} |
+| 13 | Policy Gradient Methods | [✓]{.status-cell .done} |
 
 :::
 
@@ -51,9 +51,11 @@ These notes are meant to accompany the textbook, not replace it. They are most u
 | $T$ | Terminal time step |
 | $\pi$ | Policy |
 | $\pi(a \mid s)$ | Probability of taking action $a$ in state $s$ under policy $\pi$ |
+| $\pi(a \vert s, \boldsymbol{\theta})$ | Parametrized policy: probability of action $a$ in state $s$ under $\boldsymbol{\theta}$ |
 | $\pi_{*}$ | Optimal policy |
 | $b(a \mid s)$ | Behavior policy |
 | $v_{\pi}(s)$ | State-value function under policy $\pi$ |
+| $v_{\pi_{\boldsymbol{\theta}}}(s)$ | True value function for policy $\pi_{\boldsymbol{\theta}}$ |
 | $q_{\pi}(s,a)$ | Action-value function under policy $\pi$ |
 | $v_{*}(s)$ | Optimal state-value function |
 | $q_{*}(s,a)$ | Optimal action-value function |
@@ -68,16 +70,27 @@ These notes are meant to accompany the textbook, not replace it. They are most u
 | $G_t^{\lambda s}$ | State-based $\lambda$-return (bootstraps from state values) |
 | $G_t^{\lambda a}$ | Action-based $\lambda$-return (bootstraps from action values) |
 | $G_{t:h}^\lambda$ | Truncated $\lambda$-return from $t$ to horizon $h$ |
+| $J(\boldsymbol{\theta})$ | Scalar performance measure (episodic: value of start state; continuing: average reward) |
+| $\nabla J(\boldsymbol{\theta})$ | Performance gradient w.r.t. $\boldsymbol{\theta}$ |
+| $\widehat{\nabla J(\boldsymbol{\theta}_t)}$ | Stochastic estimate of the performance gradient |
+| $h(s, a, \boldsymbol{\theta})$ | Numerical action preference for $(s,a)$ under $\boldsymbol{\theta}$ |
 | $\lambda$ | Trace-decay parameter, $\lambda \in [0,1]$ |
 | $\lambda_t$ | Variable trace-decay / termination function, $\lambda_t \doteq \lambda(S_t, A_t)$ |
+| $\lambda^{\boldsymbol{\theta}}$ | Trace-decay rate for actor eligibility traces |
+| $\lambda^{\mathbf{w}}$ | Trace-decay rate for critic eligibility traces |
 | $\gamma$ | Discount factor, $\gamma \in [0,1]$ |
 | $\gamma_t$ | Variable discount factor, $\gamma_t \doteq \gamma(S_t)$ |
 | $\alpha$ | Step size (learning rate) |
+| $\alpha^{\boldsymbol{\theta}}$ | Step size for policy parameter updates |
+| $\alpha^{\mathbf{w}}$ | Step size for state-value weight updates |
 | $\beta$ | Secondary step-size parameter (GTD2/TDC) |
 | $\varepsilon$ | Exploration parameter ($\varepsilon$-greedy) |
 | $n$ | Number of steps in $n$-step methods |
 | $h$ | Horizon (truncation point in TTD($\lambda$)) |
 | $d$ | Dimension of weight vector $\mathbf{w}$ |
+| $d'$ | Dimension of policy parameter vector $\boldsymbol{\theta}$ |
+| $\boldsymbol{\theta}$ | Policy parameter vector, $\boldsymbol{\theta} \in \mathbb{R}^{d'}$ |
+| $\boldsymbol{\theta}_\mu,\ \boldsymbol{\theta}_\sigma$ | Policy parameter subvectors for mean and std dev (continuous actions) |
 | $\mathbf{w}$ | Weight vector for function approximation, $\mathbf{w} \in \mathbb{R}^d$ |
 | $\mathbf{w}_t^h$ | Weight vector at time $t$ in sequence up to horizon $h$ (online $\lambda$-return) |
 | $\mathbf{w}_{\text{TD}}$ | TD fixed point, $\mathbf{w}_{\text{TD}} = A^{-1}\mathbf{b}$ |
@@ -89,6 +102,8 @@ These notes are meant to accompany the textbook, not replace it. They are most u
 | $\bar{\mathbf{x}}_t$ | Average feature vector for $S_t$ under the target policy (GQ($\lambda$)) |
 | $\mathbf{z}_t$ | Eligibility trace vector at time $t$, $\mathbf{z}_t \in \mathbb{R}^d$ |
 | $\mathbf{z}_t^b$ | Accumulating eligibility trace for behavior policy (HTD($\lambda$)) |
+| $\mathbf{z}^{\boldsymbol{\theta}}$ | Eligibility trace vector for the actor ($d'$-component) |
+| $\mathbf{z}^{\mathbf{w}}$ | Eligibility trace vector for the critic ($d$-component) |
 | $\mathbf{F}_t$ | Forgetting/fading matrix, $\mathbf{F}_t \doteq \mathbf{I} - \alpha \mathbf{x}_t \mathbf{x}_t^T$ |
 | $\mathbf{a}_t$ | Auxiliary memory vector in dutch trace MC derivation |
 | $\delta_t$ | TD error at time $t$ |
@@ -99,9 +114,12 @@ These notes are meant to accompany the textbook, not replace it. They are most u
 | $\rho_t$ | Per-step importance sampling ratio, $\rho_t = \frac{\pi(A_t \vert S_t)}{b(A_t \vert S_t)}$ |
 | $\rho_{t:h}$ | Importance sampling ratio from $t$ to $h$ |
 | $\mu(s)$ | On-policy state distribution |
+| $\mu(s, \boldsymbol{\theta})$ | Mean of action distribution for state $s$ (continuous action policy) |
 | $\mu_\pi(s)$ | Steady-state distribution under policy $\pi$ |
+| $\sigma(s, \boldsymbol{\theta})$ | Standard deviation of action distribution for state $s$ (continuous action policy) |
 | $r(\pi)$ | Average reward under policy $\pi$ |
 | $\bar{R}_t$ | Estimate of average reward $r(\pi)$ at time $t$ |
+| $I$ | Discount accumulator in actor-critic, initialized to 1, updated $I \leftarrow \gamma I$ |
 | $\mathcal{I}_t$ | Interest at time $t$, $\mathcal{I}_t \geq 0$ |
 | $F_t$ | Followon trace at time $t$ (Emphatic-TD($\lambda$)), $F_t \geq 0$ |
 | $M_t$ | Emphasis at time $t$ (Emphatic-TD($\lambda$)), $M_t \geq 0$ |
@@ -130,7 +148,6 @@ These notes are meant to accompany the textbook, not replace it. They are most u
 | $\mathbb{E}_{\pi}[\cdot]$ | Expectation under policy $\pi$ |
 
 :::
-
 
 ## Reference
 

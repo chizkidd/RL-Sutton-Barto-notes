@@ -35,6 +35,7 @@ book:
         - chapters/ch10-on-policy-control-approximation.qmd
         - chapters/ch11-off-policy-methods-approximation.qmd
         - chapters/ch12-eligibility-traces.qmd
+        - chapters/ch13-policy-gradient-methods.qmd
 
 format:
   html:
