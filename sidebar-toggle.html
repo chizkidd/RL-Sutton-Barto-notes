@@ -1,0 +1,128 @@
+<script>
+(function () {
+  'use strict';
+
+  var LEFT_KEY  = 'rl-left-sidebar-hidden';
+  var RIGHT_KEY = 'rl-right-sidebar-hidden';
+
+  function init() {
+    var leftSidebar  = document.getElementById('quarto-sidebar');
+    var rightSidebar = document.getElementById('quarto-margin-sidebar');
+
+    /* ---- Left sidebar ---------------------------------------- */
+    if (leftSidebar) {
+      var leftBtn = document.createElement('button');
+      leftBtn.id = 'left-sidebar-toggle';
+      leftBtn.className = 'sidebar-toggle-btn left-toggle';
+      leftBtn.setAttribute('aria-label', 'Toggle navigation sidebar');
+      leftBtn.setAttribute('title', 'Toggle navigation sidebar');
+      document.body.appendChild(leftBtn);
+
+      function positionLeft() {
+        var rect = leftSidebar.getBoundingClientRect();
+        leftBtn.style.left = Math.round(rect.right) + 'px';
+      }
+
+      function setLeft(hide) {
+        if (hide) {
+          document.body.classList.add('left-sidebar-hidden');
+          leftBtn.textContent = '›'; /* › */
+          leftBtn.style.left = '0px';
+        } else {
+          document.body.classList.remove('left-sidebar-hidden');
+          leftBtn.textContent = '‹'; /* ‹ */
+          /* Brief delay so the sidebar has begun expanding before we measure */
+          setTimeout(positionLeft, 30);
+        }
+        try { localStorage.setItem(LEFT_KEY, hide ? '1' : '0'); } catch (e) {}
+      }
+
+      /* Restore saved preference */
+      var leftWasHidden = false;
+      try { leftWasHidden = localStorage.getItem(LEFT_KEY) === '1'; } catch (e) {}
+
+      if (leftWasHidden) {
+        /* Apply class immediately so there's no flash */
+        document.body.classList.add('left-sidebar-hidden');
+        leftBtn.textContent = '›';
+        leftBtn.style.left = '0px';
+      } else {
+        leftBtn.textContent = '‹';
+        positionLeft();
+      }
+
+      leftBtn.addEventListener('click', function () {
+        setLeft(!document.body.classList.contains('left-sidebar-hidden'));
+      });
+
+      window.addEventListener('resize', function () {
+        if (!document.body.classList.contains('left-sidebar-hidden')) {
+          positionLeft();
+        }
+      });
+    }
+
+    /* ---- Right sidebar --------------------------------------- */
+    if (rightSidebar) {
+      var rightBtn = document.createElement('button');
+      rightBtn.id = 'right-sidebar-toggle';
+      rightBtn.className = 'sidebar-toggle-btn right-toggle';
+      rightBtn.setAttribute('aria-label', 'Toggle page TOC');
+      rightBtn.setAttribute('title', 'Toggle page TOC');
+      document.body.appendChild(rightBtn);
+
+      function positionRight() {
+        var rect = rightSidebar.getBoundingClientRect();
+        /* "right: X" = distance from viewport right edge to button right edge */
+        var fromRight = window.innerWidth - Math.round(rect.left);
+        rightBtn.style.right = fromRight + 'px';
+        rightBtn.style.left  = 'auto';
+      }
+
+      function setRight(hide) {
+        if (hide) {
+          document.body.classList.add('right-sidebar-hidden');
+          rightBtn.textContent = '‹'; /* ‹ */
+          rightBtn.style.right = '0px';
+          rightBtn.style.left  = 'auto';
+        } else {
+          document.body.classList.remove('right-sidebar-hidden');
+          rightBtn.textContent = '›'; /* › */
+          setTimeout(positionRight, 30);
+        }
+        try { localStorage.setItem(RIGHT_KEY, hide ? '1' : '0'); } catch (e) {}
+      }
+
+      /* Restore saved preference */
+      var rightWasHidden = false;
+      try { rightWasHidden = localStorage.getItem(RIGHT_KEY) === '1'; } catch (e) {}
+
+      if (rightWasHidden) {
+        document.body.classList.add('right-sidebar-hidden');
+        rightBtn.textContent = '‹';
+        rightBtn.style.right = '0px';
+        rightBtn.style.left  = 'auto';
+      } else {
+        rightBtn.textContent = '›';
+        positionRight();
+      }
+
+      rightBtn.addEventListener('click', function () {
+        setRight(!document.body.classList.contains('right-sidebar-hidden'));
+      });
+
+      window.addEventListener('resize', function () {
+        if (!document.body.classList.contains('right-sidebar-hidden')) {
+          positionRight();
+        }
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
