@@ -24,7 +24,7 @@ Personal study notes from *Reinforcement Learning: An Introduction* (Sutton & Ba
 | 10 | On-policy Control with Approximation | ✓ |
 | 11 | Off-policy Methods with Approximation | ✓ |
 | 12 | Eligibility Traces | ✓ |
-| 13 | Policy Gradient Methods | _pending_ |
+| 13 | Policy Gradient Methods | ✓ |
 
 
 ## Local Development
@@ -58,15 +58,17 @@ To set up GitHub Pages for the first time:
 
 ```
 RL-Sutton-Barto-notes/
-├── _quarto.yml          # Book config, chapters list, theme
-├── index.qmd            # Preface / landing page
-├── custom.scss          # Custom styles (light + dark mode)
-├── references.bib       # BibTeX references
-├── chapters/            # One .qmd file per chapter
+├── README.md                                # Details about repository
+├── _quarto.yml                              # Book config, chapters list, theme
+├── index.qmd                                # Preface / landing page
+├── custom.scss                              # Custom styles (light + dark mode)
+├── sidebar-toggle.html                      # Sidebar Toggle
+├── references.bib                           # BibTeX references
+├── chapters/                                # One .qmd file per chapter
 │   ├── ch02-multi-armed-bandits.qmd
 │   ├── ch03-finite-mdps.qmd
 │   └── ...
-└── figures/             # figure diagrams
+└── figures/                                 # Figure diagrams
     ├── ch06-6-4-sarsa.png
     └── ...
 ```
