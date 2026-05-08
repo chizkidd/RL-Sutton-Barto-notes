@@ -573,7 +573,7 @@ $$
 ## Off-Policy Traces with Control Variates {#sec-ch12-12-9}
 
 - To generalize to off-policy, we need to incorporate importance sampling using eligibility traces.
-- Let's focus on the bootstrapping generalization of per-decision importance sampling with control variates ([Section 7.4](https://chizkidd.github.io/RL-Sutton-Barto-notes/chapters/ch07-nstep-bootstrapping.html#sec-ch07-7-4)).
+- Let's focus on the bootstrapping generalization of per-decision importance sampling with control variates ([Section 7.4](ch07-nstep-bootstrapping.qmd#sec-ch07-7-4)).
 - The new state-based $\lambda$-return in [Section 12.8](#sec-ch12-12-8) generalizes, after the off-policy, control variate, $n$-step return (ending at horizon $h$) model to:
 
 $$\boxed{G_t^{\lambda s} \doteq \rho_t \!\left(R_{t+1} + \gamma_{t+1}\!\left[(1 - \lambda_{t+1})\, \hat{v}(S_{t+1}, \mathbf{w}_t) + \lambda_{t+1}\, G_{t+1}^{\lambda s}\right]\right) + (1 - \rho_t)\, \hat{v}(S_t, \mathbf{w}_t)}$$
@@ -712,8 +712,8 @@ Backup Diagram for Watkins's Q($\lambda$).
 - Let's look at the eligibility trace version of Tree Backup, which is called **Tree-Backup($\lambda$)** or **TB($\lambda$)**.
 - TB($\lambda$) is the **true successor** to Q-learning because it has no importance sampling.
 - TB($\lambda$) concept is straightforward:
-  - The tree-backup updates of each length ([Section 7.5](https://chizkidd.github.io/RL-Sutton-Barto-notes/chapters/ch07-nstep-bootstrapping.html#sec-ch07-7-5)) are weighted dependent on the bootstrapping parameter $\lambda$.
-  - Using the recursive form of the action-based $\lambda$-return for Expected Sarsa and then expanding the bootstrapping target case after the model of tree-backup $n$-step return ([Section 7.5](https://chizkidd.github.io/RL-Sutton-Barto-notes/chapters/ch07-nstep-bootstrapping.html#sec-ch07-7-5)):
+  - The tree-backup updates of each length ([Section 7.5](ch07-nstep-bootstrapping.qmd#sec-ch07-7-5)) are weighted dependent on the bootstrapping parameter $\lambda$.
+  - Using the recursive form of the action-based $\lambda$-return for Expected Sarsa and then expanding the bootstrapping target case after the model of tree-backup $n$-step return ([Section 7.5](ch07-nstep-bootstrapping.qmd#sec-ch07-7-5)):
 
 $$
 \boxed{\begin{align*}
@@ -827,7 +827,7 @@ $$
 
 ### Emphatic TD($\lambda$)
 
-- Extension of one-step Emphatic TD ([Sections 9.11](https://chizkidd.github.io/RL-Sutton-Barto-notes/chapters/ch09-on-policy-prediction-approximation.html#sec-ch09-9-11) & [11.8](https://chizkidd.github.io/RL-Sutton-Barto-notes/chapters/ch11-off-policy-methods-approximation.html#sec-ch11-11-8)) to eligibility traces.
+- Extension of one-step Emphatic TD ([Sections 9.11](ch09-on-policy-prediction-approximation.qmd#sec-ch09-9-11) & [11.8](ch11-off-policy-methods-approximation.qmd#sec-ch11-11-8)) to eligibility traces.
 - The resulting algorithm:
   - (+) retains strong off-policy convergence guarantees
   - (+) enables any degree of bootstrapping

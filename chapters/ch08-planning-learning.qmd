@@ -49,14 +49,18 @@ $$\text{model} \to \text{simulated experience} \xrightarrow{\text{backups}} \tex
 
 ### Pseudocode: Random-sample One-step Tabular Q-Learning
 
-```
-Loop forever:
-    1. Select a state, S ∈ S, and an action, A ∈ A(S), at random
-    2. Send S, A to a sample model, and obtain
-       a sample next reward, R, and a sample next state, S'
-    3. Apply one-step tabular Q-learning to S, A, R, S':
-       Q(S,A) ← Q(S,A) + α[R + γ max_a Q(S',a) - Q(S,A)]
-```
+$$
+\boxed{
+\begin{aligned}
+&\textbf{Loop forever:} \\
+&\quad \text{1. Select a state } S \in \mathcal{S} \text{ and an action } A \in \mathcal{A}(S) \text{ at random} \\
+&\quad \text{2. Send } S, A \text{ to a sample model and obtain a sample next reward } R \\
+&\qquad \text{and a sample next state } S' \\
+&\quad \text{3. Apply one-step tabular Q-learning to } S, A, R, S'\text{:} \\
+&\qquad Q(S,A) \leftarrow Q(S,A) + \alpha\!\left[R + \gamma \max_a Q(S',a) - Q(S,A)\right]
+\end{aligned}
+}
+$$
 
 - Planning in very small, incremental steps may be the most **efficient** approach especially in large scale problems.
 
@@ -103,23 +107,26 @@ Dyna-Q interactions and general Dyna architecture
   - Acting, model-learning and direct RL processes require little time.
   - Planning takes the remaining time in each step because it is inherently computationally intensive.
 
-### Tabular Dyna-Q Pseudocode
+### Pseudocode: Tabular Dyna-Q 
 
-```
-Initialize Q(s,a) and Model(s,a) for all s ∈ S, a ∈ A(s)
-
-Loop forever:
-    (a) S ← current (non-terminal) state
-    (b) A ← ε-greedy(S, Q)
-    (c) Take action A; observe resultant reward, R, and state, S'
-    (d) Q(S,A) ← Q(S,A) + α[R + γ max_a Q(S',a) - Q(S,A)]
-    (e) Model(S,A) ← R, S'  (assuming deterministic environment)
-    (f) Loop repeat n times:
-            S ← random previously observed state
-            A ← random action previously taken in S
-            R, S' ← Model(S, A)
-            Q(S,A) ← Q(S,A) + α[R + γ max_a Q(S',a) - Q(S,A)]
-```
+$$
+\boxed{
+\begin{aligned}
+&\textbf{Initialize } Q(s,a) \text{ and } \text{Model}(s,a) \text{ for all } s \in \mathcal{S},\ a \in \mathcal{A}(s) \\
+&\textbf{Loop forever:} \\
+&\quad \text{(a) } S \leftarrow \text{current (non-terminal) state} \\
+&\quad \text{(b) } A \leftarrow \varepsilon\text{-greedy}(S, Q) \\
+&\quad \text{(c) Take action } A\text{; observe resultant reward } R \text{ and state } S' \\
+&\quad \text{(d) } Q(S,A) \leftarrow Q(S,A) + \alpha\!\left[R + \gamma \max_a Q(S',a) - Q(S,A)\right] \\
+&\quad \text{(e) } \text{Model}(S,A) \leftarrow R, S' \quad \text{(assuming deterministic environment)} \\
+&\quad \text{(f) } \textbf{Loop repeat } n \textbf{ times:} \\
+&\qquad\quad S \leftarrow \text{random previously observed state} \\
+&\qquad\quad A \leftarrow \text{random action previously taken in } S \\
+&\qquad\quad R, S' \leftarrow \text{Model}(S, A) \\
+&\qquad\quad Q(S,A) \leftarrow Q(S,A) + \alpha\!\left[R + \gamma \max_a Q(S',a) - Q(S,A)\right]
+\end{aligned}
+}
+$$
 
 - In the pseudocode algorithm for Dyna-Q above:
   - $\text{Model}(S,a)$ denotes the contents of the model (predicted $S_{t+1}$ & $R_{t+1}$) for state-action pair.
@@ -525,49 +532,70 @@ Monte-Carlo Tree Search (MCTS)
 
 - Then finally, an action from the root node (representative of the environment's current state) is selected according to some mechanism that depends on the accumulated statistics in the tree (action with largest action value or action with largest visit count to avoid outliers).
 
-### MCTS Pseudocode
+### Pseudocode: MCTS
 
 **Main loop:**
-```
-Initialize: root = current state, S_0
-for i = 1 to num_simulations:
-    node = Selection(root)
-    node = Expansion(node)
-    Δ = Simulation(node)
-    Backup(node, Δ)
-return argmax_a N(S_0, a)
-```
-
+ 
+$$
+\boxed{
+\begin{aligned}
+&\textbf{Initialize: } \text{root} = \text{current state } S_0 \\
+&\textbf{for } i = 1 \textbf{ to } \text{num\_simulations:} \\
+&\quad \text{node} \leftarrow \text{Selection}(\text{root}) \\
+&\quad \text{node} \leftarrow \text{Expansion}(\text{node}) \\
+&\quad \Delta \leftarrow \text{Simulation}(\text{node}) \\
+&\quad \text{Backup}(\text{node}, \Delta) \\
+&\textbf{return } \arg\max_a N(S_0, a)
+\end{aligned}
+}
+$$
+ 
 **Expansion:**
-```
-If non-terminal leaf reached:
-    select unvisited action a' ∈ A(S) \ {visited actions}
-    create child node S' ~ p(·|S, a')
-    add to tree
-    return S'
-```
-
+ 
+$$
+\boxed{
+\begin{aligned}
+&\textbf{If } \text{non-terminal leaf reached:} \\
+&\quad \text{Select unvisited action } a' \in \mathcal{A}(S) \setminus \{\text{visited actions}\} \\
+&\quad \text{Create child node } S' \sim p(\cdot \vert S, a') \\
+&\quad \text{Add to tree} \\
+&\quad \textbf{return } S'
+\end{aligned}
+}
+$$
+ 
 **Simulation:**
-```
-S ← expanded_node
-G ← 0
-t ← 0
-while S non terminal:
-    a ~ Π_default(·|S)
-    r, S' ~ p(·|S, a)
-    G ← G + γᵗ r
-    S ← S'
-    t ← t + 1
-return G
-```
-
+ 
+$$
+\boxed{
+\begin{aligned}
+&S \leftarrow \text{expanded\_node} \\
+&G \leftarrow 0 \\
+&t \leftarrow 0 \\
+&\textbf{While } S \text{ is non-terminal:} \\
+&\quad a \sim \Pi_{\text{default}}(\cdot \vert S) \\
+&\quad r, S' \sim p(\cdot \vert S, a) \\
+&\quad G \leftarrow G + \gamma^t r \\
+&\quad S \leftarrow S' \\
+&\quad t \leftarrow t + 1 \\
+&\textbf{return } G
+\end{aligned}
+}
+$$
+ 
 **Backup:**
-```
-while node ≠ null:
-    N(node) ← N(node) + 1
-    W(node) ← W(node) + Δ
-    node ← node.parent
-```
+ 
+$$
+\boxed{
+\begin{aligned}
+&\textbf{While } \text{node} \neq \text{null:} \\
+&\quad N(\text{node}) \leftarrow N(\text{node}) + 1 \\
+&\quad W(\text{node}) \leftarrow W(\text{node}) + \Delta \\
+&\quad \text{node} \leftarrow \text{node.parent}
+\end{aligned}
+}
+$$
+
 
 ### Computational Complexity
 

@@ -449,7 +449,7 @@ $$
 \end{aligned}
 $$
 
-- ANNs can use TD errors to learn value functions, or they can aim to maximize expected reward as in a gradient bandit ([Section 2.8](https://chizkidd.github.io/RL-Sutton-Barto-notes/chapters/ch02-multi-armed-bandits.html#sec-ch02-2-8)) or a policy gradient algorithm (Chapter 13).
+- ANNs can use TD errors to learn value functions, or they can aim to maximize expected reward as in a gradient bandit ([Section 2.8](ch02-multi-armed-bandits.qmd#sec-ch02-2-8)) or a policy gradient algorithm (Chapter 13).
 - Overfitting in ANNs is a problem for function approximation that can be reduced through the **dropout** method [Srivastava, Hinton, Krizhevsky, Sutskever & Salakhutdinov, 2014].
 - **Deep belief networks** presented a major step towards solving the training problem of deep layers of a deep ANN [Hinton, Osindero & Teh, 2006].
 - **Batch normalization** makes it easier to train deep ANNs by normalizing the output of deep layers before they feed into the following layer. This improves the learning rate of deep ANNs [Ioffe & Szegedy, 2015].
