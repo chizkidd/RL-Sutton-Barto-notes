@@ -13,6 +13,7 @@ book:
   # downloads: [pdf, epub]
   search: true
   page-navigation: true
+  google-analytics: "G-F6HCEEPQLV"
   sidebar:
     style: docked
     background: light
@@ -42,7 +43,7 @@ format:
     theme:
       light: [flatly, custom.scss]
       dark: [darkly, custom.scss]
-    google-analytics: "G-F6HCEEPQLV" 
+    google-analytics: "G-F6HCEEPQLV"
     toc: true
     toc-depth: 3
     toc-title: "On this page"
