@@ -96,7 +96,7 @@ n=\infty\ (\text{MC}): \quad G_t^{(\infty)} &= R_{t+1} + \gamma R_{t+2} + \ldots
 
 - **$n$-step Q-return:**
 
-$$\boxed{G_t^{(n)} \doteq R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{n-1} R_{t+n} + \gamma^n Q_{t+n-1}(S_t, A_t)}$$
+$$\boxed{G_t^{(n)} \doteq R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{n-1} R_{t+n} + \gamma^n Q_{t+n-1}(S_{t+n}, A_{t+n})}$$
 
 $$\forall n, t \quad \text{ s.t. } \quad n \geq 1,\ 0 \leq t \leq T-n, \quad \text{with } G_t^{(n)} = G_t \text{ if } t+n \geq T$$
 
@@ -268,7 +268,7 @@ G_t^{(1)} &\doteq R_{t+1} + \gamma \sum_a \pi(a \vert S_{t+1})\, Q_t(S_{t+1}, a)
 
 $$\begin{aligned}
 G_t^{(2)} &\doteq R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a \vert S_{t+1})\, Q_{t+1}(S_{t+1}, a) + \gamma\pi(A_{t+1} \vert S_{t+1})\left(R_{t+2} + \gamma \sum_a \pi(a \vert S_{t+2})\, Q_{t+1}(S_{t+2}, a)\right) \\[6pt]
-&= R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a \vert S_{t+1})\, Q_{t+1}(S_{t+1}, a) + \gamma\pi(A_{t+1} \vert S_{t+2})\, G_{t+1:t+2}
+&= R_{t+1} + \gamma \sum_{a \neq A_{t+1}} \pi(a \vert S_{t+1})\, Q_{t+1}(S_{t+1}, a) + \gamma\pi(A_{t+1} \vert S_{t+1})\, G_{t+1:t+2}
 \end{aligned}$$
 
 

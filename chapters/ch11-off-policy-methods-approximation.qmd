@@ -292,7 +292,7 @@ $$\text{PBE} = \Pi\, \bar{\delta}_\mathbf{w}$$
 - The size of $\text{PBE}$, in the norm, is another measure of error in the approximate value function, called the **Mean Square Projected Bellman Error**, $\overline{\text{PBE}}$:
 
 
-$$\overline{\text{PBE}}(\mathbf{w}) = \lVert \Pi\, \delta_\mathbf{w} \rVert_\mu^2$$
+$$\overline{\text{PBE}}(\mathbf{w}) = \lVert \Pi\, \bar{\delta}_\mathbf{w} \rVert_\mu^2$$
 
 - With linear function approximation, there always exists an approximate value function (within the subspace) with zero $\overline{\text{PBE}}$; this is the TD fixed point $\mathbf{w}_\text{TD}$.
 
@@ -412,10 +412,10 @@ Bellman Error (BE) Learnability Counterexample
 ::: {#fig-117}
 ![](../figures/ch11-11-6-causal-relationships-mdps-datadistr-errors.png){fig-align="center"} 
 
-Casual Relationships among the data distribution, MDPs & various objectives
+Causal Relationships among the data distribution, MDPs & various objectives
 :::
 
->**Casual Relationships among the data distribution, MDPs & various objectives:** Monte-Carlo & Bootstrapping objectives
+>**Causal Relationships among the data distribution, MDPs & various objectives:** Monte-Carlo & Bootstrapping objectives
 
 ---
 

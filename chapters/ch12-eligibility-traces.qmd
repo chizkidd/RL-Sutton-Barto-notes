@@ -26,7 +26,7 @@ number-sections: true
 
 ## The $\lambda$-return {#sec-ch12-12-1}
 
-- Recall in [Chapter 7](ch07-n-step-bootstrapping.qmd) we defined an $n$-step return as the sum of the first $n$ rewards plus the estimated value of the state reached in $n$ steps, each appropriately discounted:
+- Recall in [Chapter 7](ch07-nstep-bootstrapping.qmd) we defined an $n$-step return as the sum of the first $n$ rewards plus the estimated value of the state reached in $n$ steps, each appropriately discounted:
 
 $$G_{t:t+n} \doteq R_{t+1} + \gamma R_{t+2} + \ldots + \gamma^{n-1} R_{t+n} + \gamma^n \hat{v}(S_{t+n}, \mathbf{w}_{t+n-1}), \quad 0 \leq t \leq T - n$$
 
@@ -555,7 +555,7 @@ $$\boxed{G_t^{\lambda a} \doteq R_{t+1} + \gamma_{t+1}\!\left[(1 - \lambda_{t+1}
 $$
 \begin{aligned}
 \text{where} \\
-\bar{V}_t(s) &\doteq \sum_a \Pi(a \vert s)\, \hat{q}(s, a, \mathbf{w}_t)
+\bar{V}_t(s) &\doteq \sum_a \pi(a \vert s)\, \hat{q}(s, a, \mathbf{w}_t)
 \end{aligned}
 $$
 
@@ -653,7 +653,7 @@ $$
 $$
 \begin{aligned}
 \text{where} \\
-\bar{V}_t(S_{t+1}) &= \sum_a \Pi(a \vert S_{t+1})\, \hat{q}(S_{t+1}, a, \mathbf{w}_t)
+\bar{V}_t(S_{t+1}) &= \sum_a \pi(a \vert S_{t+1})\, \hat{q}(S_{t+1}, a, \mathbf{w}_t)
 \end{aligned}
 $$
 

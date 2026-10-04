@@ -43,7 +43,7 @@ $$\boxed{p(s', r \mid s, a) \doteq \mathbb{P}\{S_t = s',\, R_t = r \mid S_{t-1} 
 
 $$p : \mathcal{S} \times \mathcal{R} \times \mathcal{S} \times \mathcal{A} \to [0,1]$$
 
-- The "|" in the middle of $p(s, r \vert s, a)$ signifies conditional probability, which reminds us that $p$ specifies a probability distribution for each choice of $s$ and $a$. i.e., that
+- The "|" in the middle of $p(s', r \vert s, a)$ signifies conditional probability, which reminds us that $p$ specifies a probability distribution for each choice of $s$ and $a$. i.e., that
 
 $$\sum_{s' \in \mathcal{S}} \sum_{r \in \mathcal{R}} p(s', r \mid s, a) = 1 \quad \forall\, s \in \mathcal{S},\, a \in \mathcal{A}(s)$$
 

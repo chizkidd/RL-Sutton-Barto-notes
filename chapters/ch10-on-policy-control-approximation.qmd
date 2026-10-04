@@ -99,7 +99,7 @@ $$
 \begin{aligned}
 v_\pi(s) &= \sum_a \pi(a \vert s) \sum_{r, s'} p(s', r \vert s, a)\!\left[r - r(\pi) + v_\pi(s')\right] \\[6pt]
 q_\pi(s, a) &= \sum_{r, s'} p(s', r \vert s, a)\!\left[r - r(\pi) + \sum_{a'} \pi(a' \vert s')\, q_\pi(s', a')\right] \\[6pt]
-v_{*}(s) &= \max_a \sum_{r, s'} p(s', r \vert s, a)\!\left[r - \max_\pi r(\pi) + v_{*}(s)\right] \\[6pt]
+v_{*}(s) &= \max_a \sum_{r, s'} p(s', r \vert s, a)\!\left[r - \max_\pi r(\pi) + v_{*}(s')\right] \\[6pt]
 q_{*}(s, a) &= \sum_{r, s'} p(s', r \vert s, a)\!\left[r - \max_\pi r(\pi) + \max_{a'} q_{*}(s', a')\right]
 \end{aligned}
 $$
