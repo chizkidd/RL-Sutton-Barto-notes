@@ -164,7 +164,7 @@ SARSA control
   - **Policy Evaluation:** SARSA, $Q \approx q_\pi$
   - **Policy Improvement:** $\varepsilon$-greedy
 
-### Pseudocode: SARSA for estimating $Q \approx q_0$
+### Pseudocode: SARSA for estimating $Q \approx q_*$
 
 $$
 \boxed{

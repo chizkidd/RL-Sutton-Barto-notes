@@ -7,7 +7,7 @@ number-sections: true
 
 - The particular nonassociative, evaluative feedback problem is a simple version of the $k$-armed bandit problem.
 
-$$q_*(a) \doteq \mathbb{E}\left[R_t \mid a_t = a\right] \quad \text{action-value function}$$
+$$q_*(a) \doteq \mathbb{E}\left[R_t \mid A_t = a\right] \quad \text{action-value function}$$
 
 $$Q_t(a) \to q_*(a)$$
 

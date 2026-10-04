@@ -634,7 +634,7 @@ $$\Rightarrow \text{total: } O\!\left(n \cdot (d + L)\right) \text{ for } n \tex
 >$$\text{VERTICAL (Top to Bottom): shallow backups} \xrightarrow{\text{depth/length of update}} \text{deep backups}$$
 
 ::: {#fig-86}
-![](../figures/ch08-8-13-summary-unified-rl){fig-align="center"} 
+![](../figures/ch08-8-13-summary-unified-rl.png){fig-align="center"}
 
 Unified view of RL depicting a slice through the space of RL methods
 :::

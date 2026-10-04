@@ -498,7 +498,7 @@ $$\boxed{\mathbf{w}_t \doteq \mathbf{\hat{A}_t}^{-1} \mathbf{\hat{b}_t}}$$
 
 $$\mathbf{\hat{A}_t^{-1}} = \left(\mathbf{\hat{A}_{t-1}} + \mathbf{x_{t-1}}\!\left(\mathbf{x_{t-1}} - \gamma \mathbf{x}_t\right)^T\right)^{-1}$$
 
-$$\boxed{\mathbf{\hat{A}_t^{-1}} = \mathbf{\hat{A}_{t-1}^{-1}} - \frac{\mathbf{\hat{A}_{t-1}^{-1}} \mathbf{x}_{t-1}\!\left(\mathbf{x}_{t-1} - \gamma \mathbf{x}_t\right)^T \mathbf{\hat{A}_{t-1}^{-1}}}{1 + \left(\mathbf{x}_{t-1} - \gamma \mathbf{x}_t\right)^T \mathbf{\hat{A}_t^{-1}} \mathbf{x}_{t-1}}, \quad \text{for } t > 0, \text{ with } \mathbf{\hat{A}_0} \doteq \varepsilon \mathbf{I}}$$
+$$\boxed{\mathbf{\hat{A}_t^{-1}} = \mathbf{\hat{A}_{t-1}^{-1}} - \frac{\mathbf{\hat{A}_{t-1}^{-1}} \mathbf{x}_{t-1}\!\left(\mathbf{x}_{t-1} - \gamma \mathbf{x}_t\right)^T \mathbf{\hat{A}_{t-1}^{-1}}}{1 + \left(\mathbf{x}_{t-1} - \gamma \mathbf{x}_t\right)^T \mathbf{\hat{A}_{t-1}^{-1}} \mathbf{x}_{t-1}}, \quad \text{for } t > 0, \text{ with } \mathbf{\hat{A}_0} \doteq \varepsilon \mathbf{I}}$$
 
 - LSTD does **not** require a step-size and as such means that it never forgets, which is sometimes desirable but often not in RL problems where both the policy and environment change with time.
 - However in control applications, LSTD typically has to be combined with some other mechanism to induce forgetting, negating its advantage of not requiring a step-size parameter.

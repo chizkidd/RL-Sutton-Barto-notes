@@ -130,7 +130,7 @@ $$
   3. Evaluate new policy $\pi'$ to obtain new value function $v_{\pi'}$
   4. Repeat until $\pi'$ converges to the optimal policy $\pi^{*}$ (only for finite MDPs)
 
-    $$\pi_0 \xrightarrow{E} V_{\pi_0} \xrightarrow{I} \pi_1 \xrightarrow{E} v_{\pi_1} \xrightarrow{I} \pi_2 \xrightarrow{E} \ldots \xrightarrow{I} \pi_* \xrightarrow{E} V_*$$
+    $$\pi_0 \xrightarrow{E} V_{\pi_0} \xrightarrow{I} \pi_1 \xrightarrow{E} V_{\pi_1} \xrightarrow{I} \pi_2 \xrightarrow{E} \ldots \xrightarrow{I} \pi_* \xrightarrow{E} V_*$$
 
     where $\xrightarrow{E}$ denotes a policy evaluation ($v_\pi(s) = \mathbb{E}_\pi\left[G_t \mid S_t = s\right]$) and $\xrightarrow{I}$ denotes a policy improvement ($\pi' = \text{greedy}(v_\pi)$).
 
