@@ -121,10 +121,13 @@ img[src$=".svg"] {
   font-size: 0.9em;
 }
 
-/* Preface (index.qmd) gets chapter "0" after number-offset: [-1].
-   Hide that number so the sidebar shows "Preface" with no digit. */
+/* Preface (index.qmd) is always the first sidebar item but Quarto
+   numbers it. Hide just that chapter-number span however Quarto
+   renders the home-page href (./index.html, index.html, ./, or .). */
 #quarto-sidebar a[href="./index.html"] .chapter-number,
-#quarto-sidebar a[href="index.html"] .chapter-number {
+#quarto-sidebar a[href="index.html"] .chapter-number,
+#quarto-sidebar a[href="./"] .chapter-number,
+#quarto-sidebar a[href="."] .chapter-number {
   display: none;
 }
 
