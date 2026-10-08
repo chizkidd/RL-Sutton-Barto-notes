@@ -121,14 +121,11 @@ img[src$=".svg"] {
   font-size: 0.9em;
 }
 
-/* Preface (index.qmd) is always the first sidebar item but Quarto
-   numbers it. Hide just that chapter-number span however Quarto
-   renders the home-page href (./index.html, index.html, ./, or .). */
-#quarto-sidebar a[href="./index.html"] .chapter-number,
-#quarto-sidebar a[href="index.html"] .chapter-number,
-#quarto-sidebar a[href="./"] .chapter-number,
-#quarto-sidebar a[href="."] .chapter-number {
-  display: none;
+/* Hide the chapter number on the Preface (index.qmd) sidebar entry.
+   :not(ul ul) targets only the outermost sidebar list, so the first
+   chapters of Part I and Part II are not affected. */
+#quarto-sidebar ul:not(ul ul) > li:first-child .chapter-number {
+  display: none !important;
 }
 
 /* -- Sidebar toggle buttons -------------------------------- */

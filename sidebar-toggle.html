@@ -63,11 +63,14 @@
     }
 
     /* ---- Preface chapter-number suppression ------------------ */
-    /* Quarto numbers all chapters including index.qmd (the Preface).
-       Hide the chapter-number span on the first sidebar item directly —
-       no href dependency, works regardless of Quarto's href rendering. */
-    var prefaceNum = document.querySelector('#quarto-sidebar .sidebar-item:first-child .chapter-number');
-    if (prefaceNum) { prefaceNum.style.display = 'none'; }
+    /* .sidebar-item:first-child matches the first li in EVERY ul
+       (Preface, first of Part I, first of Part II). Scope to the
+       outermost ul with :scope so only the Preface is targeted. */
+    var topUl = document.querySelector('#quarto-sidebar ul');
+    if (topUl) {
+      var prefaceNum = topUl.querySelector(':scope > li:first-child .chapter-number');
+      if (prefaceNum) { prefaceNum.style.cssText = 'display:none!important'; }
+    }
 
     /* ---- Right sidebar --------------------------------------- */
     if (rightSidebar) {
