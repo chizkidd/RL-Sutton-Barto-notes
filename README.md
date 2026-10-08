@@ -85,10 +85,9 @@ If you use these notes, please cite:
 
 ```bibtex
 @misc{obasi2026rlnotes,
-  author       = {Obasi, Chizoba},
-  title        = {Reinforcement Learning: An Introduction (2nd Edition) --- Personal Study Notes},
-  year         = {2026},
-  howpublished = {\url{https://chizkidd.github.io/RL-Sutton-Barto-notes}},
-  note         = {GitHub: \url{https://github.com/chizkidd/RL-Sutton-Barto-notes}}
+  author = {Obasi, Chizoba},
+  title  = {Reinforcement Learning: An Introduction — Personal Study Notes},
+  year   = {2026},
+  url    = {https://chizkidd.github.io/RL-Sutton-Barto-notes}
 }
 ```
