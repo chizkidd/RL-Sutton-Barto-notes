@@ -62,6 +62,17 @@
       });
     }
 
+    /* ---- Preface chapter-number suppression ------------------ */
+    /* Quarto numbers all chapters including the preface (index.qmd).
+       The CSS in custom.scss covers known href variants; this JS handles
+       any other href Quarto might emit by targeting the first sidebar item
+       directly. */
+    var sidebarMenu = document.querySelector('#quarto-sidebar .sidebar-menu-container ul');
+    if (sidebarMenu) {
+      var firstItem = sidebarMenu.querySelector('li.sidebar-item:first-child .chapter-number');
+      if (firstItem) { firstItem.style.display = 'none'; }
+    }
+
     /* ---- Right sidebar --------------------------------------- */
     if (rightSidebar) {
       var rightBtn = document.createElement('button');
